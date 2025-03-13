@@ -31,11 +31,16 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
         {project.voteResult && (
           <div
             className={`absolute top-2 left-2 px-2 py-1 rounded-md flex items-center gap-1.5 text-xs font-medium ${
-              project.voteResult.passed ? "bg-green-500/80 text-white" : "bg-red-500/80 text-white"
+              project.voteResult.passed
+                ? "bg-green-500/90 text-white backdrop-blur-sm"
+                : "bg-red-500/90 text-white backdrop-blur-sm"
             }`}
           >
             {project.voteResult.passed ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
             {project.voteResult.passed ? "Passed" : "Failed"}
+            <span className="text-xs opacity-90 ml-1">
+              ({Math.round((project.voteResult.votesReceived / project.voteResult.votesNeeded) * 100)}%)
+            </span>
           </div>
         )}
 
@@ -47,9 +52,9 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
                 <InfoIcon className="h-3.5 w-3.5 text-white/80 dark:text-white/70" />
               </div>
             </TooltipTrigger>
-            <TooltipContent side="bottom" className="max-w-[250px] text-xs ">
-              <p className="text-xs text-foreground">
-                This unique gradient is deterministically generated from the proposal&apos;s ID, creating a visual
+            <TooltipContent side="bottom" className="max-w-[250px] text-xs">
+              <p>
+                This unique gradient is deterministically generated from the project&apos;s ID, creating a visual
                 fingerprint specific to this proposal.
               </p>
               <p className="mt-1 font-mono text-muted-foreground">Full ID: {project.id}</p>

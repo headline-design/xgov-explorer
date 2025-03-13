@@ -13,6 +13,7 @@ export function VotingTrends() {
       passed: session1Projects.filter((p) => p.voteResult?.passed).length,
       failed: session1Projects.filter((p) => p.voteResult?.passed === false).length,
       totalFunding: session1Projects.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
+      totalAvailable: 2000000, // 2M ALGO
     },
     {
       name: "Session 2",
@@ -21,6 +22,7 @@ export function VotingTrends() {
       passed: session2Projects.filter((p) => p.voteResult?.passed).length,
       failed: session2Projects.filter((p) => p.voteResult?.passed === false).length,
       totalFunding: session2Projects.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
+      totalAvailable: 1946000, // 1.946M ALGO
     },
     {
       name: "Session 3",
@@ -29,6 +31,7 @@ export function VotingTrends() {
       passed: session3Projects.filter((p) => p.voteResult?.passed).length,
       failed: session3Projects.filter((p) => p.voteResult?.passed === false).length,
       totalFunding: session3Projects.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
+      totalAvailable: 2000000, // 2M ALGO
     },
     {
       name: "Session 4",
@@ -37,6 +40,7 @@ export function VotingTrends() {
       passed: session4Projects.filter((p) => p.voteResult?.passed).length,
       failed: session4Projects.filter((p) => p.voteResult?.passed === false).length,
       totalFunding: session4Projects.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
+      totalAvailable: 2000000, // 2M ALGO
     },
   ]
 
@@ -101,17 +105,21 @@ export function VotingTrends() {
                       <span className="font-medium">
                         {session.name} ({session.period})
                       </span>
-                      <span>{session.totalFunding.toLocaleString()} ALGO</span>
+                      <span>
+                        {session.totalFunding.toLocaleString()} / {session.totalAvailable.toLocaleString()} ALGO
+                      </span>
                     </div>
                     <div className="h-4 bg-muted rounded-full overflow-hidden">
                       <div
                         className="bg-primary h-full"
-                        style={{ width: `${(session.totalFunding / maxFunding) * 100}%` }}
+                        style={{ width: `${(session.totalFunding / session.totalAvailable) * 100}%` }}
                       />
                     </div>
                     <div className="flex justify-between text-xs text-muted-foreground">
                       <span>{session.passed} funded projects</span>
-                      <span>{(session.totalFunding / session.passed).toLocaleString()} ALGO avg per project</span>
+                      <span>
+                        {Math.round((session.totalFunding / session.totalAvailable) * 100)}% of available funds
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -129,7 +137,13 @@ export function VotingTrends() {
               <ul className="space-y-2 list-disc pl-5">
                 <li>
                   Total funding across all sessions:{" "}
-                  {sessions.reduce((sum, s) => sum + s.totalFunding, 0).toLocaleString()} ALGO
+                  {sessions.reduce((sum, s) => sum + s.totalFunding, 0).toLocaleString()} ALGO (
+                  {Math.round(
+                    (sessions.reduce((sum, s) => sum + s.totalFunding, 0) /
+                      sessions.reduce((sum, s) => sum + s.totalAvailable, 0)) *
+                      100,
+                  )}
+                  % of available funds)
                 </li>
                 <li>
                   Overall pass rate:{" "}
@@ -155,6 +169,14 @@ export function VotingTrends() {
                   Highest funded session: {sessions.sort((a, b) => b.totalFunding - a.totalFunding)[0].name}
                   with {sessions.sort((a, b) => b.totalFunding - a.totalFunding)[0].totalFunding.toLocaleString()} ALGO
                   awarded
+                </li>
+                <li>
+                  Average funding per project:{" "}
+                  {Math.round(
+                    sessions.reduce((sum, s) => sum + s.totalFunding, 0) /
+                      sessions.reduce((sum, s) => sum + s.passed, 0),
+                  ).toLocaleString()}{" "}
+                  ALGO
                 </li>
               </ul>
             </CardContent>

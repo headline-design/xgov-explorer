@@ -74,17 +74,25 @@ export function VoteStatistics() {
         <div className="flex flex-col items-center text-center mb-8">
           <h2 className="text-3xl font-bold tracking-tighter mb-4">xGov Voting Results</h2>
           <p className="text-muted-foreground max-w-[700px]">
-            Explore the voting results from all xGov sessions. See which proposals passed and which didn&apos;t make the cut.
+            Explore the voting results from all xGov sessions. See which proposals passed and which didn't make the cut.
           </p>
 
           <Tabs value={selectedPeriod} onValueChange={setSelectedPeriod} className="mt-6">
             <TabsList className="grid grid-cols-2 md:grid-cols-4 w-full max-w-2xl">
-              <TabsTrigger value="session1">Session 1 (Jul-Aug 2023)</TabsTrigger>
-              <TabsTrigger value="session2">Session 2 (Nov-Dec 2023)</TabsTrigger>
-              <TabsTrigger value="session3">Session 3 (Feb-Mar 2024)</TabsTrigger>
-              <TabsTrigger value="session4">Session 4 (May-Jun 2024)</TabsTrigger>
+              <TabsTrigger value="session1">Session 1</TabsTrigger>
+              <TabsTrigger value="session2">Session 2</TabsTrigger>
+              <TabsTrigger value="session3">Session 3</TabsTrigger>
+              <TabsTrigger value="session4">Session 4</TabsTrigger>
             </TabsList>
           </Tabs>
+
+          {/* Add period dates */}
+          <p className="text-sm text-muted-foreground mt-2">
+            {selectedPeriod === "session1" && "July-August 2023"}
+            {selectedPeriod === "session2" && "November-December 2023"}
+            {selectedPeriod === "session3" && "February-March 2024"}
+            {selectedPeriod === "session4" && "May-June 2024"}
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -127,14 +135,23 @@ export function VoteStatistics() {
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm text-muted-foreground flex items-center">
-                <HelpCircle className="h-4 w-4 text-muted-foreground mr-2" />
-                No Vote Data
+                {stats.noVote > 0 ? (
+                  <>
+                    <HelpCircle className="h-4 w-4 text-muted-foreground mr-2" />
+                    No Vote Data
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    Data Completeness
+                  </>
+                )}
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{stats.noVote}</div>
+              <div className="text-3xl font-bold">{stats.noVote > 0 ? stats.noVote : "100%"}</div>
               <p className="text-sm text-muted-foreground mt-1">
-                {stats.noVote > 0 ? "Missing vote information" : "All votes recorded"}
+                {stats.noVote > 0 ? "Missing vote information" : "All vote data successfully ingested"}
               </p>
             </CardContent>
           </Card>

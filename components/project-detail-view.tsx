@@ -54,7 +54,7 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
       {project.voteResult && (
         <div className="mb-6 p-4 rounded-lg border bg-card">
           <h3 className="text-lg font-semibold mb-3">Vote Results</h3>
-          <div className="flex items-center mb-2">
+          <div className="flex items-center mb-3">
             <div
               className={`mr-2 p-1 rounded-full ${project.voteResult.passed ? "bg-green-100 dark:bg-green-900" : "bg-red-100 dark:bg-red-900"}`}
             >
@@ -65,6 +65,10 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
               )}
             </div>
             <span className="font-medium">{project.voteResult.passed ? "Proposal Passed" : "Proposal Failed"}</span>
+            <span className="text-sm text-muted-foreground ml-2">
+              ({Math.round((project.voteResult.votesReceived / project.voteResult.votesNeeded) * 100)}% of required
+              votes)
+            </span>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -74,6 +78,16 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
             <div>
               <div className="text-sm text-muted-foreground">Votes Needed</div>
               <div className="font-medium">{project.voteResult.votesNeeded.toLocaleString()}</div>
+            </div>
+          </div>
+          <div className="mt-3">
+            <div className="h-2 bg-muted rounded-full overflow-hidden">
+              <div
+                className={`h-full ${project.voteResult.passed ? "bg-green-500" : "bg-red-500"}`}
+                style={{
+                  width: `${Math.min(100, (project.voteResult.votesReceived / project.voteResult.votesNeeded) * 100)}%`,
+                }}
+              />
             </div>
           </div>
         </div>

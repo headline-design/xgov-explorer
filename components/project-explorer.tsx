@@ -221,16 +221,25 @@ export function ProjectExplorer() {
                 <CheckCircle className="h-4 w-4 text-green-500" />
                 <span className="text-sm text-muted-foreground">Passed:</span>
                 <span className="font-medium">{voteStats.passed} projects</span>
+                <span className="text-xs text-muted-foreground">
+                  ({Math.round((voteStats.passed / voteStats.total) * 100)}%)
+                </span>
               </div>
               <div className="bg-card border rounded-md px-4 py-2 flex items-center gap-2">
                 <XCircle className="h-4 w-4 text-red-500" />
                 <span className="text-sm text-muted-foreground">Failed:</span>
                 <span className="font-medium">{voteStats.failed} projects</span>
+                <span className="text-xs text-muted-foreground">
+                  ({Math.round((voteStats.failed / voteStats.total) * 100)}%)
+                </span>
               </div>
               {voteStats.noVote > 0 && (
                 <div className="bg-card border rounded-md px-4 py-2 flex items-center gap-2">
                   <span className="text-sm text-muted-foreground">No Vote Data:</span>
                   <span className="font-medium">{voteStats.noVote} projects</span>
+                  <span className="text-xs text-muted-foreground">
+                    ({Math.round((voteStats.noVote / voteStats.total) * 100)}%)
+                  </span>
                 </div>
               )}
             </div>
