@@ -106,7 +106,7 @@ export function FaqSection() {
                 <FaqItem question="When did the xGov program start?">
                   <p>
                     The Algorand xGov program was introduced in late 2022 and officially launched in early 2023. It was
-                    designed as part of the Algorand Foundation's commitment to decentralizing governance and empowering
+                    designed as part of the Algorand Foundation&apos;s commitment to decentralizing governance and empowering
                     the community to play a more active role in shaping the future of the Algorand ecosystem.
                   </p>
                 </FaqItem>
@@ -165,8 +165,8 @@ export function FaqSection() {
                   </p>
                   <p>
                     The Algorand Foundation allocates a specific budget for each xGov period, and this budget is
-                    distributed among the approved proposals based on community voting and the Foundation's assessment
-                    of each project's value proposition.
+                    distributed among the approved proposals based on community voting and the Foundation&apos;s assessment
+                    of each project&apos;s value proposition.
                   </p>
                 </FaqItem>
 
@@ -181,7 +181,7 @@ export function FaqSection() {
                   </ol>
                   <p className="mt-4">
                     Proposals are evaluated based on factors such as technical feasibility, team qualifications,
-                    potential impact on the ecosystem, alignment with Algorand's goals, and community support.
+                    potential impact on the ecosystem, alignment with Algorand&apos;s goals, and community support.
                   </p>
                 </FaqItem>
 
@@ -203,7 +203,7 @@ export function FaqSection() {
                   <p>
                     Yes, xGov projects must be built on the Algorand blockchain or directly contribute to the Algorand
                     ecosystem. The primary goal of the xGov program is to foster growth and innovation within the
-                    Algorand ecosystem, so funded projects should leverage Algorand's technology and contribute to its
+                    Algorand ecosystem, so funded projects should leverage Algorand&apos;s technology and contribute to its
                     adoption and development.
                   </p>
                 </FaqItem>
@@ -284,7 +284,7 @@ export function FaqSection() {
                   </p>
                   <ul className="list-disc pl-6 space-y-2">
                     <li>Participate in community discussions about submitted proposals</li>
-                    <li>Vote on proposals if you're an Algorand Governor</li>
+                    <li>Vote on proposals if you&apos;re an Algorand Governor</li>
                     <li>Offer technical expertise or feedback to proposal teams</li>
                     <li>Collaborate with existing teams on their proposals</li>
                     <li>Help test and provide feedback on developed projects</li>
@@ -349,7 +349,7 @@ export function FaqSection() {
 
                 <FaqItem question="How does xGov contribute to Algorand's ecosystem growth?">
                   <p className="mb-4">
-                    The xGov program contributes to Algorand's ecosystem growth in several key ways:
+                    The xGov program contributes to Algorand&apos;s ecosystem growth in several key ways:
                   </p>
                   <ul className="list-disc pl-6 space-y-2">
                     <li>Funding innovative projects that address gaps in the ecosystem</li>
