@@ -39,7 +39,7 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
                 #{shortenId(project.id)}
               </div>
             </TooltipTrigger>
-            <TooltipContent side="left">
+            <TooltipContent side="left" className="bg-background">
               <p className="text-sm font-mono mb-1">Project ID: {project.id}</p>
               <p className="text-xs max-w-[250px]">
                 This unique gradient was generated from the proposal ID hash, creating a visual fingerprint for this

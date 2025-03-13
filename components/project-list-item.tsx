@@ -36,8 +36,8 @@ export function ProjectListItem({ project, onClick }: ProjectListItemProps) {
                     #{shortenId(project.id)}
                   </div>
                 </TooltipTrigger>
-                <TooltipContent side="top" className="max-w-xs">
-                  <p className="text-sm font-medium mb-1">Project ID: {project.id}</p>
+                <TooltipContent side="top" className="max-w-xs bg-background">
+                  <p className="text-sm font-medium mb-1 text-foreground">Project ID: {project.id}</p>
                   <p className="text-xs text-muted-foreground">{getGradientExplanation(project.id)}</p>
                 </TooltipContent>
               </Tooltip>

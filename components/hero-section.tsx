@@ -49,7 +49,7 @@ export function HeroSection({ totalProjects, totalFunding, uniqueTeams, categori
 
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl mb-6">
             <span className="block">Discover Innovative</span>
-            <span className="block bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
+            <span className="block bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70 leading-[normal]">
               Algorand Projects
             </span>
           </h1>
