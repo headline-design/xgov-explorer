@@ -96,7 +96,7 @@ export function HeroSection({ totalProjects, totalFunding, uniqueTeams, categori
             </Button>
 
             <Button asChild variant="outline" size="lg" className="group">
-              <Link href="/projects" className="flex items-center">
+              <Link href="/teams" className="flex items-center">
                 View Teams
                 <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Link>
