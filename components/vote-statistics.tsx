@@ -74,7 +74,7 @@ export function VoteStatistics() {
         <div className="flex flex-col items-center text-center mb-8">
           <h2 className="text-3xl font-bold tracking-tighter mb-4">xGov Voting Results</h2>
           <p className="text-muted-foreground max-w-[700px]">
-            Explore the voting results from all xGov sessions. See which proposals passed and which didn't make the cut.
+            Explore the voting results from all xGov sessions. See which proposals passed and which didn&apos;t make the cut.
           </p>
 
           <Tabs value={selectedPeriod} onValueChange={setSelectedPeriod} className="mt-6">
