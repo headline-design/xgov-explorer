@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
@@ -53,6 +53,12 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        "backdrop-1": {
+          DEFAULT: "var(--ds-backdrop-100)",
+        },
+        "backdrop-2": {
+          DEFAULT: "var(--ds-backdrop-200)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -62,7 +68,15 @@ const config = {
       fontFamily: {
         display: ["var(--font-sans)", "system-ui", "sans-serif"],
         default: ["var(--font-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+        mono: [
+          "var(--font-mono)",
+          "Menlo",
+          "Monaco",
+          "Consolas",
+          "Liberation Mono",
+          "Courier New",
+          "monospace",
+        ],
       },
       keyframes: {
         "accordion-down": {
@@ -81,7 +95,7 @@ const config = {
       typography: {
         DEFAULT: {
           css: {
-fontFamily: "var(--font-geist-sans)",
+            fontFamily: "var(--font-geist-sans)",
 
             maxWidth: "100%",
             color: "var(--tw-prose-body)",
@@ -97,7 +111,6 @@ fontFamily: "var(--font-geist-sans)",
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
-} satisfies Config
+} satisfies Config;
 
-export default config
-
+export default config;

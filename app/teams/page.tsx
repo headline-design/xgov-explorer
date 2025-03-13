@@ -14,7 +14,7 @@ export default function ProjectsPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <div className="mb-10 text-center">
+      <div className="my-10 text-center">
         <h1 className="text-4xl font-bold mb-4">xGov Projects by Team</h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
           Explore all xGov projects grouped by team or creator. See which teams have contributed multiple proposals

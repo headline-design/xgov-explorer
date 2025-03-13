@@ -5,13 +5,13 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { ProjectDetailView } from "@/components/project-detail-view"
 import { ProjectCard } from "@/components/project-card"
 import { ProjectListItem } from "@/components/project-list-item"
 import { Search, Filter, ArrowUpDown, CheckCircle, XCircle } from "lucide-react"
 import { projects, session1Projects, session2Projects, session3Projects, session4Projects } from "@/data/xgov-sessions"
 import type { Project } from "@/types/project"
+import DialogV2 from "./ui/dialog-v2/dialog-v2"
 
 export function ProjectExplorer() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -308,11 +308,9 @@ export function ProjectExplorer() {
         </div>
       </div>
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          {selectedProject && <ProjectDetailView project={selectedProject} />}
-        </DialogContent>
-      </Dialog>
+      <DialogV2 showModal={isDialogOpen} setShowModal={setIsDialogOpen} >
+        <>{selectedProject && <ProjectDetailView project={selectedProject} closeModal={() => setIsDialogOpen(false)} />}</>
+      </DialogV2>
     </section>
   )
 }

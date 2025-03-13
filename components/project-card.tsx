@@ -23,7 +23,7 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
       className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer dark:hover:shadow-primary/10"
       onClick={() => onClick(project)}
     >
-      <div className="aspect-video w-full overflow-hidden bg-muted relative" style={{ background: gradient }}>
+      <div className="h-48 w-full overflow-hidden bg-muted relative" style={{ background: gradient }}>
         {/* Grain overlay */}
         <GrainOverlay intensity="light" />
 

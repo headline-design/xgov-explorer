@@ -4,10 +4,10 @@ import { useState } from "react"
 import type { Project } from "@/types/project"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { ProjectDetailView } from "@/components/project-detail-view"
 import { generateGradient } from "@/lib/gradient-utils"
 import { GrainOverlay } from "@/components/grain-overlay"
+import DialogV2 from "./ui/dialog-v2/dialog-v2"
 
 interface FeaturedProjectsProps {
   projects: Project[]
@@ -38,7 +38,7 @@ export const FeaturedProjects = ({ projects }: FeaturedProjectsProps) => {
               className="overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
               onClick={() => setSelectedProject(project)}
             >
-              <div className="h-40 w-full relative" style={{ background: generateGradient(project.id) }}>
+              <div className="h-32 w-full relative" style={{ background: generateGradient(project.id) }}>
                 <GrainOverlay intensity="light" />
               </div>
 
@@ -65,11 +65,9 @@ export const FeaturedProjects = ({ projects }: FeaturedProjectsProps) => {
       </div>
 
       {/* Project detail dialog */}
-      <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
-        <DialogContent className="max-w-4xl">
-          {selectedProject && <ProjectDetailView project={selectedProject} />}
-        </DialogContent>
-      </Dialog>
+      <DialogV2 showModal={!!selectedProject} setShowModal={(open) => !open && setSelectedProject(null)}>
+        {selectedProject && <ProjectDetailView project={selectedProject} closeModal={() => setSelectedProject(null)} />}
+      </DialogV2>
     </section>
   )
 }

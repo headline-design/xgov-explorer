@@ -4,13 +4,19 @@
 
 @layer base {
   :root {
+    --ds-background-100: #fff;
+    --ds-background-200: #fafafa;
+
+    --ds-backdrop-100: rgba(0, 0, 0, .4);
+    --ds-backdrop-200: rgba(0, 0, 0, .25);
+
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 166 100% 35%;
+    --primary: 166.92deg 67.83% 45.1%;
     --primary-foreground: 210 40% 98%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
@@ -32,13 +38,19 @@
   }
 
   .dark {
+    --ds-background-100: #0a0a0a;
+    --ds-background-200: #000;
+
+    --ds-backdrop-100: rgba(0, 0, 0, .4);
+    --ds-backdrop-200: rgba(0, 0, 0, .75);
+
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 166 100% 35%;
+    --primary: 167.01deg 67.97% 45.29%;
     --primary-foreground: 222.2 47.4% 11.2%;
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;

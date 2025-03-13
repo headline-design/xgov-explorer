@@ -5,13 +5,13 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Search, Users, Award, Calendar } from "lucide-react"
 import type { Project } from "@/types/project"
 import { ProjectDetailView } from "@/components/project-detail-view"
 
 // Add this after the imports
 import "./team-list.css"
+import DialogV2 from "./ui/dialog-v2/dialog-v2"
 
 interface TeamListProps {
   teams: { team: string; projects: Project[] }[]
@@ -20,6 +20,7 @@ interface TeamListProps {
 export function TeamList({ teams }: TeamListProps) {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   // Filter teams based on search query
   const filteredTeams = teams.filter(
@@ -31,6 +32,11 @@ export function TeamList({ teams }: TeamListProps) {
           project.description.toLowerCase().includes(searchQuery.toLowerCase()),
       ),
   )
+
+  const handleProjectClick = (project: Project) => {
+    setSelectedProject(project)
+    setIsDialogOpen(true)
+  }
 
   return (
     <>
@@ -115,29 +121,23 @@ export function TeamList({ teams }: TeamListProps) {
                 <h4 className="font-medium text-sm mb-2">Projects:</h4>
                 <div className="space-y-1.5 max-h-[250px] overflow-y-auto pr-1 custom-scrollbar">
                   {team.projects.map((project) => (
-                    <Dialog key={project.id}>
-                      <DialogTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className="w-full justify-start text-left p-2.5 h-auto border-muted"
-                          onClick={() => setSelectedProject(project)}
-                        >
-                          <div className="w-full">
-                            <div className="font-medium text-sm line-clamp-1">{project.title}</div>
-                            <div className="text-xs text-muted-foreground flex justify-between w-full mt-1">
-                              <span className="flex items-center">
-                                <span className="inline-block w-2 h-2 rounded-full bg-primary mr-1.5"></span>
-                                {project.xGovPeriod}
-                              </span>
-                              <span>{project.fundingAmount.toLocaleString()} ALGO</span>
-                            </div>
-                          </div>
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-                        {selectedProject && <ProjectDetailView project={selectedProject} />}
-                      </DialogContent>
-                    </Dialog>
+                    <Button
+                      key={project.id}
+                      variant="outline"
+                      className="w-full justify-start text-left p-2.5 h-auto border-muted"
+                      onClick={() => handleProjectClick(project)}
+                    >
+                      <div className="w-full">
+                        <div className="font-medium text-sm line-clamp-1">{project.title}</div>
+                        <div className="text-xs text-muted-foreground flex justify-between w-full mt-1">
+                          <span className="flex items-center">
+                            <span className="inline-block w-2 h-2 rounded-full bg-primary mr-1.5"></span>
+                            {project.xGovPeriod}
+                          </span>
+                          <span>{project.fundingAmount.toLocaleString()} ALGO</span>
+                        </div>
+                      </div>
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -152,6 +152,10 @@ export function TeamList({ teams }: TeamListProps) {
           <p className="text-muted-foreground">Try adjusting your search query</p>
         </div>
       )}
+
+      <DialogV2 showModal={isDialogOpen} setShowModal={setIsDialogOpen}>
+        {selectedProject && <ProjectDetailView project={selectedProject} closeModal={() => setIsDialogOpen(false)} />}
+      </DialogV2>
     </>
   )
 }

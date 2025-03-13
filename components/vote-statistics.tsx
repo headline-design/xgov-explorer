@@ -78,16 +78,16 @@ export function VoteStatistics() {
           </p>
 
           <Tabs value={selectedPeriod} onValueChange={setSelectedPeriod} className="mt-6">
-            <TabsList className="grid grid-cols-2 md:grid-cols-4 w-full max-w-2xl">
-              <TabsTrigger value="session1">Session 1</TabsTrigger>
-              <TabsTrigger value="session2">Session 2</TabsTrigger>
-              <TabsTrigger value="session3">Session 3</TabsTrigger>
-              <TabsTrigger value="session4">Session 4</TabsTrigger>
+            <TabsList className="grid-cols-4 w-full max-w-2xl">
+              <TabsTrigger value="session1"><span className="hidden sm:block">Session 1</span><span className="block sm:hidden">S1</span></TabsTrigger>
+              <TabsTrigger value="session2"><span className="hidden sm:block">Session 2</span><span className="block sm:hidden">S2</span></TabsTrigger>
+              <TabsTrigger value="session3"><span className="hidden sm:block">Session 3</span><span className="block sm:hidden">S3</span></TabsTrigger>
+              <TabsTrigger value="session4"><span className="hidden sm:block">Session 4</span><span className="block sm:hidden">S4</span></TabsTrigger>
             </TabsList>
           </Tabs>
 
           {/* Add period dates */}
-          <p className="text-sm text-muted-foreground mt-2">
+          <p className="text-xs text-muted-foreground mt-3">
             {selectedPeriod === "session1" && "July-August 2023"}
             {selectedPeriod === "session2" && "November-December 2023"}
             {selectedPeriod === "session3" && "February-March 2024"}
