@@ -3,7 +3,7 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { InfoIcon } from "lucide-react"
+import { InfoIcon, Check, X } from "lucide-react"
 import type { Project } from "@/types/project"
 import { generateGradient, shortenId } from "@/lib/gradient-utils"
 import { GrainOverlay } from "@/components/grain-overlay"
@@ -27,6 +27,18 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
         {/* Grain overlay */}
         <GrainOverlay intensity="light" />
 
+        {/* Vote result badge (if available) */}
+        {project.voteResult && (
+          <div
+            className={`absolute top-2 left-2 px-2 py-1 rounded-md flex items-center gap-1.5 text-xs font-medium ${
+              project.voteResult.passed ? "bg-green-500/80 text-white" : "bg-red-500/80 text-white"
+            }`}
+          >
+            {project.voteResult.passed ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+            {project.voteResult.passed ? "Passed" : "Failed"}
+          </div>
+        )}
+
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild onClick={(e) => e.stopPropagation()}>
@@ -35,7 +47,7 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
                 <InfoIcon className="h-3.5 w-3.5 text-white/80 dark:text-white/70" />
               </div>
             </TooltipTrigger>
-            <TooltipContent side="bottom" className="max-w-[250px] text-xs bg-background">
+            <TooltipContent side="bottom" className="max-w-[250px] text-xs ">
               <p className="text-xs text-foreground">
                 This unique gradient is deterministically generated from the proposal&apos;s ID, creating a visual
                 fingerprint specific to this proposal.

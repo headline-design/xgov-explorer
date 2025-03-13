@@ -1,4 +1,8 @@
-import type { Project, Milestone } from "@/types/project"
+import type { Project, Milestone, VoteResult } from "@/types/project"
+import { session1Results } from "./session1-results"
+import { session2Results } from "./session2-results"
+import { session3Results } from "./session3-results"
+import { session4Results } from "./session4-results"
 
 // Define the structure of the raw session data
 interface SessionData {
@@ -193,6 +197,24 @@ export function transformSession(sessionData: SessionData, sessionNumber: number
     // Extract GitHub repo from the link if available
     const githubRepo = question.metadata.link.includes("github.com") ? question.metadata.link : undefined
 
+    // Extract proposal number from prompt (e.g., "#123 Title" -> "123")
+    const proposalNumber = question.prompt.match(/#(\d+)/)?.[1]
+
+    // Add vote results if available (for all sessions)
+    let voteResult: VoteResult | undefined
+
+    if (proposalNumber) {
+      if (sessionNumber === 1) {
+        voteResult = session1Results[proposalNumber]
+      } else if (sessionNumber === 2) {
+        voteResult = session2Results[proposalNumber]
+      } else if (sessionNumber === 3) {
+        voteResult = session3Results[proposalNumber]
+      } else if (sessionNumber === 4) {
+        voteResult = session4Results[proposalNumber]
+      }
+    }
+
     return {
       id: question.id,
       title,
@@ -210,6 +232,7 @@ export function transformSession(sessionData: SessionData, sessionNumber: number
       twitter: undefined, // Not available in the data
       proposalLink: question.metadata.link,
       milestones,
+      voteResult,
     }
   })
 }

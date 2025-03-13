@@ -9,7 +9,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { ProjectDetailView } from "@/components/project-detail-view"
 import { ProjectCard } from "@/components/project-card"
 import { ProjectListItem } from "@/components/project-list-item"
-import { Search, Filter, ArrowUpDown } from "lucide-react"
+import { Search, Filter, ArrowUpDown, CheckCircle, XCircle } from "lucide-react"
 import { projects, session1Projects, session2Projects, session3Projects, session4Projects } from "@/data/xgov-sessions"
 import type { Project } from "@/types/project"
 
@@ -17,6 +17,7 @@ export function ProjectExplorer() {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [selectedPeriod, setSelectedPeriod] = useState("all")
+  const [selectedVoteStatus, setSelectedVoteStatus] = useState("all")
   const [sortBy, setSortBy] = useState("newest")
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects)
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
@@ -34,13 +35,15 @@ export function ProjectExplorer() {
     { value: "period4", label: "Period 4 (May-Jun 2024)" },
   ]
 
-  useEffect(() => {
-    console.log("Loaded projects:", projects.length)
-    console.log("Session 1:", session1Projects.length)
-    console.log("Session 2:", session2Projects.length)
-    console.log("Session 3:", session3Projects.length)
-    console.log("Session 4:", session4Projects.length)
+  // Define vote status options
+  const voteStatuses = [
+    { value: "all", label: "All Proposals" },
+    { value: "passed", label: "Passed Proposals" },
+    { value: "failed", label: "Failed Proposals" },
+    { value: "no-vote", label: "No Vote Data" },
+  ]
 
+  useEffect(() => {
     // First, select projects by period
     let periodProjects: Project[] = projects
     if (selectedPeriod === "period1") {
@@ -71,6 +74,17 @@ export function ProjectExplorer() {
       result = result.filter((project) => project.category === selectedCategory)
     }
 
+    // Filter by vote status
+    if (selectedVoteStatus !== "all") {
+      if (selectedVoteStatus === "passed") {
+        result = result.filter((project) => project.voteResult?.passed === true)
+      } else if (selectedVoteStatus === "failed") {
+        result = result.filter((project) => project.voteResult?.passed === false)
+      } else if (selectedVoteStatus === "no-vote") {
+        result = result.filter((project) => !project.voteResult)
+      }
+    }
+
     // Sort projects
     if (sortBy === "newest") {
       result = result.sort((a, b) => new Date(b.awardDate).getTime() - new Date(a.awardDate).getTime())
@@ -82,14 +96,29 @@ export function ProjectExplorer() {
       result = result.sort((a, b) => a.fundingAmount - b.fundingAmount)
     } else if (sortBy === "alphabetical") {
       result = result.sort((a, b) => a.title.localeCompare(b.title))
+    } else if (sortBy === "voteMargin") {
+      // Sort by vote margin (votes received - votes needed) for projects with vote data
+      result = result.sort((a, b) => {
+        const marginA = a.voteResult ? a.voteResult.votesReceived - a.voteResult.votesNeeded : Number.NEGATIVE_INFINITY
+        const marginB = b.voteResult ? b.voteResult.votesReceived - b.voteResult.votesNeeded : Number.NEGATIVE_INFINITY
+        return marginB - marginA
+      })
     }
 
     setFilteredProjects(result)
-  }, [searchQuery, selectedCategory, selectedPeriod, sortBy])
+  }, [searchQuery, selectedCategory, selectedPeriod, selectedVoteStatus, sortBy])
 
   const handleProjectClick = (project: Project) => {
     setSelectedProject(project)
     setIsDialogOpen(true)
+  }
+
+  // Calculate vote statistics
+  const voteStats = {
+    total: filteredProjects.length,
+    passed: filteredProjects.filter((p) => p.voteResult?.passed).length,
+    failed: filteredProjects.filter((p) => p.voteResult?.passed === false).length,
+    noVote: filteredProjects.filter((p) => !p.voteResult).length,
   }
 
   return (
@@ -147,6 +176,22 @@ export function ProjectExplorer() {
               </div>
 
               <div className="flex items-center gap-2">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <Select value={selectedVoteStatus} onValueChange={setSelectedVoteStatus}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Vote Status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {voteStatuses.map((status) => (
+                      <SelectItem key={status.value} value={status.value}>
+                        {status.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="flex items-center gap-2">
                 <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
                 <Select value={sortBy} onValueChange={setSortBy}>
                   <SelectTrigger className="w-[180px]">
@@ -158,11 +203,38 @@ export function ProjectExplorer() {
                     <SelectItem value="fundingHighToLow">Funding: High to Low</SelectItem>
                     <SelectItem value="fundingLowToHigh">Funding: Low to High</SelectItem>
                     <SelectItem value="alphabetical">Alphabetical</SelectItem>
+                    <SelectItem value="voteMargin">Vote Margin</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
           </div>
+
+          {/* Vote statistics */}
+          {(selectedPeriod === "period3" || selectedPeriod === "period4") && (
+            <div className="flex flex-wrap gap-3 mb-6">
+              <div className="bg-card border rounded-md px-4 py-2 flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Total:</span>
+                <span className="font-medium">{voteStats.total} projects</span>
+              </div>
+              <div className="bg-card border rounded-md px-4 py-2 flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span className="text-sm text-muted-foreground">Passed:</span>
+                <span className="font-medium">{voteStats.passed} projects</span>
+              </div>
+              <div className="bg-card border rounded-md px-4 py-2 flex items-center gap-2">
+                <XCircle className="h-4 w-4 text-red-500" />
+                <span className="text-sm text-muted-foreground">Failed:</span>
+                <span className="font-medium">{voteStats.failed} projects</span>
+              </div>
+              {voteStats.noVote > 0 && (
+                <div className="bg-card border rounded-md px-4 py-2 flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">No Vote Data:</span>
+                  <span className="font-medium">{voteStats.noVote} projects</span>
+                </div>
+              )}
+            </div>
+          )}
 
           <Tabs defaultValue="grid" className="w-full">
             <div className="flex justify-end mb-4">
@@ -189,6 +261,7 @@ export function ProjectExplorer() {
                       setSearchQuery("")
                       setSelectedCategory("all")
                       setSelectedPeriod("all")
+                      setSelectedVoteStatus("all")
                     }}
                   >
                     Reset Filters
@@ -214,6 +287,7 @@ export function ProjectExplorer() {
                       setSearchQuery("")
                       setSelectedCategory("all")
                       setSelectedPeriod("all")
+                      setSelectedVoteStatus("all")
                     }}
                   >
                     Reset Filters

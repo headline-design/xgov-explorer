@@ -2,8 +2,10 @@ import type { Metadata } from "next"
 import { HeroSection } from "@/components/hero-section"
 import { ProjectExplorer } from "@/components/project-explorer"
 import { FaqSection } from "@/components/faq-section"
+import { FeaturedProjects } from "@/components/featured-projects"
+import { VoteStatistics } from "@/components/vote-statistics"
+import { VotingTrends } from "@/components/voting-trends"
 import { projects } from "@/data/xgov-sessions"
-import FeaturedProjects from "@/components/featured-projects"
 
 export const metadata: Metadata = {
   title: "xGov Explorer | Algorand Foundation",
@@ -17,6 +19,7 @@ export default function Home() {
   const totalFunding = projects.reduce((sum, project) => sum + (project.fundingAmount || 0), 0)
   const uniqueTeams = new Set(projects.map((p) => p.team)).size
   const categories = [...new Set(projects.map((p) => p.category))].filter(Boolean)
+
 
   const featuredProjectIds: string[] = [
     "b27703ae-a303-4969-8f18-44c2e33cf973",
@@ -37,11 +40,16 @@ export default function Home() {
 
   return (
     <>
-      <HeroSection totalProjects={totalProjects} totalFunding={totalFunding} uniqueTeams={uniqueTeams} categories={categories} />
-      <section id="projects" className="py-16">
-        <FeaturedProjects projects={sortedFeaturedProjects} />
-        <ProjectExplorer />
-      </section>
+      <HeroSection
+        totalProjects={totalProjects}
+        totalFunding={totalFunding}
+        uniqueTeams={uniqueTeams}
+        categories={categories}
+      />
+      <FeaturedProjects projects={sortedFeaturedProjects} />
+      <VoteStatistics />
+      <VotingTrends />
+      <ProjectExplorer />
 
       <FaqSection />
     </>

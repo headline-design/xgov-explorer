@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { generateGradient, shortenId, getGradientExplanation } from "@/lib/gradient-utils"
 import { GrainOverlay } from "@/components/grain-overlay"
+import { Check, X } from "lucide-react"
 import type { Project } from "@/types/project"
 
 interface ProjectListItemProps {
@@ -26,6 +27,18 @@ export function ProjectListItem({ project, onClick }: ProjectListItemProps) {
           <div className="h-full w-full" style={{ background: gradient }}>
             <GrainOverlay intensity="light" />
 
+            {/* Vote result badge (if available) */}
+            {project.voteResult && (
+              <div
+                className={`absolute top-2 left-2 px-2 py-1 rounded-md flex items-center gap-1.5 text-xs font-medium ${
+                  project.voteResult.passed ? "bg-green-500/80 text-white" : "bg-red-500/80 text-white"
+                }`}
+              >
+                {project.voteResult.passed ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                {project.voteResult.passed ? "Passed" : "Failed"}
+              </div>
+            )}
+
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -36,7 +49,7 @@ export function ProjectListItem({ project, onClick }: ProjectListItemProps) {
                     #{shortenId(project.id)}
                   </div>
                 </TooltipTrigger>
-                <TooltipContent side="top" className="max-w-xs bg-background">
+                <TooltipContent side="top" className="max-w-xs ">
                   <p className="text-sm font-medium mb-1 text-foreground">Project ID: {project.id}</p>
                   <p className="text-xs text-muted-foreground">{getGradientExplanation(project.id)}</p>
                 </TooltipContent>
@@ -47,7 +60,7 @@ export function ProjectListItem({ project, onClick }: ProjectListItemProps) {
         <div className="flex-1 p-4">
           <div className="flex justify-between items-start mb-2">
             <h3 className="font-bold">{project.title}</h3>
-            <Badge>{project.category}</Badge>
+            <Badge className="ml-2">{project.category}</Badge>
           </div>
           <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{project.description}</p>
           <div className="flex justify-between text-sm">

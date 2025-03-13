@@ -5,6 +5,12 @@ export interface Milestone {
   completedDate?: string
 }
 
+export interface VoteResult {
+  votesReceived: number
+  votesNeeded: number
+  passed: boolean
+}
+
 export interface Project {
   id: string
   title: string
@@ -23,5 +29,6 @@ export interface Project {
   twitter?: string
   proposalLink?: string
   milestones?: Milestone[]
+  voteResult?: VoteResult
 }
 

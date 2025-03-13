@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
-import { ExternalLink, Github, Twitter } from "lucide-react"
+import { ExternalLink, Github, Twitter, Check, X } from "lucide-react"
 import type { Project } from "@/types/project"
 import { generateGradient, shortenId } from "@/lib/gradient-utils"
 import { GrainOverlay } from "@/components/grain-overlay"
@@ -39,7 +39,7 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
                 #{shortenId(project.id)}
               </div>
             </TooltipTrigger>
-            <TooltipContent side="left" className="bg-background">
+            <TooltipContent side="left" >
               <p className="text-sm font-mono mb-1">Project ID: {project.id}</p>
               <p className="text-xs max-w-[250px]">
                 This unique gradient was generated from the proposal ID hash, creating a visual fingerprint for this
@@ -49,6 +49,35 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
           </Tooltip>
         </TooltipProvider>
       </div>
+
+      {/* Vote Results (if available) */}
+      {project.voteResult && (
+        <div className="mb-6 p-4 rounded-lg border bg-card">
+          <h3 className="text-lg font-semibold mb-3">Vote Results</h3>
+          <div className="flex items-center mb-2">
+            <div
+              className={`mr-2 p-1 rounded-full ${project.voteResult.passed ? "bg-green-100 dark:bg-green-900" : "bg-red-100 dark:bg-red-900"}`}
+            >
+              {project.voteResult.passed ? (
+                <Check className="h-4 w-4 text-green-600 dark:text-green-400" />
+              ) : (
+                <X className="h-4 w-4 text-red-600 dark:text-red-400" />
+              )}
+            </div>
+            <span className="font-medium">{project.voteResult.passed ? "Proposal Passed" : "Proposal Failed"}</span>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <div className="text-sm text-muted-foreground">Votes Received</div>
+              <div className="font-medium">{project.voteResult.votesReceived.toLocaleString()}</div>
+            </div>
+            <div>
+              <div className="text-sm text-muted-foreground">Votes Needed</div>
+              <div className="font-medium">{project.voteResult.votesNeeded.toLocaleString()}</div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Project Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
