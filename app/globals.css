@@ -10,6 +10,9 @@
     --ds-backdrop-100: rgba(0, 0, 0, .4);
     --ds-backdrop-200: rgba(0, 0, 0, .25);
 
+    --ds-shadow-menu: var(--ds-shadow-border), 0px 1px 1px rgba(0, 0, 0, .02), 0px 4px 8px -4px rgba(0, 0, 0, .04), 0px 16px 24px -8px rgba(0, 0, 0, .06);
+    --ds-shadow-border: 0 0 0 1px rgba(0, 0, 0, .08);
+
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
@@ -43,6 +46,9 @@
 
     --ds-backdrop-100: rgba(0, 0, 0, .4);
     --ds-backdrop-200: rgba(0, 0, 0, .75);
+
+    --ds-shadow-menu: var(--ds-shadow-border), 0px 1px 1px rgba(0, 0, 0, .02), 0px 4px 8px -4px rgba(0, 0, 0, .04), 0px 16px 24px -8px rgba(0, 0, 0, .06);
+    --ds-shadow-border: 0 0 0 1px hsla(0, 0%, 100%, .145);
 
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
