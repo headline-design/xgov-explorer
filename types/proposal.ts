@@ -11,8 +11,9 @@ export interface VoteResult {
   passed: boolean
 }
 
-export interface Project {
+export interface Proposal {
   id: string
+  number: string
   title: string
   description: string
   longDescription?: string

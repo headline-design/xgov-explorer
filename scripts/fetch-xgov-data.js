@@ -9,8 +9,8 @@ const xGovDataUrls = [
   "https://api.voting.algorand.foundation/ipfs/bafkreigjiien52ukmfqd5yrjgonrj6ixpr2rm32szps45ztpehk7z4lhli", // Period 4
 ]
 
-// Categories mapping based on project titles/descriptions
-const categorizeProject = (title, description) => {
+// Categories mapping based on proposal titles/descriptions
+const categorizeProposal = (title, description) => {
   const titleLower = title.toLowerCase()
   const descLower = description.toLowerCase()
 
@@ -58,7 +58,7 @@ const categorizeProject = (title, description) => {
   return "other"
 }
 
-// Generate a random completion percentage for projects
+// Generate a random completion percentage for proposals
 const generateCompletionStatus = (awardDate) => {
   const awardTime = new Date(awardDate).getTime()
   const now = new Date().getTime()
@@ -71,7 +71,7 @@ const generateCompletionStatus = (awardDate) => {
       completionPercentage: 100,
     }
   }
-  // If award date is recent, project is likely in progress
+  // If award date is recent, proposal is likely in progress
   else {
     const progress = Math.min(Math.floor(((now - awardTime) / sixMonthsInMs) * 100), 95)
     return {
@@ -83,8 +83,8 @@ const generateCompletionStatus = (awardDate) => {
 
 // Main function to fetch and process data
 async function fetchAndProcessXGovData() {
-  const allProjects = []
-  let projectId = 1
+  const allProposals = []
+  let proposalId = 1
 
   for (let i = 0; i < xGovDataUrls.length; i++) {
     try {
@@ -95,13 +95,13 @@ async function fetchAndProcessXGovData() {
       // Extract period information
       const periodNumber = i + 1
 
-      // Process projects based on the structure of the data
+      // Process proposals based on the structure of the data
       if (data.results && Array.isArray(data.results)) {
-        console.log(`Found ${data.results.length} projects in Period ${periodNumber}`)
+        console.log(`Found ${data.results.length} proposals in Period ${periodNumber}`)
 
         for (const result of data.results) {
           if (result.status === "pass") {
-            const title = result.title || "Untitled Project"
+            const title = result.title || "Untitled Proposal"
             const description = result.description || ""
             const fundingAmount = Number.parseInt(result.requested_algos) || 0
 
@@ -123,7 +123,7 @@ async function fetchAndProcessXGovData() {
             }
 
             // Determine category
-            const category = categorizeProject(title, description)
+            const category = categorizeProposal(title, description)
 
             // Extract links if available
             const links = {}
@@ -138,9 +138,9 @@ async function fetchAndProcessXGovData() {
               if (twitterMatch) links.twitter = `https://twitter.com/${twitterMatch[1]}`
             }
 
-            // Create project object
-            const project = {
-              id: String(projectId++),
+            // Create proposal object
+            const proposal = {
+              id: String(proposalId++),
               title: title.replace(/by\s+[^-]+\s*-\s*/, "").trim(), // Clean up title
               description,
               team,
@@ -155,7 +155,7 @@ async function fetchAndProcessXGovData() {
               ...links,
             }
 
-            allProjects.push(project)
+            allProposals.push(proposal)
           }
         }
       }
@@ -164,12 +164,12 @@ async function fetchAndProcessXGovData() {
     }
   }
 
-  console.log(`Total projects processed: ${allProjects.length}`)
+  console.log(`Total proposals processed: ${allProposals.length}`)
 
   // Write the processed data to a file
-  const outputData = `import { Project } from "@/types/project"
+  const outputData = `import { Proposal } from "@/types/proposal"
 
-export const projects: Project[] = ${JSON.stringify(allProjects, null, 2)}`
+export const proposals: Proposal[] = ${JSON.stringify(allProposals, null, 2)}`
 
   await fs.writeFile("data-output.js", outputData)
   console.log("Data written to data-output.js")

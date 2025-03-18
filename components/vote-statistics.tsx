@@ -4,58 +4,58 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CheckCircle, XCircle, HelpCircle } from "lucide-react"
-import { session1Projects, session2Projects, session3Projects, session4Projects } from "@/data/xgov-sessions"
+import { session1Proposals, session2Proposals, session3Proposals, session4Proposals } from "@/data/xgov-sessions"
 
 export function VoteStatistics() {
   const [selectedPeriod, setSelectedPeriod] = useState("session4")
 
   // Calculate statistics for each session
   const session1Stats = {
-    total: session1Projects.length,
-    passed: session1Projects.filter((p) => p.voteResult?.passed).length,
-    failed: session1Projects.filter((p) => p.voteResult?.passed === false).length,
-    noVote: session1Projects.filter((p) => !p.voteResult).length,
+    total: session1Proposals.length,
+    passed: session1Proposals.filter((p) => p.voteResult?.passed).length,
+    failed: session1Proposals.filter((p) => p.voteResult?.passed === false).length,
+    noVote: session1Proposals.filter((p) => !p.voteResult).length,
     passRate:
-      (session1Projects.filter((p) => p.voteResult?.passed).length /
-        Math.max(1, session1Projects.filter((p) => p.voteResult).length)) *
+      (session1Proposals.filter((p) => p.voteResult?.passed).length /
+        Math.max(1, session1Proposals.filter((p) => p.voteResult).length)) *
       100,
-    totalFunding: session1Projects.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
+    totalFunding: session1Proposals.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
   }
 
   const session2Stats = {
-    total: session2Projects.length,
-    passed: session2Projects.filter((p) => p.voteResult?.passed).length,
-    failed: session2Projects.filter((p) => p.voteResult?.passed === false).length,
-    noVote: session2Projects.filter((p) => !p.voteResult).length,
+    total: session2Proposals.length,
+    passed: session2Proposals.filter((p) => p.voteResult?.passed).length,
+    failed: session2Proposals.filter((p) => p.voteResult?.passed === false).length,
+    noVote: session2Proposals.filter((p) => !p.voteResult).length,
     passRate:
-      (session2Projects.filter((p) => p.voteResult?.passed).length /
-        Math.max(1, session2Projects.filter((p) => p.voteResult).length)) *
+      (session2Proposals.filter((p) => p.voteResult?.passed).length /
+        Math.max(1, session2Proposals.filter((p) => p.voteResult).length)) *
       100,
-    totalFunding: session2Projects.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
+    totalFunding: session2Proposals.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
   }
 
   const session3Stats = {
-    total: session3Projects.length,
-    passed: session3Projects.filter((p) => p.voteResult?.passed).length,
-    failed: session3Projects.filter((p) => p.voteResult?.passed === false).length,
-    noVote: session3Projects.filter((p) => !p.voteResult).length,
+    total: session3Proposals.length,
+    passed: session3Proposals.filter((p) => p.voteResult?.passed).length,
+    failed: session3Proposals.filter((p) => p.voteResult?.passed === false).length,
+    noVote: session3Proposals.filter((p) => !p.voteResult).length,
     passRate:
-      (session3Projects.filter((p) => p.voteResult?.passed).length /
-        Math.max(1, session3Projects.filter((p) => p.voteResult).length)) *
+      (session3Proposals.filter((p) => p.voteResult?.passed).length /
+        Math.max(1, session3Proposals.filter((p) => p.voteResult).length)) *
       100,
-    totalFunding: session3Projects.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
+    totalFunding: session3Proposals.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
   }
 
   const session4Stats = {
-    total: session4Projects.length,
-    passed: session4Projects.filter((p) => p.voteResult?.passed).length,
-    failed: session4Projects.filter((p) => p.voteResult?.passed === false).length,
-    noVote: session4Projects.filter((p) => !p.voteResult).length,
+    total: session4Proposals.length,
+    passed: session4Proposals.filter((p) => p.voteResult?.passed).length,
+    failed: session4Proposals.filter((p) => p.voteResult?.passed === false).length,
+    noVote: session4Proposals.filter((p) => !p.voteResult).length,
     passRate:
-      (session4Projects.filter((p) => p.voteResult?.passed).length /
-        Math.max(1, session4Projects.filter((p) => p.voteResult).length)) *
+      (session4Proposals.filter((p) => p.voteResult?.passed).length /
+        Math.max(1, session4Proposals.filter((p) => p.voteResult).length)) *
       100,
-    totalFunding: session4Projects.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
+    totalFunding: session4Proposals.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
   }
 
   // Get current stats based on selected period

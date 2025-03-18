@@ -1,7 +1,7 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { session1Projects, session2Projects, session3Projects, session4Projects } from "@/data/xgov-sessions"
+import { session1Proposals, session2Proposals, session3Proposals, session4Proposals } from "@/data/xgov-sessions"
 
 export function VotingTrends() {
   // Calculate statistics for each session
@@ -9,43 +9,43 @@ export function VotingTrends() {
     {
       name: "Session 1",
       period: "Jul-Aug 2023",
-      projects: session1Projects,
-      passed: session1Projects.filter((p) => p.voteResult?.passed).length,
-      failed: session1Projects.filter((p) => p.voteResult?.passed === false).length,
-      totalFunding: session1Projects.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
+      proposals: session1Proposals,
+      passed: session1Proposals.filter((p) => p.voteResult?.passed).length,
+      failed: session1Proposals.filter((p) => p.voteResult?.passed === false).length,
+      totalFunding: session1Proposals.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
       totalAvailable: 2000000, // 2M ALGO
     },
     {
       name: "Session 2",
       period: "Nov-Dec 2023",
-      projects: session2Projects,
-      passed: session2Projects.filter((p) => p.voteResult?.passed).length,
-      failed: session2Projects.filter((p) => p.voteResult?.passed === false).length,
-      totalFunding: session2Projects.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
+      proposals: session2Proposals,
+      passed: session2Proposals.filter((p) => p.voteResult?.passed).length,
+      failed: session2Proposals.filter((p) => p.voteResult?.passed === false).length,
+      totalFunding: session2Proposals.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
       totalAvailable: 1946000, // 1.946M ALGO
     },
     {
       name: "Session 3",
       period: "Feb-Mar 2024",
-      projects: session3Projects,
-      passed: session3Projects.filter((p) => p.voteResult?.passed).length,
-      failed: session3Projects.filter((p) => p.voteResult?.passed === false).length,
-      totalFunding: session3Projects.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
+      proposals: session3Proposals,
+      passed: session3Proposals.filter((p) => p.voteResult?.passed).length,
+      failed: session3Proposals.filter((p) => p.voteResult?.passed === false).length,
+      totalFunding: session3Proposals.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
       totalAvailable: 2000000, // 2M ALGO
     },
     {
       name: "Session 4",
       period: "May-Jun 2024",
-      projects: session4Projects,
-      passed: session4Projects.filter((p) => p.voteResult?.passed).length,
-      failed: session4Projects.filter((p) => p.voteResult?.passed === false).length,
-      totalFunding: session4Projects.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
+      proposals: session4Proposals,
+      passed: session4Proposals.filter((p) => p.voteResult?.passed).length,
+      failed: session4Proposals.filter((p) => p.voteResult?.passed === false).length,
+      totalFunding: session4Proposals.filter((p) => p.voteResult?.passed).reduce((sum, p) => sum + p.fundingAmount, 0),
       totalAvailable: 2000000, // 2M ALGO
     },
   ]
 
   // Calculate the maximum values for scaling
-  const maxProposals = Math.max(...sessions.map((s) => s.projects.length))
+  const maxProposals = Math.max(...sessions.map((s) => s.proposals.length))
   const maxFunding = Math.max(...sessions.map((s) => s.totalFunding))
 
   return (
@@ -71,7 +71,7 @@ export function VotingTrends() {
                       <span className="font-medium">
                         {session.name} ({session.period})
                       </span>
-                      <span>{session.projects.length} proposals</span>
+                      <span>{session.proposals.length} proposals</span>
                     </div>
                     <div className="h-4 bg-muted rounded-full overflow-hidden flex">
                       <div
@@ -116,7 +116,7 @@ export function VotingTrends() {
                       />
                     </div>
                     <div className="flex justify-between text-xs text-muted-foreground">
-                      <span>{session.passed} funded projects</span>
+                      <span>{session.passed} funded proposals</span>
                       <span>
                         {Math.round((session.totalFunding / session.totalAvailable) * 100)}% of available funds
                       </span>
@@ -149,21 +149,21 @@ export function VotingTrends() {
                   Overall pass rate:{" "}
                   {(
                     (sessions.reduce((sum, s) => sum + s.passed, 0) /
-                      sessions.reduce((sum, s) => sum + s.projects.length, 0)) *
+                      sessions.reduce((sum, s) => sum + s.proposals.length, 0)) *
                     100
                   ).toFixed(1)}
                   %
                 </li>
                 <li>
                   Most competitive session:{" "}
-                  {sessions.sort((a, b) => b.projects.length / b.passed - a.projects.length / a.passed)[0].name}
+                  {sessions.sort((a, b) => b.proposals.length / b.passed - a.proposals.length / a.passed)[0].name}
                   with{" "}
                   {
-                    sessions.sort((a, b) => b.projects.length / b.passed - a.projects.length / a.passed)[0].projects
+                    sessions.sort((a, b) => b.proposals.length / b.passed - a.proposals.length / a.passed)[0].proposals
                       .length
                   }{" "}
                   proposals competing for{" "}
-                  {sessions.sort((a, b) => b.projects.length / b.passed - a.projects.length / a.passed)[0].passed} spots
+                  {sessions.sort((a, b) => b.proposals.length / b.passed - a.proposals.length / a.passed)[0].passed} spots
                 </li>
                 <li>
                   Highest funded session: {sessions.sort((a, b) => b.totalFunding - a.totalFunding)[0].name}
@@ -171,7 +171,7 @@ export function VotingTrends() {
                   awarded
                 </li>
                 <li>
-                  Average funding per project:{" "}
+                  Average funding per proposal:{" "}
                   {Math.round(
                     sessions.reduce((sum, s) => sum + s.totalFunding, 0) /
                       sessions.reduce((sum, s) => sum + s.passed, 0),

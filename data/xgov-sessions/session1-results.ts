@@ -1,4 +1,4 @@
-import type { VoteResult } from "@/types/project"
+import type { VoteResult } from "@/types/proposal"
 
 export const session1Results: Record<string, VoteResult> = {
   // Passed proposals

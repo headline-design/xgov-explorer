@@ -49,7 +49,7 @@ export function getGradientType(seed: number): string {
   return types[seed % types.length];
 }
 
-// Generate a complete gradient string based on project ID
+// Generate a complete gradient string based on proposal ID
 export function generateGradient(id: string): string {
   const seed = hashString(id);
   const color1 = generateColor(seed);
@@ -72,5 +72,5 @@ export function shortenId(id: string): string {
 }
 
 export function getGradientExplanation(id: string): string {
-  return "This unique gradient was generated from the proposal ID hash, creating a visual fingerprint for this project.";
+  return "This unique gradient was generated from the proposal ID hash, creating a visual fingerprint for this proposal.";
 }

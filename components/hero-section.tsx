@@ -5,13 +5,13 @@ import { AlgorandIcon } from "./icons/algorand-icon"
 import { cn } from "@/lib/utils"
 
 interface HeroSectionProps {
-  totalProjects: number
+  totalProposals: number
   totalFunding: number
   uniqueTeams: number
   categories: string[]
 }
 
-export function HeroSection({ totalProjects, totalFunding, uniqueTeams, categories }: HeroSectionProps) {
+export function HeroSection({ totalProposals, totalFunding, uniqueTeams, categories }: HeroSectionProps) {
   // Format the funding amount properly
   const formatFunding = (amount: number) => {
     if (amount >= 1000000) {
@@ -50,18 +50,18 @@ export function HeroSection({ totalProjects, totalFunding, uniqueTeams, categori
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl mb-6">
             <span className="block">Discover Innovative</span>
             <span className="block bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70 leading-[normal]">
-              Algorand Projects
+              Algorand Proposals
             </span>
           </h1>
 
           <p className="max-w-[700px] text-muted-foreground text-lg md:text-xl mb-12">
-            Explore the best projects awarded through the Algorand Foundation xGov community governance program.
+            Explore the best proposals awarded through the Algorand Foundation xGov community governance program.
           </p>
 
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10 mb-12 w-full">
             {[
-              { value: totalProjects, label: "Funded Projects", icon: BarChart3, format: (v: number) => v.toString() },
+              { value: totalProposals, label: "Funded Proposals", icon: BarChart3, format: (v: number) => v.toString() },
               { value: totalFunding, label: "ALGO Funded", icon: Coins, format: formatFunding },
               { value: uniqueTeams, label: "Unique Teams", icon: Users, format: (v: number) => v.toString() },
               { value: categories.length, label: "Categories", icon: Tags, format: (v: number) => v.toString() },
@@ -90,8 +90,8 @@ export function HeroSection({ totalProjects, totalFunding, uniqueTeams, categori
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
             <Button asChild size="lg" className="group">
-              <Link href="#projects" className="flex items-center">
-                Explore Projects
+              <Link href="#proposals" className="flex items-center">
+                Explore Proposals
               </Link>
             </Button>
 
