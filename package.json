@@ -41,6 +41,7 @@
     "@txnlab/use-wallet": "4.0.0",
     "@txnlab/use-wallet-react": "4.0.0",
     "class-variance-authority": "^0.7.1",
+    "iron-session": "^8.0.1",
     "cloudinary": "^1.41.2",
     "concurrently": "^8.0.1",
     "clsx": "^2.1.1",

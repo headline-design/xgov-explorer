@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) proposal bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# xGov Explorer
 
-## Getting Started
+<div align="center">
+  <img src="/public/images/favicon-96x96.png" alt="xGov Explorer Logo" width="200" />
+  <h3>Discover and track Algorand xGov-funded projects</h3>
+  <p>An open source platform for the Algorand community to explore, monitor, and celebrate xGov award recipients</p>
 
-First, run the development server:
+  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+  [![Algorand](https://img.shields.io/badge/Powered%20by-Algorand-black)](https://www.algorand.com/)
+  [![GitHub Stars](https://img.shields.io/github/stars/headline-design/xgov-explorer?style=social)](https://github.com/headline-design/xgov-explorer)
+  [![Twitter Follow](https://img.shields.io/twitter/follow/headline_crypto?style=social)](https://twitter.com/headline_crypto)
+</div>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌟 About xGov Explorer
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+xGov Explorer is an open source platform designed to showcase the best projects that have been awarded funding through the Algorand Foundation's xGov community governance program. Our mission is to increase visibility for these innovative projects, track their progress, and foster community engagement within the Algorand ecosystem.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The platform serves as a central hub where:
 
-This proposal uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Community members can discover and learn about xGov-funded projects
+- Project teams can claim their proposals and provide progress updates
+- The Algorand community can track the development and impact of funded initiatives
 
-## Learn More
+## ✨ Key Features
 
-To learn more about Next.js, take a look at the following resources:
+- **Project Discovery**: Browse and search through all xGov-funded projects
+- **Detailed Project Profiles**: View comprehensive information about each project, including funding details, team information, and progress updates
+- **Progress Tracking**: Monitor the development status and milestone completion of projects
+- **Team Verification**: GitHub-based verification system for project teams to claim their proposals
+- **Progress Updates**: Authenticated team members can post progress updates to keep the community informed
+- **Responsive Design**: Optimized for both desktop and mobile viewing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+xGov Explorer is built with modern web technologies:
 
-## Deploy on Vercel
+- **Frontend**: Next.js 14 (App Router), React, TypeScript, Tailwind CSS
+- **Backend**: Next.js API Routes, Prisma ORM
+- **Database**: PostgreSQL
+- **Authentication**: NextAuth.js with GitHub OAuth and Algorand wallet integration
+- **Deployment**: Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🚀 Getting Started
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Prerequisites
+
+- Node.js 18.x or later
+- PostgreSQL database
+- GitHub OAuth credentials
+- Algorand development environment (optional for wallet authentication)
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/headline-design/xgov-explorer.git
+   cd xgov-explorer
+
