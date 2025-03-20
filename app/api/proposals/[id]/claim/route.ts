@@ -23,7 +23,7 @@ export async function POST(request, { params }) {
     );
   }
 
-  const { id } = params;
+  const { id } = await params;
 
   // Check if the proposal exists
   const proposal = await prisma.proposal.findUnique({
@@ -135,7 +135,7 @@ export async function GET(request, { params }) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = params;
+  const { id } = await params;
 
   try {
     // Check if the user is a member of the team for this proposal
