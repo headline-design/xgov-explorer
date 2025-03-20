@@ -98,22 +98,8 @@ export default function Navbar({
                       return (
                         <>
                           <div className="flex items-center gap-2">
-                            <ButtonLink
-                              skinny
-                              variant="link"
-                              href={`${HOME_DOMAIN}/contact`}
-                            >
-                              Contact
-                            </ButtonLink>
-                            <Button
-                              skinny
-                              variant="outline"
-                              onClick={() => {
-                                setShowLoginModal(true);
-                              }}
-                            >
-                              Log in
-                            </Button>
+
+
                           </div>
                           <Button
                             skinny
@@ -123,7 +109,7 @@ export default function Navbar({
                               setShowLoginModal(true);
                             }}
                           >
-                            Sign up
+                            Sign in
                           </Button>
                         </>
                       );

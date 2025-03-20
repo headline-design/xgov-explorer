@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { Bell, ArrowLeft, Newspaper, Settings, ChevronDown } from "lucide-react";
+import { Bell, ArrowLeft, Newspaper, Settings, ChevronDown, Users } from "lucide-react";
 import { useParams, useSelectedLayoutSegments } from "next/navigation";
 import useMediaQuery from "@/lib/hooks/use-media-query";
 import { MobileMenuTrigger } from "./mobile-menu-trigger";
@@ -44,18 +44,19 @@ export const NavMenu = React.memo(
     showMobileMenu,
     setShowMobileMenu,
   }: {
-    location: string;
-    session: any;
-    status: string;
-    showMobileMenu: boolean;
-    setShowMobileMenu: (show: boolean) => void;
+    location: string
+    session: any
+    status: string
+    showMobileMenu: boolean
+    setShowMobileMenu: (show: boolean) => void
   }) => {
-    const user = session?.user;
-    const connectedUser = status === "authenticated";
+    const user = session?.user
+    const connectedUser = status === "authenticated"
+    const hasTeams = user?.teams?.count > 0
 
     const [showDesktopMenu, setShowDesktopMenu] = useState(false);
     const [showNotificationsMenu, setShowNotificationsMenu] = useState(false);
-    const {  setShowLoginModal } = useContext(GlobalModalContext);
+    const { setShowLoginModal } = useContext(GlobalModalContext);
     const { isWidescreen } = useMediaQuery();
     const { handleDisconnect, signingOut } = useLogout();
     const segments = useSelectedLayoutSegments();
@@ -80,27 +81,25 @@ export const NavMenu = React.memo(
 
     useEffect(() => {
       if (isWidescreen) {
-        document.body.style.position = "";
-        document.body.style.width = "";
+        document.body.style.position = ""
+        document.body.style.width = ""
       }
-    }, [showMobileMenu, isWidescreen]);
+    }, [showMobileMenu, isWidescreen])
 
     const handleNotifications = () => {
-      setShowNotificationsMenu(!showNotificationsMenu);
-    };
+      setShowNotificationsMenu(!showNotificationsMenu)
+    }
 
     const handleLogout = useCallback(() => {
-      console.log("Logging out...");
-      handleDisconnect();
-    }, [handleDisconnect]);
+      console.log("Logging out...")
+      handleDisconnect()
+    }, [handleDisconnect])
 
     const handleLogin = useCallback(() => {
-      console.log("Logging in...");
-      setShowLoginModal(true);
-      handleToggle();
-    }, [setShowLoginModal, handleToggle]);
-
-
+      console.log("Logging in...")
+      setShowLoginModal(true)
+      handleToggle()
+    }, [setShowLoginModal, handleToggle])
 
     const actionMobileHeader = useMemo(() => {
       if (connectedUser && location === "app") {
@@ -115,7 +114,7 @@ export const NavMenu = React.memo(
             href: `${HOME_DOMAIN}/contact`,
             buttonVariant: "outline",
           },
-        ];
+        ]
       } else if (connectedUser && location === "home") {
         return [
           {
@@ -128,7 +127,7 @@ export const NavMenu = React.memo(
             href: `${HOME_DOMAIN}/contact`,
             buttonVariant: "outline",
           },
-        ];
+        ]
       } else if (!connectedUser) {
         return [
           {
@@ -141,10 +140,10 @@ export const NavMenu = React.memo(
             onConnect: handleLogin,
             buttonVariant: "outline",
           },
-        ];
+        ]
       }
-      return [];
-    }, [connectedUser, handleLogin, location]);
+      return []
+    }, [connectedUser, handleLogin, location])
 
     const mainItems = useMemo(() => {
       if (segments[0] === "project" && id && connectedUser) {
@@ -160,9 +159,9 @@ export const NavMenu = React.memo(
             isActive: segments.includes("settings"),
             icon: <Settings width={18} />,
           },
-        ];
+        ]
       } else if (connectedUser && (location === "app" || location === "home")) {
-        return [
+        const items = [
           {
             name: "Home",
             href: HOME_DOMAIN,
@@ -170,6 +169,18 @@ export const NavMenu = React.memo(
             icon: <IconDashboard size={16} className="flex wd:hidden" />,
           },
         ];
+
+        // Add Team Dashboard link if user has teams
+        if (hasTeams && user?.teams?.firstTeam) {
+          items.push({
+            name: "Team Dashboard",
+            href: `/team`,
+            isActive: segments[0] === "team",
+            icon: <Users size={16} className="flex wd:hidden" />,
+          })
+        }
+
+        return items
       } else if (!connectedUser && location === "home") {
         return [
           {
@@ -185,7 +196,7 @@ export const NavMenu = React.memo(
         ];
       }
       return [];
-    }, [segments, id, connectedUser, location]);
+    }, [segments, id, connectedUser, location, hasTeams, user?.teams.firstTeam]);
 
     const midItems = useMemo(() => {
       if (connectedUser && (location === "app" || location === "home")) {
@@ -439,10 +450,10 @@ export const NavMenu = React.memo(
               },
             ],
           },
-        ];
+        ]
       }
-      return [];
-    }, [connectedUser, location]);
+      return []
+    }, [connectedUser, location])
 
     const renderCollapseItems = (items) =>
       items.map(({ name, children }) => (
@@ -472,7 +483,7 @@ export const NavMenu = React.memo(
             </ul>
           </CollapsibleContent>
         </Collapsible>
-      ));
+      ))
 
     const MenuContent = ({ handleToggle }) => (
       <section>
@@ -487,23 +498,16 @@ export const NavMenu = React.memo(
           {renderDivider(actionDesktopFooter)}
         </ul>
       </section>
-    );
+    )
 
     return (
       <div className="relative inline-flex">
         {!isWidescreen ? (
           <>
-            <MobileMenuTrigger
-              setShowMobileMenu={setShowMobileMenu}
-              showMobileMenu={showMobileMenu}
-            />
+            <MobileMenuTrigger setShowMobileMenu={setShowMobileMenu} showMobileMenu={showMobileMenu} />
             <MobileMenu showMenu={showMobileMenu}>
               <div className="mobile-menu-header-wrapper">
-                {renderMenuItems(
-                  actionMobileHeader,
-                  handleToggle,
-                  "actionHeader",
-                )}
+                {renderMenuItems(actionMobileHeader, handleToggle, "actionHeader")}
               </div>
               <MenuContent handleToggle={handleToggle} />
             </MobileMenu>
@@ -511,23 +515,17 @@ export const NavMenu = React.memo(
         ) : (
           <DesktopMenu
             content={
-              showNotificationsMenu ? (
-                null
-              ) : (
+              showNotificationsMenu ? null : (
                 <>
                   <MenuContent handleToggle={() => setShowDesktopMenu(false)} />
-                  {renderMenuItems(
-                    actionDesktopFooter,
-                    handleToggle,
-                    "actionFooter",
-                  )}
+                  {renderMenuItems(actionDesktopFooter, handleToggle, "actionFooter")}
                 </>
               )
             }
             openPopover={showDesktopMenu}
             setOpenPopover={() => {
-              setShowNotificationsMenu(false);
-              setShowDesktopMenu(!showDesktopMenu);
+              setShowNotificationsMenu(false)
+              setShowDesktopMenu(!showDesktopMenu)
             }}
             user={user}
             unread={0}
@@ -535,10 +533,10 @@ export const NavMenu = React.memo(
           />
         )}
       </div>
-    );
+    )
   },
-);
+)
 
-NavMenu.displayName = "NavMenu";
-export default NavMenu;
+NavMenu.displayName = "NavMenu"
+export default NavMenu
 

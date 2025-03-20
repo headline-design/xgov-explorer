@@ -200,18 +200,89 @@ export const authOptions: NextAuthOptions = {
         wallets: (token.user as { wallets: any[] })?.wallets || [],
         role: (token.user as { role: string })?.role || "user", // Default role added
         gh_username:
-          (token.user as { gh_username: string | null })?.gh_username || null, // Ensure gh_username is included
+          (token.user as { gh_username?: string })?.gh_username ||
+          (token.githubId ? (token as any).gh_username : undefined),
+        teams: {
+          count: 0,
+          firstTeam: null,
+        }, // Default teams property added
       };
+
+      // Add team information to the session
+      if (token.sub) {
+        try {
+          // Get the count of teams the user is a member of
+          const teamCount = await prisma.teamMember.count({
+            where: {
+              userId: token.sub,
+            },
+          });
+
+          // Get the first team if any exists (for direct navigation)
+          let firstTeam: { id: string; name: string; role: string } | null =
+            null;
+          if (teamCount > 0) {
+            const teamMember = await prisma.teamMember.findFirst({
+              where: {
+                userId: token.sub,
+              },
+              select: {
+                teamId: true,
+                role: true,
+                team: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+              orderBy: {
+                createdAt: "desc",
+              },
+            });
+
+            if (teamMember) {
+              firstTeam = {
+                id: teamMember.teamId,
+                name: teamMember.team.name,
+                role: teamMember.role,
+              };
+            }
+          }
+
+          // Add team information to the session
+          session.user.teams = {
+            count: teamCount,
+            firstTeam: firstTeam ? firstTeam.id : null,
+          };
+        } catch (error) {
+          console.error("Error fetching team information for session:", error);
+          // Provide default values if there's an error
+          session.user.teams = {
+            count: 0,
+            firstTeam: null,
+          };
+        }
+      }
+
       return session;
     },
   },
   events: {
-    async signIn(message) {
-      if (message.isNewUser && message.user.email) {
-        await handleNewUserSignIn(message.user.email);
+    async signIn({ user, account, profile }) {
+      // If this is a GitHub login, update the user's GitHub username
+      if (account?.provider === "github" && profile) {
+        await prisma.user
+          .update({
+            where: { id: user.id },
+            data: { gh_username: (profile as any).login },
+          })
+          .catch(() => {
+            // Ignore errors, as the user might not exist yet
+          });
       }
     },
   },
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 async function handleOAuthSignIn(user: any, account: any, profile: any) {

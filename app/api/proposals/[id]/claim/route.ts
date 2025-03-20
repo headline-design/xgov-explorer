@@ -99,12 +99,12 @@ export async function POST(request, { params }) {
   }
 
   try {
-    // Add the user to the team and mark the proposal as claimed
+    // Add the user to the team as an admin and mark the proposal as claimed
     const teamMember = await prisma.teamMember.create({
       data: {
         userId: session.user.id,
         teamId: proposal.teamId,
-        role: "member",
+        role: "admin",
       },
     });
 

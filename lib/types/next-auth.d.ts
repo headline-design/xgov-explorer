@@ -3,6 +3,7 @@ import NextAuth from "next-auth";
 declare module "next-auth" {
   interface Session {
     user: {
+      teams: { count: number; firstTeam: string | null } | null;
       gh_username: string | null;
       role: string;
       /**

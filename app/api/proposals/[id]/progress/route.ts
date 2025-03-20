@@ -9,7 +9,7 @@ export async function POST(req: NextRequest, { params }) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = params;
+  const { id } = await params;
   const { title, content, completionPercentage } = await req.json();
 
   // Validate input
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest, { params }) {
 }
 
 export async function GET(req: NextRequest, { params }) {
-  const { id } = params;
+  const { id } = await params;
 
   // Check if the proposal exists
   const proposal = await prisma.proposal.findUnique({
