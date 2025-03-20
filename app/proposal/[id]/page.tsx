@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
+import { Suspense } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ExternalLink, Github, Twitter, Check, X, ArrowLeft } from "lucide-react"
@@ -9,6 +10,7 @@ import { GrainOverlay } from "@/components/grain-overlay"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { ProgressUpdates } from "@/components/progress-updates"
 import { ClaimProposal } from "@/components/claim-proposal"
+import Markdown from "@/components/markdown/markdown"
 import prisma from "@/lib/prisma"
 
 // Update the generateMetadata function to await params
@@ -169,7 +171,9 @@ export default async function ProposalPage({ params }: { params: Promise<{ id: s
                 {typeof proposal.description === "string" && proposal.description.includes("<") ? (
                   <div dangerouslySetInnerHTML={{ __html: proposal.description }} />
                 ) : (
-                  <p>{proposal.description}</p>
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <Markdown body={proposal.description} />
+                  </Suspense>
                 )}
 
                 {"longDescription" in proposal &&
@@ -177,7 +181,9 @@ export default async function ProposalPage({ params }: { params: Promise<{ id: s
                   (proposal.longDescription.includes("<") ? (
                     <div className="mt-4" dangerouslySetInnerHTML={{ __html: proposal.longDescription }} />
                   ) : (
-                    <p className="mt-4">{proposal.longDescription}</p>
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <Markdown body={proposal.longDescription} />
+                    </Suspense>
                   ))}
               </div>
             </div>
@@ -186,7 +192,12 @@ export default async function ProposalPage({ params }: { params: Promise<{ id: s
             {dbProposal && (
               <div>
                 <h3 className="text-lg font-semibold mb-3">Claim This Proposal</h3>
-                <ClaimProposal proposalId={proposal.id} teamName={proposal.team} />
+                <ClaimProposal
+                  proposalId={proposal.id}
+                  proposalGithub={proposal.github ?? undefined}
+                  teamName={proposal.team}
+                  initialClaimed={dbProposal.claimed}
+                />
               </div>
             )}
 

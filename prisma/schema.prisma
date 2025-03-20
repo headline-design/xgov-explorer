@@ -171,6 +171,8 @@ model Proposal {
   createdAt            DateTime         @default(now())
   updatedAt            DateTime         @updatedAt
   teamId               String
+  claimed              Boolean          @default(false)
+
   team_relation        Team             @relation(fields: [teamId], references: [id])
   progressUpdates      ProgressUpdate[]
   milestones           Milestone[]
@@ -234,4 +236,13 @@ model Milestone {
   proposal      Proposal  @relation(fields: [proposalId], references: [id], onDelete: Cascade)
 
   @@index([proposalId])
+}
+
+model Example {
+  id          Int     @id @default(autoincrement())
+  name        String?
+  description String?
+  domainCount Int?
+  url         String?
+  image       String?
 }

@@ -291,6 +291,7 @@ export default NextAuth(authOptions);
 export async function getSession() {
   return getServerSession(authOptions) as Promise<{
     user: {
+      gh_username: any;
       vm: string;
       role: any;
       id: string;

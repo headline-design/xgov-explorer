@@ -2,15 +2,16 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Loader2 } from "lucide-react"
+import { Loader2, PlusCircle, Info, AlertCircle } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
 import { Slider } from "@/components/ui/slider"
-import { toast } from "./ui/toast"
+import { toast } from "@/components/ui/toast"
+import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar/avatar"
 
 interface ProgressUpdate {
@@ -48,9 +49,27 @@ export function ProgressUpdates({
     const [content, setContent] = useState("")
     const [completionPercentage, setCompletionPercentage] = useState(currentCompletionPercentage)
     const [localProgressUpdates, setLocalProgressUpdates] = useState<ProgressUpdate[]>(progressUpdates)
+    const [isTeamMember, setIsTeamMember] = useState(false)
+    const [checkingMembership, setCheckingMembership] = useState(true)
 
-    // Check if user is a team member or admin
-    const isTeamMember = session?.user?.role === "admin" || false // This is a placeholder, we'll need to check team membership
+    // Check if user is a team member using the claim API
+    useEffect(() => {
+        if (status === "authenticated" && isInDatabase) {
+            setCheckingMembership(true)
+            fetch(`/api/proposals/${proposalId}/claim`)
+                .then((res) => res.json())
+                .then((data) => {
+                    setIsTeamMember(data.isMember)
+                    setCheckingMembership(false)
+                })
+                .catch((err) => {
+                    console.error("Error checking team membership:", err)
+                    setCheckingMembership(false)
+                })
+        } else if (status === "unauthenticated") {
+            setCheckingMembership(false)
+        }
+    }, [status, proposalId, isInDatabase])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -126,17 +145,71 @@ export function ProgressUpdates({
         )
     }
 
+    if (checkingMembership) {
+        return (
+            <div className="space-y-6">
+                <div className="flex justify-between items-center">
+                    <h3 className="text-lg font-semibold">Progress Updates</h3>
+                </div>
+                <Card className="border-muted">
+                    <CardContent className="flex items-center justify-center py-8">
+                        <div className="text-center">
+                            <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+                            <p className="text-muted-foreground">Checking team membership...</p>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+        )
+    }
+
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <h3 className="text-lg font-semibold">Progress Updates</h3>
-                {isTeamMember && !showForm && <Button onClick={() => setShowForm(true)}>Add Update</Button>}
+                {isTeamMember && !showForm && (
+                    <Button onClick={() => setShowForm(true)}>
+                        <PlusCircle className="mr-2 h-4 w-4" />
+                        Add Update
+                    </Button>
+                )}
             </div>
 
+            {!isTeamMember && status === "authenticated" && (
+                <Card className="border-amber-200 dark:border-amber-900 overflow-hidden">
+                    <div className="h-1 bg-amber-500" />
+                    <CardHeader className="pb-2">
+                        <div className="flex items-center justify-between">
+                            <CardTitle className="flex items-center text-amber-600 dark:text-amber-400">
+                                <AlertCircle className="mr-2 h-5 w-5" />
+                                Team Membership Required
+                            </CardTitle>
+                            <Badge
+                                variant="outline"
+                                className="bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-800"
+                            >
+                                Not a Member
+                            </Badge>
+                        </div>
+                        <CardDescription>You need to claim this proposal to add progress updates.</CardDescription>
+                    </CardHeader>
+                    <CardFooter className="bg-amber-50 dark:bg-amber-900/10 pt-3 pb-3 text-sm text-muted-foreground border-t border-amber-100 dark:border-amber-900/50">
+                        <div className="flex items-center">
+                            <Info className="h-4 w-4 mr-2 text-amber-600 dark:text-amber-400" />
+                            Check the &quot;Claim This Proposal&quot; section above to join the team.
+                        </div>
+                    </CardFooter>
+                </Card>
+            )}
+
             {showForm && (
-                <Card>
+                <Card className="border-primary/50 overflow-hidden">
+                    <div className="h-1 bg-primary" />
                     <CardHeader>
                         <CardTitle>New Progress Update</CardTitle>
+                        <CardDescription>
+                            Share your progress with the community. Updates will be visible on the proposal page.
+                        </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit} className="space-y-4">
@@ -180,6 +253,9 @@ export function ProgressUpdates({
                                     onValueChange={(value) => setCompletionPercentage(value[0])}
                                     className="py-4"
                                 />
+                                <div className="w-full h-2 bg-muted rounded-full mt-1 overflow-hidden">
+                                    <div className="h-full bg-primary" style={{ width: `${completionPercentage}%` }}></div>
+                                </div>
                             </div>
 
                             <div className="flex justify-end space-x-2">
@@ -203,10 +279,13 @@ export function ProgressUpdates({
             )}
 
             {localProgressUpdates.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">
-                    <p>No progress updates yet.</p>
+                <div className="text-center py-8 bg-muted/20 rounded-lg border">
+                    <div className="mx-auto bg-muted/30 rounded-full w-12 h-12 flex items-center justify-center mb-3">
+                        <Info className="h-6 w-6 text-muted-foreground" />
+                    </div>
+                    <p className="font-medium">No progress updates yet.</p>
                     {isTeamMember && (
-                        <p className="mt-2">
+                        <p className="mt-2 text-sm text-muted-foreground">
                             {showForm
                                 ? "Fill out the form above to add the first update."
                                 : 'Click "Add Update" to add the first update.'}
@@ -216,14 +295,18 @@ export function ProgressUpdates({
             ) : (
                 <div className="space-y-4">
                     {localProgressUpdates.map((update) => (
-                        <Card key={update.id}>
+                        <Card key={update.id} className="overflow-hidden">
+                            <div className="h-1 bg-primary/50" />
                             <CardHeader className="pb-2">
                                 <div className="flex justify-between items-start">
                                     <div>
                                         <CardTitle className="text-base">{update.title}</CardTitle>
-                                        <p className="text-sm text-muted-foreground">
-                                            {new Date(update.createdAt).toLocaleDateString()} • Completion: {update.completionPercentage}%
-                                        </p>
+                                        <div className="flex items-center mt-1">
+                                            <p className="text-sm text-muted-foreground">{new Date(update.createdAt).toLocaleDateString()}</p>
+                                            <Badge variant="outline" className="ml-2 text-xs">
+                                                {update.completionPercentage}% Complete
+                                            </Badge>
+                                        </div>
                                     </div>
                                     <div className="flex items-center">
                                         <Avatar className="h-8 w-8 mr-2">
@@ -241,6 +324,17 @@ export function ProgressUpdates({
                                     ))}
                                 </div>
                             </CardContent>
+                            <CardFooter className="bg-muted/10 pt-3 pb-3 text-xs text-muted-foreground border-t">
+                                <div className="w-full">
+                                    <div className="flex justify-between items-center mb-1">
+                                        <span>Project Completion:</span>
+                                        <span>{update.completionPercentage}%</span>
+                                    </div>
+                                    <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
+                                        <div className="h-full bg-primary" style={{ width: `${update.completionPercentage}%` }}></div>
+                                    </div>
+                                </div>
+                            </CardFooter>
                         </Card>
                     ))}
                 </div>

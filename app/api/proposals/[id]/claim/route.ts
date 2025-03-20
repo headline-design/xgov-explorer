@@ -2,12 +2,25 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
-// Remove explicit type annotations for the route handler parameters
 export async function POST(request, { params }) {
   const session = await getSession();
 
+  // Authentication check
   if (!session?.user || !session.user.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+  });
+  if (!user) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
+  if (!user.gh_username) {
+    return NextResponse.json(
+      { error: "GitHub username not found for user" },
+      { status: 400 }
+    );
   }
 
   const { id } = params;
@@ -24,49 +37,33 @@ export async function POST(request, { params }) {
     return NextResponse.json({ error: "Proposal not found" }, { status: 404 });
   }
 
-  // Get the user's GitHub username from their accounts
-  const userAccount = await prisma.account.findFirst({
-    where: {
-      userId: session.user.id,
-      provider: "github",
-    },
-  });
+  // Check if the proposal is already claimed
+  if (proposal.claimed) {
+    return NextResponse.json({
+      message: "This proposal has already been claimed",
+      claimed: true,
+    });
+  }
 
-  if (!userAccount) {
+  // Get the user's GitHub username - first try from session
+  const userGithubUsername = user.gh_username;
+
+  // Extract GitHub username from team name (format: "Name (@github_username)")
+  const githubUsernameMatch = proposal.team.match(/@([^)]+)/);
+  const proposalGithubUsername = githubUsernameMatch
+    ? githubUsernameMatch[1]
+    : null;
+
+  // Security check: Verify the GitHub username matches
+  if (!proposalGithubUsername) {
     return NextResponse.json(
-      { error: "No GitHub account found for user" },
+      { error: "No GitHub username found in the proposal team name" },
       { status: 400 }
     );
   }
 
-  // Get the user's GitHub username
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-  });
-
-  if (!user?.gh_username) {
-    // Update the user's GitHub username from their account
-    await prisma.user.update({
-      where: { id: session.user.id },
-      data: {
-        gh_username: userAccount.providerAccountId,
-      },
-    });
-  }
-
-  // Extract GitHub username from team name (format: "Name (@github_username)")
-  let proposalGithubUsername: string | null = null;
-  const teamNameMatch = proposal.team.match(/$$@([^)]+)$$/);
-
-  if (teamNameMatch && teamNameMatch[1]) {
-    proposalGithubUsername = teamNameMatch[1];
-  }
-
-  // Check if the user's GitHub username matches the proposal's GitHub username
-  const userGithubUsername = user?.gh_username || userAccount.providerAccountId;
-
+  // Case-insensitive comparison of GitHub usernames
   if (
-    !proposalGithubUsername ||
     proposalGithubUsername.toLowerCase() !== userGithubUsername.toLowerCase()
   ) {
     return NextResponse.json(
@@ -89,27 +86,48 @@ export async function POST(request, { params }) {
   });
 
   if (existingMember) {
+    // If the user is already a member, mark the proposal as claimed if it's not already
+    await prisma.proposal.update({
+      where: { id },
+      data: { claimed: true },
+    });
+
     return NextResponse.json({
       message: "You are already a member of this team",
+      claimed: true,
     });
   }
 
-  // Add the user to the team
-  const teamMember = await prisma.teamMember.create({
-    data: {
-      userId: session.user.id,
-      teamId: proposal.teamId,
-      role: "member",
-    },
-  });
+  try {
+    // Add the user to the team and mark the proposal as claimed
+    const teamMember = await prisma.teamMember.create({
+      data: {
+        userId: session.user.id,
+        teamId: proposal.teamId,
+        role: "member",
+      },
+    });
 
-  return NextResponse.json({
-    message: "Successfully claimed proposal",
-    teamMember,
-  });
+    // Update the proposal's claimed status
+    await prisma.proposal.update({
+      where: { id },
+      data: { claimed: true },
+    });
+
+    return NextResponse.json({
+      message: "Successfully claimed proposal",
+      teamMember,
+      claimed: true,
+    });
+  } catch (error) {
+    console.error("Error creating team member:", error);
+    return NextResponse.json(
+      { error: "Failed to add you to the team" },
+      { status: 500 }
+    );
+  }
 }
 
-// Remove explicit type annotations for the route handler parameters
 export async function GET(request, { params }) {
   const session = await getSession();
 
@@ -117,32 +135,47 @@ export async function GET(request, { params }) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = await params;
+  const { id } = params;
 
-  // Check if the user is a member of the team for this proposal
-  const proposal = await prisma.proposal.findUnique({
-    where: { id },
-    include: {
-      team_relation: {
-        include: {
-          members: {
-            where: {
-              userId: session.user.id,
+  try {
+    // Check if the user is a member of the team for this proposal
+    // and if the proposal is claimed
+    const proposal = await prisma.proposal.findUnique({
+      where: { id },
+      select: {
+        claimed: true,
+        teamId: true,
+        team_relation: {
+          include: {
+            members: {
+              where: {
+                userId: session.user.id,
+              },
             },
           },
         },
       },
-    },
-  });
+    });
 
-  if (!proposal) {
-    return NextResponse.json({ error: "Proposal not found" }, { status: 404 });
+    if (!proposal) {
+      return NextResponse.json(
+        { error: "Proposal not found" },
+        { status: 404 }
+      );
+    }
+
+    const isMember = proposal.team_relation.members.length > 0;
+
+    return NextResponse.json({
+      isMember,
+      claimed: proposal.claimed || false,
+      teamId: proposal.teamId,
+    });
+  } catch (error) {
+    console.error("Error checking team membership:", error);
+    return NextResponse.json(
+      { error: "Failed to check team membership" },
+      { status: 500 }
+    );
   }
-
-  const isMember = proposal.team_relation.members.length > 0;
-
-  return NextResponse.json({
-    isMember,
-    teamId: proposal.teamId,
-  });
 }
