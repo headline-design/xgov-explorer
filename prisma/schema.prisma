@@ -1,0 +1,237 @@
+// This is the Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id              String           @id @default(cuid())
+  name            String?
+  username        String?          @unique
+  gh_username     String?
+  gitProvider     String?
+  email           String?          @unique
+  emailVerified   DateTime?
+  image           String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  role            String           @default("user")
+  accounts        Account[]
+  wallets         Wallet[]
+  sessions        Session[]
+  tokens          Token[]
+  teamMembers     TeamMember[]
+  progressUpdates ProgressUpdate[]
+}
+
+// OAUTH login info
+// Do not alter
+
+model Account {
+  id                       String  @id @default(cuid())
+  userId                   String
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String?
+  refresh_token_expires_in Int?
+  access_token             String?
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String?
+  session_state            String?
+  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Token {
+  id         String    @id @default(cuid())
+  name       String
+  hashedKey  String    @unique
+  partialKey String
+  expires    DateTime?
+  lastUsed   DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Wallet {
+  address   String   @id
+  network   String?
+  vm        String? // Virtual machine, e.g., 'EVM', 'SVM', 'AVM', etc.
+  chainId   Int?
+  status    String? // Status of the wallet, e.g., 'active', 'inactive' set by session management
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// Devbar models are development-only models for managing tasks and feature flags
+// Works as an internal dashboard for managing team tasks and dev pipeline
+
+model DevbarModule {
+  id          String  @id @default(cuid())
+  title       String
+  description String
+  icon        String
+  isActive    Boolean @default(true)
+  devNotes    String?
+}
+
+model DevbarTask {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  createdAt   DateTime @default(now())
+  status      String
+  moduleId    String?
+}
+
+model DevbarFeatureFlag {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  isEnabled   Boolean @default(false)
+  moduleId    String?
+}
+
+model NpmPackage {
+  id              String    @id // package name
+  version         String
+  description     String?   @db.Text
+  author          String?
+  license         String?
+  homepage        String?
+  repositoryUrl   String?
+  dependencies    Json? // Stored as JSON object
+  devDependencies Json? // Stored as JSON object
+  size            String?
+  gzipSize        String?
+  lastPublished   DateTime?
+  weeklyDownloads Int?
+  files           Json? // Stored as JSON array
+  lastFetched     DateTime  @default(now())
+
+  @@index([id, version])
+}
+
+// New models for xGov proposals
+
+model Proposal {
+  id                   String           @id
+  number               Int?             @unique
+  title                String
+  description          String           @db.Text
+  team                 String
+  category             String
+  fundingAmount        Int
+  awardDate            DateTime
+  status               String           @default("Planning") // "Planning", "In Progress", "Completed"
+  completionPercentage Int              @default(0)
+  xGovPeriod           String
+  website              String?
+  github               String?
+  twitter              String?
+  proposalLink         String?
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+  teamId               String
+  team_relation        Team             @relation(fields: [teamId], references: [id])
+  progressUpdates      ProgressUpdate[]
+  milestones           Milestone[]
+
+  @@index([teamId])
+}
+
+model Team {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  description String?      @db.Text
+  website     String?
+  github      String?
+  twitter     String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  members     TeamMember[]
+  proposals   Proposal[]
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  role      String   @default("member") // "owner", "admin", "member"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  teamId    String
+  userId    String
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+  @@index([teamId])
+  @@index([userId])
+}
+
+model ProgressUpdate {
+  id                   String   @id @default(cuid())
+  title                String
+  content              String   @db.Text
+  completionPercentage Int
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  proposalId           String
+  userId               String
+  proposal             Proposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([proposalId])
+  @@index([userId])
+}
+
+model Milestone {
+  id            String    @id @default(cuid())
+  title         String
+  description   String    @db.Text
+  completed     Boolean   @default(false)
+  completedDate DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  proposalId    String
+  proposal      Proposal  @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+
+  @@index([proposalId])
+}

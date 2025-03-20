@@ -20,10 +20,15 @@ const config = {
     },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
+        border: {
+          DEFAULT: "var(--border)",
+        },
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+        background: {
+          DEFAULT: "hsl(var(--background))",
+          accent: "var(--primary-background)",
+        },
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
@@ -58,6 +63,33 @@ const config = {
         },
         "backdrop-2": {
           DEFAULT: "var(--ds-backdrop-200)",
+        },
+        "accents-0": {
+          DEFAULT: "var(--accents-0)",
+        },
+        "accents-1": {
+          DEFAULT: "var(--accents-1)",
+        },
+        "accents-2": {
+          DEFAULT: "var(--accents-2)",
+        },
+        "accents-3": {
+          DEFAULT: "var(--accents-3)",
+        },
+        "accents-4": {
+          DEFAULT: "var(--accents-4)",
+        },
+        "accents-5": {
+          DEFAULT: "var(--accents-5)",
+        },
+        "accents-6": {
+          DEFAULT: "var(--accents-6)",
+        },
+        "accents-7": {
+          DEFAULT: "var(--accents-7)",
+        },
+        "accents-8": {
+          DEFAULT: "var(--accents-8)",
         },
       },
       borderRadius: {

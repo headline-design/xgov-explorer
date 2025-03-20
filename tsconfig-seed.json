@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "module": "CommonJS",
+      "esModuleInterop": true,
+      "target": "es2018",
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "outDir": "dist",
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["./*"]
+      }
+    },
+    "include": ["scripts/**/*", "data/**/*", "types/**/*"]
+  }
+

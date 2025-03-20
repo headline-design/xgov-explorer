@@ -1,0 +1,55 @@
+.themeSwitcherRoot {
+    transform: translateX(8px);
+    display: flex;
+    box-shadow: var(--ds-shadow-border);
+    border-radius: 9999px;
+    height: 32px;
+    width: -moz-fit-content;
+    width: fit-content;
+    padding: 0;
+    border: 0;
+    margin: 0;
+}
+
+.themeSwitcherRoot input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    position: absolute;
+}
+
+.themeSwitcherRoot label {
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    height: 32px;
+    width: 32px;
+    margin: 0;
+    cursor: pointer;
+    position: relative;
+    transition: background .1s ease;
+    color: var(--ds-gray-700);
+}
+
+.themeSwitcherRoot label svg {
+    width: 16px;
+    height: 16px;
+    position: relative;
+    z-index: 1;
+    transition: color .1s ease;
+}
+
+.themeSwitcherRoot input:checked~label svg {
+    color: var(--accents-8) !important;
+}
+
+.themeSwitcherRoot input:checked~label {
+    box-shadow: 0 0 0 1px var(--ds-gray-400), 0 1px 2px 0 var(--ds-gray-alpha-100);
+    color: var(--ds-gray-1000);
+    background: var(--ds-background-100);
+}

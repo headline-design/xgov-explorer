@@ -1,0 +1,23 @@
+.divider {
+    border-top: 1px solid var(--accents-2);
+    margin: 12px 20px;
+}
+
+.kbd {
+    font-size: 12px !important;
+    height: 20px;
+    margin-left: 8px;
+    margin-bottom: -2px;
+    align-items: center;
+    justify-content: center;
+    width: 30px !important;
+    border-radius: 4px;
+    color: var(--ds-gray-1000);
+    background: var(--ds-background-100);
+    box-shadow: 0 0 0 1px var(--border);
+    text-align: center;
+    min-width: var(--rust-gap);
+    font-size: .875rem;
+    padding: 0 4px;
+    font-family: var(--font-sans);
+}

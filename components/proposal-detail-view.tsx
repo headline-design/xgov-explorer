@@ -18,7 +18,7 @@ export function ProposalDetailView({ proposal, closeModal }: ProposalDetailViewP
   return (
     <>
       <DialogHeader className="sticky top-0 z-10 bg-background p-4">
-        <div className="flex items-center justify-start">
+        <div className="flex items-center justify-start max-w-[90%]">
           <DialogTitle className="text-2xl whitespace-nowrap text-ellipsis overflow-hidden">{proposal.title}</DialogTitle>
           <Badge className="ml-2">{proposal.category}</Badge>
         </div>

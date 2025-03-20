@@ -1,0 +1,162 @@
+.toastContainer {
+    right: 0px;
+    bottom: 0px;
+    pointer-events: auto;
+    box-shadow: var(--ds-shadow-menu);
+    border-radius: 12px;
+    background: var(--rust-background);
+    color: var(--ds-gray-1000);
+    line-height: 21px;
+    padding: 16px;
+    transition: all .35s cubic-bezier(.25, .75, .6, .98);
+    z-index: 5000;
+
+    @media screen and (min-width: 601px) {
+
+        max-width: min(420px, calc(100vw - 2* 24px)) !important;
+        width: 420px !important;
+        margin-left: -60px;
+    }
+}
+
+.successContainer {
+    background: var(--ds-blue-700);
+    color: #fff;
+
+}
+
+.errorContainer {
+    background: var(--ds-red-800);
+    color: #fff;
+}
+
+.warningContainer {
+    background: var(--ds-amber-800);
+    color: #000;
+}
+
+.toastMessageWrapper {
+    align-items: center;
+    justify-content: center;
+    min-height: 31px;
+    height: 100%;
+    display: flex;
+    max-width: 100%;
+    font-size: .875rem;
+    transition: all .4s ease;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.toastMessage {
+    margin-top: -1px;
+    width: 100%;
+    opacity: 1;
+    height: 100%;
+    transition: opacity .4s ease;
+    word-break: break-word;
+    text-wrap: pretty;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+
+}
+
+.toastActionsContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: none;
+    gap: 4px;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.actionButton {
+    color: var(--ds-contrast-fg);
+    width: 32px;
+    --x-padding: 6px;
+    height: 32px;
+    font-size: 14px;
+    background: none;
+    color: var(--themed-bg, var(--ds-gray-1000));
+    --themed-border: transparent;
+    --themed-hover-bg: var(--ds-gray-alpha-200);
+    --lighten-color: hsla(0, 0%, 100%, .8);
+    font-size: var(--rust-form-small-font);
+    --spinner-size: 16px;
+    padding: 0;
+    width: var(--rust-form-height);
+    border-radius: 6px;
+    color: var(--themed-fg, var(--ds-background-100));
+    background: var(--themed-bg, var(--ds-gray-1000)) none;
+    font-weight: 500;
+    box-shadow: 0 0 0 1px var(--themed-border, transparent);
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+    transition-property: border-color, background, color, transform, box-shadow;
+    transition-duration: .15s;
+    transition-timing-function: ease;
+    font-size: var(--rust-form-font);
+    line-height: var(--rust-form-line-height);
+    color: inherit;
+    display: flex;
+
+    position: relative;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background: none;
+    transform: translateZ(0);
+
+}
+
+.actionButtonContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    padding: 0 6px;
+
+}
+
+.actionIcon {
+    vertical-align: text-top;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+
+}
+
+.toastStack {
+    flex: initial;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 8px;
+    color: inherit;
+}
+
+.toastTitle {
+    color: var(--rust-foreground);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0;
+}
+
+.toastDescription {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    margin: 0;
+    color: var(--rust-foreground);
+}
