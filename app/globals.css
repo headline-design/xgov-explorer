@@ -33,6 +33,8 @@
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
     --accent: 0 0% 96.1%;
+    --accent-alt:  240 4.8% 95.9%;
+
     --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -157,6 +159,7 @@
     --muted: 0 0% 14.9%;
     --muted-foreground: 0 0% 63.9%;
     --accent: 0 0% 14.9%;
+    --accent-alt: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
@@ -919,6 +922,32 @@ div {
 .rust-hamburger svg.open>g:nth-of-type(2) path {
   transform: translate3d(0, -3px, 0);
 }
+
+
+.flex-basis-auto {
+  flex-basis: auto;
+}
+
+.max-w-screen-rust {
+  max-width: 1200px;
+}
+
+
+.shadow-menu {
+  box-shadow: var(--ds-shadow-menu);
+}
+
+
+[data-radix-popper-content-wrapper] {
+  z-index: 5001 !important;
+}
+
+/* App.css */
+.bg-opacity-60 {
+  background-color: rgba(255, 255, 255, 0.6);
+  /* Adjust the opacity as needed */
+}
+
 
 @layer base {
   * {

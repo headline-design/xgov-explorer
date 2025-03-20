@@ -186,7 +186,7 @@ export default async function ProposalPage({ params }: { params: Promise<{ id: s
             {dbProposal && (
               <div>
                 <h3 className="text-lg font-semibold mb-3">Claim This Proposal</h3>
-                <ClaimProposal proposalId={proposal.id} proposalGithub={proposal.github ?? undefined} teamName={proposal.team} />
+                <ClaimProposal proposalId={proposal.id} teamName={proposal.team} />
               </div>
             )}
 

@@ -4,6 +4,7 @@ import { GeistMono, GeistSans } from "@/styles/fonts";
 import Navbar from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { AppProviders, UIProviders } from "./providers";
+import { AnnouncementBanner } from "@/components/announcement-banner";
 
 export const metadata = {
   title: "xGov Explorer | Algorand Foundation",
@@ -35,16 +36,13 @@ export const metadata = {
   },
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children, params }) {
   return (
     <AppProviders>
       <html lang="en" suppressHydrationWarning className={`${GeistMono.variable} ${GeistSans.variable}`}>
-        <body className="bg-background-accent">
+        <body>
           <UIProviders>
+            <AnnouncementBanner />
             <div className="flex min-h-screen flex-col">
               <Navbar location={"home"} />
               <main className="flex-1">{children}</main>

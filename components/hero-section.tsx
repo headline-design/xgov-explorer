@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowRight, ChevronRight, ExternalLink, BarChart3, Coins, Users, Tags } from "lucide-react"
-import { AlgorandIcon } from "./icons/algorand-icon"
+import { BrandLogo } from "./icons/brand-logo"
 import { cn } from "@/lib/utils"
 
 interface HeroSectionProps {
@@ -23,7 +23,7 @@ export function HeroSection({ totalProposals, totalFunding, uniqueTeams, categor
   }
 
   return (
-    <section className="relative overflow-hidden bg-background">
+    <section className="relative overflow-hidden bg-background w-full border-b mt-[-64px]">
       {/* Modern, clean background */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
 
@@ -37,12 +37,12 @@ export function HeroSection({ totalProposals, totalFunding, uniqueTeams, categor
       {/* Subtle accent shape */}
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-bl from-primary/5 to-transparent opacity-70"></div>
 
-      <div className="container relative z-10 px-4 py-20 md:py-32 lg:py-40">
+      <div className="container relative z-10 px-4 pb-20 pt-28 md:py-32 lg:py-40">
         <div className="flex flex-col items-center max-w-5xl mx-auto text-center">
           {/* Logo and title */}
           <div className="flex items-center justify-center mb-6 space-x-2">
             <div className="p-2 bg-primary/10 rounded-full">
-              <AlgorandIcon className="w-8 h-8 text-primary" />
+              <BrandLogo className="w-8 h-8 text-primary" />
             </div>
             <span className="text-lg font-semibold tracking-tight">xGov Explorer</span>
           </div>

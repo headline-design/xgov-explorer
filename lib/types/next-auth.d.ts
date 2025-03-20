@@ -3,6 +3,7 @@ import NextAuth from "next-auth";
 declare module "next-auth" {
   interface Session {
     user: {
+      gh_username: string | null;
       role: string;
       /**
        * The user's provider virtual machine

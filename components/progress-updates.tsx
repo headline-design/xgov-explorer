@@ -49,8 +49,6 @@ export function ProgressUpdates({
     const [completionPercentage, setCompletionPercentage] = useState(currentCompletionPercentage)
     const [localProgressUpdates, setLocalProgressUpdates] = useState<ProgressUpdate[]>(progressUpdates)
 
-    console.log('proposalId', proposalId, 'teamName', teamName, 'currentCompletionPercentage', currentCompletionPercentage, 'progressUpdates', progressUpdates, 'isInDatabase', isInDatabase)
-
     // Check if user is a team member or admin
     const isTeamMember = session?.user?.role === "admin" || false // This is a placeholder, we'll need to check team membership
 

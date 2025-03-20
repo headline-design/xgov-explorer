@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
 // Remove explicit type annotations for the route handler parameters
 export async function POST(request, { params }) {
-  const session = await getServerSession(authOptions);
+  const session = await getSession();
 
   if (!session?.user || !session.user.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -112,13 +111,13 @@ export async function POST(request, { params }) {
 
 // Remove explicit type annotations for the route handler parameters
 export async function GET(request, { params }) {
-  const session = await getServerSession(authOptions);
+  const session = await getSession();
 
   if (!session?.user || !session.user.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = params;
+  const { id } = await params;
 
   // Check if the user is a member of the team for this proposal
   const proposal = await prisma.proposal.findUnique({

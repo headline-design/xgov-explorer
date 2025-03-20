@@ -1,11 +1,13 @@
 import NextAuth, { getServerSession, type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 import GitHubProvider from "next-auth/providers/github";
 import { getSearchParams } from "@/lib/utils";
 import { SiwaMessage } from "@avmkit/siwa";
 import { v4 as uuidv4 } from "uuid";
+import prisma from "@/lib/prisma";
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 
@@ -30,6 +32,7 @@ export interface Profile {
 }
 
 export const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       id: "algorand",
@@ -172,7 +175,7 @@ export const authOptions: NextAuthOptions = {
       if (user) token.user = user;
 
       // refresh the user's data if they update their name / email
-      if (token.trigger === "update" && prisma) {
+      if (token.trigger === "update") {
         const refreshedUser = await prisma.user.findUnique({
           where: { id: token.sub },
           include: {
@@ -196,14 +199,22 @@ export const authOptions: NextAuthOptions = {
         provider: token.provider as string,
         wallets: (token.user as { wallets: any[] })?.wallets || [],
         role: (token.user as { role: string })?.role || "user", // Default role added
+        gh_username:
+          (token.user as { gh_username: string | null })?.gh_username || null, // Ensure gh_username is included
       };
       return session;
+    },
+  },
+  events: {
+    async signIn(message) {
+      if (message.isNewUser && message.user.email) {
+        await handleNewUserSignIn(message.user.email);
+      }
     },
   },
 };
 
 async function handleOAuthSignIn(user: any, account: any, profile: any) {
-  if (!prisma) return;
   const userExists = await prisma.user.findUnique({
     where: { email: user.email },
     select: { name: true, gh_username: true, gitProvider: true },
@@ -235,6 +246,20 @@ async function handleOAuthSignIn(user: any, account: any, profile: any) {
   }
 }
 
+async function handleNewUserSignIn(email: string) {
+  const user = await prisma.user.findUnique({
+    where: { email },
+    select: { name: true, gh_username: true, createdAt: true },
+  });
+
+  if (
+    user?.createdAt &&
+    new Date(user.createdAt).getTime() > Date.now() - 10000
+  ) {
+    console.log("hello");
+  }
+}
+
 interface WithSessionHandler {
   ({
     req,
@@ -263,7 +288,7 @@ export const withSession =
 
 export default NextAuth(authOptions);
 
-export function getSession() {
+export async function getSession() {
   return getServerSession(authOptions) as Promise<{
     user: {
       vm: string;
@@ -346,10 +371,7 @@ export async function getAuthToken(req: NextApiRequest) {
 }
 
 export function withPublic(handler: any) {
-  return async (
-    req: Request,
-    { params }
-  ) => {
+  return async (req: Request, { params }) => {
     const searchParams = getSearchParams(req.url);
     return handler({ req, params, searchParams, headers: {} });
   };

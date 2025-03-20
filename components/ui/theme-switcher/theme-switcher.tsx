@@ -21,8 +21,10 @@ export default function ThemeSwitcher() {
       if (item) {
         if (item === "dark") {
           setTheme("dark");
-        } else {
+        } else if (item === "light") {
           setTheme("light");
+        } else {
+          setTheme("system");
         }
       }
     }

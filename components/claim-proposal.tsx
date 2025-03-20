@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "@/components/ui/toast"
-import { Loader2, CheckCircle, AlertCircle, Github } from "lucide-react"
+import { Loader2, CheckCircle, AlertCircle, Github, LogIn, XCircle } from "lucide-react"
 import { signIn } from "next-auth/react"
 
 interface ClaimProposalProps {
@@ -22,8 +22,15 @@ export function ClaimProposal({ proposalId, proposalGithub, teamName }: ClaimPro
     const [error, setError] = useState<string | null>(null)
 
     // Extract GitHub username from team name (format: "Name (@github_username)")
-    const githubUsernameMatch = teamName.match(/$$@([^)]+)$$/)
+    const githubUsernameMatch = teamName.match(/@([^)]+)/)
     const githubUsername = githubUsernameMatch ? githubUsernameMatch[1] : null
+
+    // Check if the current user's GitHub username matches the proposal's GitHub username
+    const isMatchingGithubUser =
+        status === "authenticated" &&
+        session?.user?.gh_username &&
+        githubUsername &&
+        session.user.gh_username.toLowerCase() === githubUsername.toLowerCase()
 
     useEffect(() => {
         // Check if the user is already a member of the team
@@ -139,18 +146,35 @@ export function ClaimProposal({ proposalId, proposalGithub, teamName }: ClaimPro
                         )}
 
                         <div className="flex justify-end">
-                            <Button onClick={handleClaim} disabled={loading}>
-                                {loading ? (
-                                    <>
-                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                        Claiming...
-                                    </>
-                                ) : status === "authenticated" ? (
-                                    "Claim Proposal"
-                                ) : (
-                                    "Sign in with GitHub to Claim"
-                                )}
-                            </Button>
+                            {status === "unauthenticated" ? (
+                                <Button onClick={() => signIn("github")}>
+                                    <LogIn className="mr-2 h-4 w-4" />
+                                    Sign in with GitHub to Claim
+                                </Button>
+                            ) : isMatchingGithubUser ? (
+                                <Button onClick={handleClaim} disabled={loading}>
+                                    {loading ? (
+                                        <>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Claiming...
+                                        </>
+                                    ) : (
+                                        "Claim Proposal"
+                                    )}
+                                </Button>
+                            ) : (
+                                <div className="flex flex-col items-end space-y-2">
+                                    <div className="flex items-center text-sm text-destructive">
+                                        <XCircle className="mr-2 h-4 w-4" />
+                                        <span>
+                                            Your GitHub username ({session?.user?.gh_username}) doesn&apos;t match this proposal&apos;s GitHub username.
+                                        </span>
+                                    </div>
+                                    <Button variant="outline" onClick={() => signIn("github")}>
+                                        Sign in with a Different GitHub Account
+                                    </Button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 ) : (

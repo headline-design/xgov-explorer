@@ -16,8 +16,9 @@ import { Button } from "./ui/rust-button";
 import useScroll from "@/lib/hooks/use-scroll";
 import MaxWidthWrapperV2 from "./ui/layout/max-width-wrapper-2";
 import ButtonLink from "./ui/button-link";
-import LogoType from "@/icons/brand-icons/logotype";
-import { AlgorandIcon } from "./icons/algorand-icon";
+import { BrandTypelogo } from "./icons/brand-typelogo";
+import { BrandLogoAlt } from "./icons/brand-logo-alt";
+import { ArrowUpRight } from "lucide-react";
 //import Navigation from "@/components/nav-menu/navigation";
 
 export const navItems = [
@@ -35,10 +36,8 @@ export default function Navbar({
   page?: "login" | "register";
 }) {
 
-  const scrolled = useScroll(80);
+  const scrolled = useScroll(1);
   const selectedLayout = useSelectedLayoutSegment();
-  const helpCenter = selectedLayout === "help";
-  const rustCenter = selectedLayout === "rust";
 
   const pathname = usePathname();
 
@@ -62,27 +61,18 @@ export default function Navbar({
 
   const navClasses = cn("rust-nav-pre ", {
     "rust-mobile-bg": showMobileMenu,
-    "rust-nav-background-200 header_noBorder": isHome,
+    "rust-nav-background-200 header_noBorder": isHome && scrolled,
     "rust-nav-shadow-variant": isLoginOrRegister,
     "rust-nav rust-nav-primary-bg": scrollBorderNav,
     "rust-nav-alt-scrolled":
       scrolled && (selectedLayout === "chains"),
   });
 
-  // If we're on rust design layout, we don't want to show the main nav
-  if (rustCenter) {
-    return null;
-  }
-
   return (
     <>
       <div className={navClasses}>
         <MaxWidthWrapperV2
           className="rust-nav-l1 flex w-full max-w-screen-xlview items-center justify-between"
-          {...(helpCenter && {
-            className:
-              "rust-nav-l1 flex items-center justify-between mx-auto w-full max-w-screen-xl px-4 lg:px-6",
-          })}
         >
           <div className="rust-nav-l2 flex h-14 w-full items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -90,39 +80,12 @@ export default function Navbar({
                 prefetch={false}
                 href={`${HOME_DOMAIN}/`}
               >
-                <AlgorandIcon className="h-8 w-8 text-primary" />
+                <BrandLogoAlt className="h-8 w-8 text-primary block sm:hidden" />
+                <BrandTypelogo fill1="hsl(var(--primary))" fill2="hsl(var(--foreground))" className="h-8 text-primary hidden sm:block" />
               </Link>
-              {helpCenter ? (
-                <div className="flex items-center">
-                  <div className="mr-3 h-5 border-l-2 " />
-                  <Link
-                    href={`${HOME_DOMAIN}/help`}
-                    className="font-display text-lg font-bold text-primary"
-                  >
-                    Help Center
-                  </Link>
-                </div>
-              ) : (
-                <div className="hidden items-center lg:flex">
-                  {/* Only show these links if the user is an admin */}
-                  {navItems.map(({ name, slug }) => (
-                    <Link
-                      id={`nav-${slug}`}
-                      key={slug}
-                      href={`${HOME_DOMAIN}/${slug}`}
+              <div className="hidden items-center lg:flex">
 
-                      className={cn(
-                        "rust-navlink z-10 transition-colors ease-out hover:text-foreground",
-                        {
-                          "rust-navlink-active": selectedLayout === slug,
-                        },
-                      )}
-                    >
-                      {name}
-                    </Link>
-                  ))}
-                </div>
-              )}
+              </div>
             </div>
 
             <div className="hidden lg:flex">
@@ -175,14 +138,15 @@ export default function Navbar({
               <div className="flex items-center lg:gap-3">
                 {isRoot ? (
                   <ButtonLink
-                    href={`${HOME_DOMAIN}/get-started`}
-
+                    href="https://xgov.algorand.foundation"
+                    rounded
                     variant="outline"
                     slim
                     className="hidden lg:flex"
-                  >
-                    Get started
-                  </ButtonLink>
+                    suffix={<ArrowUpRight className="h-4 w-4" />}
+                    target={"_blank"}
+                    text="Learn More"
+                  />
                 ) : (
                   <ButtonLink
                     href={HOME_DOMAIN}

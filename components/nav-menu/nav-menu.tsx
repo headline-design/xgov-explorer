@@ -107,7 +107,7 @@ export const NavMenu = React.memo(
         return [
           {
             name: "Explore",
-            href: `${HOME_DOMAIN}/chains`,
+            href: `${HOME_DOMAIN}/teams`,
             buttonVariant: "primary",
           },
           {
@@ -120,7 +120,7 @@ export const NavMenu = React.memo(
         return [
           {
             name: "Explore",
-            href: `${HOME_DOMAIN}/chains`,
+            href: `${HOME_DOMAIN}/teams`,
             buttonVariant: "primary",
           },
           {
@@ -133,7 +133,7 @@ export const NavMenu = React.memo(
         return [
           {
             name: "Explore",
-            href: `${HOME_DOMAIN}/chains`,
+            href: `${HOME_DOMAIN}/teams`,
             buttonVariant: "primary",
           },
           {
@@ -257,7 +257,7 @@ export const NavMenu = React.memo(
         return [
           {
             name: "Explore",
-            href: `${HOME_DOMAIN}/chains`,
+            href: `${HOME_DOMAIN}/teams`,
             icon: <Settings width={18} />,
             buttonVariant: "primary",
             className: "rust-action-footer-menu-item",
