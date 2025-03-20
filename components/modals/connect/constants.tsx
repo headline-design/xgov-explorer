@@ -3,9 +3,6 @@ import IconGithub from "@/icons/brand-icons/github";
 import IconPera from "@/icons/brand-icons/pera";
 import IconTwitter from "@/icons/brand-icons/twitter";
 
-
-type AuthMethod = "AVM" | "Substrate" | "EVM" | "SVM";
-
 export const VM_NETWORKS = [
   {
     id: 'AVM',
@@ -69,25 +66,5 @@ export const WEB3_PROVIDERS = [
   },
 ];
 
-export const WEB3_PROVIDERS_SHORT = [
-  {
-    id: 'pera',
-    name: 'Pera',
-    icon: <IconPera className={ICON_CLASS} />,
-    connector: 'PeraWallet',
-    type: 'web3',
-    location:'mobile app'
-  },
-];
-
-export const WEB3_PROVIDERS_SM = [
-  {
-    id: 'pera',
-    name: 'Pera',
-    icon: <IconPera className={SMALL_ICON_CLASS} />,
-    connector: 'PeraWallet',
-    type: 'web3',
-  },
-];
 
 export const ALL_PROVIDERS = [...WEB2_PROVIDERS, ...WEB3_PROVIDERS];

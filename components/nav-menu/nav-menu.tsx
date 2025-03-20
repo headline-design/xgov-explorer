@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { Bell, ArrowLeft, Newspaper, Settings, ChevronDown, Users } from "lucide-react";
+import { Bell, ArrowLeft, Newspaper, Settings, ChevronDown, Users, X } from "lucide-react";
 import { useParams, useSelectedLayoutSegments } from "next/navigation";
 import useMediaQuery from "@/lib/hooks/use-media-query";
 import { MobileMenuTrigger } from "./mobile-menu-trigger";
@@ -34,6 +34,8 @@ import Link from "next/link";
 import { useLogout } from "@/lib/hooks/use-logout";
 import { IconChevronDown } from "@/icons/chevron-down";
 import ButtonLink from "../ui/button-link";
+import IconGithub from "@/icons/brand-icons/github";
+import { IconX } from "@/icons/brand-icons/x";
 
 
 export const NavMenu = React.memo(
@@ -444,10 +446,16 @@ export const NavMenu = React.memo(
             name: "Resources",
             children: [
               {
-                name: "Changelog",
-                icon: <IconClipboard size={16} />,
-                href: `${HOME_DOMAIN}/changelog`,
+                name: "Github",
+                icon: <IconGithub />,
+                href: "https://github.com/headline-design/xgov-explorer"
               },
+              {
+                name: "Twitter",
+                icon: <IconX />,
+                href: "https://twitter.com/headline_crypto"
+
+              }
             ],
           },
         ]

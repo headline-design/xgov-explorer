@@ -25,7 +25,13 @@ const ConnectRoot = () => {
 
     const handleButtonClick = async (wallet) => {
         setLoadingWallet(wallet.id);
-        await wallet.connect()
+        await wallet.connect().then(() => {
+            setLoadingWallet(null);
+        }
+        ).catch(() => {
+            setLoadingWallet(null);
+        }
+        );
         setLoadingWallet(null);
     };
 
@@ -68,7 +74,7 @@ const ConnectRoot = () => {
                 <p className="text-lg text-foreground font-medium">SIWE</p>
                 <p className="mb-4 text-muted-foreground">Connect your AVM wallet to secure your session with Algorand.</p>
                 {wallets.map((wallet) => (
-                    <Button key={wallet.id} disabled={isLoading} text={isLoading ? "Connecting wallet..." : `${wallet.id}`} onClick={() => handleButtonClick(wallet)} icon={wallet.metadata.name} loading={wallet.id === loadingWallet} />
+                    <Button key={wallet.id} disabled={wallet.id === loadingWallet} text={wallet.id === loadingWallet ? "Connecting wallet..." : `Connect`} onClick={() => handleButtonClick(wallet)} loading={wallet.id === loadingWallet} />
                 ))}
             </div>
             <FlatAlgo className="mx-auto mt-[6%] h-[88px] w-[88px] items-center justify-center opacity-30" />
