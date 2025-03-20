@@ -1,20 +1,23 @@
-import { type NextRequest, NextResponse } from "next/server"
-import { getServerSession } from "next-auth"
-import prisma from "@/lib/prisma"
+import { type NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import prisma from "@/lib/prisma";
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getServerSession()
+export async function POST(req: NextRequest, { params }) {
+  const session = await getServerSession();
 
   if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = params
-  const { title, content, completionPercentage } = await req.json()
+  const { id } = params;
+  const { title, content, completionPercentage } = await req.json();
 
   // Validate input
   if (!title || !content || typeof completionPercentage !== "number") {
-    return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
+    return NextResponse.json(
+      { error: "Missing required fields" },
+      { status: 400 }
+    );
   }
 
   // Check if the proposal exists
@@ -31,20 +34,23 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
         },
       },
     },
-  })
+  });
 
   if (!proposal) {
-    return NextResponse.json({ error: "Proposal not found" }, { status: 404 })
+    return NextResponse.json({ error: "Proposal not found" }, { status: 404 });
   }
 
   // Check if the user is a member of the team
-  const isTeamMember = proposal.team_relation.members.length > 0
+  const isTeamMember = proposal.team_relation.members.length > 0;
 
   // Allow admins to update any proposal
-  const isAdmin = session.user.role === "admin"
+  const isAdmin = session.user.role === "admin";
 
   if (!isTeamMember && !isAdmin) {
-    return NextResponse.json({ error: "You are not authorized to update this proposal" }, { status: 403 })
+    return NextResponse.json(
+      { error: "You are not authorized to update this proposal" },
+      { status: 403 }
+    );
   }
 
   // Create the progress update
@@ -56,30 +62,35 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       proposalId: id,
       userId: session.user.id ?? "",
     },
-  })
+  });
 
   // Update the proposal's completion percentage
   await prisma.proposal.update({
     where: { id },
     data: {
       completionPercentage,
-      status: completionPercentage >= 100 ? "Completed" : completionPercentage > 0 ? "In Progress" : "Planning",
+      status:
+        completionPercentage >= 100
+          ? "Completed"
+          : completionPercentage > 0
+          ? "In Progress"
+          : "Planning",
     },
-  })
+  });
 
-  return NextResponse.json(progressUpdate)
+  return NextResponse.json(progressUpdate);
 }
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params
+export async function GET(req: NextRequest, { params }) {
+  const { id } = params;
 
   // Check if the proposal exists
   const proposal = await prisma.proposal.findUnique({
     where: { id },
-  })
+  });
 
   if (!proposal) {
-    return NextResponse.json({ error: "Proposal not found" }, { status: 404 })
+    return NextResponse.json({ error: "Proposal not found" }, { status: 404 });
   }
 
   // Get all progress updates for this proposal
@@ -95,8 +106,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
       },
     },
     orderBy: { createdAt: "desc" },
-  })
+  });
 
-  return NextResponse.json(progressUpdates)
+  return NextResponse.json(progressUpdates);
 }
-

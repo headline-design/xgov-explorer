@@ -243,7 +243,7 @@ interface WithSessionHandler {
     session,
   }: {
     req: Request;
-    params: Record<string, string>;
+    params;
     searchParams: Record<string, string>;
     session: Session;
   }): Promise<Response>;
@@ -251,7 +251,7 @@ interface WithSessionHandler {
 
 export const withSession =
   (handler: WithSessionHandler) =>
-  async (req: Request, { params }: { params: Record<string, string> }) => {
+  async (req: Request, { params }) => {
     const session = await getSession();
     if (!session?.user.id) {
       return new Response("Unauthorized: Login required.", { status: 401 });
@@ -348,7 +348,7 @@ export async function getAuthToken(req: NextApiRequest) {
 export function withPublic(handler: any) {
   return async (
     req: Request,
-    { params }: { params: Record<string, string> }
+    { params }
   ) => {
     const searchParams = getSearchParams(req.url);
     return handler({ req, params, searchParams, headers: {} });

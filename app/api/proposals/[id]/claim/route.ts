@@ -1,14 +1,10 @@
-import { type NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
-export async function POST(
-  req: NextRequest,
-  context: { params: { id: string } }
-) {
-  const { params } = context;
-
+// Remove explicit type annotations for the route handler parameters
+export async function POST(request, { params }) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user || !session.user.id) {
@@ -114,12 +110,8 @@ export async function POST(
   });
 }
 
-export async function GET(
-  req: NextRequest,
-  context: { params: { id: string } }
-) {
-  const { params } = context;
-
+// Remove explicit type annotations for the route handler parameters
+export async function GET(request, { params }) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user || !session.user.id) {
