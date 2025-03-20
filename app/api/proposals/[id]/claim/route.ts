@@ -1,19 +1,16 @@
-import { type NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import prisma from "@/lib/prisma";
+import { type NextRequest, NextResponse } from "next/server"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
+import prisma from "@/lib/prisma"
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const session = await getServerSession(authOptions);
+export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+  const session = await getServerSession(authOptions)
 
-  if (!session?.user || !session.user.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session?.user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
-  const { id } = params;
+  const { id } = params
 
   // Check if the proposal exists
   const proposal = await prisma.proposal.findUnique({
@@ -21,10 +18,10 @@ export async function POST(
     include: {
       team_relation: true,
     },
-  });
+  })
 
   if (!proposal) {
-    return NextResponse.json({ error: "Proposal not found" }, { status: 404 });
+    return NextResponse.json({ error: "Proposal not found" }, { status: 404 })
   }
 
   // Get the user's GitHub username from their accounts
@@ -33,19 +30,16 @@ export async function POST(
       userId: session.user.id,
       provider: "github",
     },
-  });
+  })
 
   if (!userAccount) {
-    return NextResponse.json(
-      { error: "No GitHub account found for user" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "No GitHub account found for user" }, { status: 400 })
   }
 
   // Get the user's GitHub username
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
-  });
+  })
 
   if (!user?.gh_username) {
     // Update the user's GitHub username from their account
@@ -54,36 +48,29 @@ export async function POST(
       data: {
         gh_username: userAccount.providerAccountId,
       },
-    });
+    })
   }
 
-  // Extract GitHub username from proposal
-  let proposalGithubUsername: string | null = null;
+  // Extract GitHub username from team name (format: "Name (@github_username)")
+  let proposalGithubUsername: string | null = null
+  const teamNameMatch = proposal.team.match(/$$@([^)]+)$$/)
 
-  if (proposal.github) {
-    // Extract username from GitHub URL (e.g., https://github.com/username)
-    const githubMatch = proposal.github.match(/github\.com\/([^/]+)/);
-    if (githubMatch && githubMatch[1]) {
-      proposalGithubUsername = githubMatch[1];
-    }
+  if (teamNameMatch && teamNameMatch[1]) {
+    proposalGithubUsername = teamNameMatch[1]
   }
 
   // Check if the user's GitHub username matches the proposal's GitHub username
-  const userGithubUsername = user?.gh_username || userAccount.providerAccountId;
+  const userGithubUsername = user?.gh_username || userAccount.providerAccountId
 
-  if (
-    !proposalGithubUsername ||
-    proposalGithubUsername !== userGithubUsername
-  ) {
+  if (!proposalGithubUsername || proposalGithubUsername.toLowerCase() !== userGithubUsername.toLowerCase()) {
     return NextResponse.json(
       {
-        error:
-          "Your GitHub username does not match the proposal's GitHub username",
+        error: "Your GitHub username does not match the proposal's GitHub username",
         userGithubUsername,
         proposalGithubUsername,
       },
-      { status: 403 }
-    );
+      { status: 403 },
+    )
   }
 
   // Check if the user is already a member of the team
@@ -92,12 +79,10 @@ export async function POST(
       userId: session.user.id,
       teamId: proposal.teamId,
     },
-  });
+  })
 
   if (existingMember) {
-    return NextResponse.json({
-      message: "You are already a member of this team",
-    });
+    return NextResponse.json({ message: "You are already a member of this team" })
   }
 
   // Add the user to the team
@@ -107,25 +92,22 @@ export async function POST(
       teamId: proposal.teamId,
       role: "member",
     },
-  });
+  })
 
   return NextResponse.json({
     message: "Successfully claimed proposal",
     teamMember,
-  });
+  })
 }
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const session = await getServerSession(authOptions);
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+  const session = await getServerSession(authOptions)
 
-  if (!session?.user || !session.user.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session?.user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
-  const { id } = params;
+  const { id } = params
 
   // Check if the user is a member of the team for this proposal
   const proposal = await prisma.proposal.findUnique({
@@ -141,16 +123,17 @@ export async function GET(
         },
       },
     },
-  });
+  })
 
   if (!proposal) {
-    return NextResponse.json({ error: "Proposal not found" }, { status: 404 });
+    return NextResponse.json({ error: "Proposal not found" }, { status: 404 })
   }
 
-  const isMember = proposal.team_relation.members.length > 0;
+  const isMember = proposal.team_relation.members.length > 0
 
   return NextResponse.json({
     isMember,
     teamId: proposal.teamId,
-  });
+  })
 }
+

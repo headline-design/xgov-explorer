@@ -8,6 +8,7 @@ import { generateGradient } from "@/lib/gradient-utils"
 import { GrainOverlay } from "@/components/grain-overlay"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { ProgressUpdates } from "@/components/progress-updates"
+import { ClaimProposal } from "@/components/claim-proposal"
 import prisma from "@/lib/prisma"
 
 // Update the generateMetadata function to await params
@@ -180,6 +181,14 @@ export default async function ProposalPage({ params }: { params: Promise<{ id: s
                   ))}
               </div>
             </div>
+
+            {/* Claim Proposal Section */}
+            {dbProposal && (
+              <div>
+                <h3 className="text-lg font-semibold mb-3">Claim This Proposal</h3>
+                <ClaimProposal proposalId={proposal.id} proposalGithub={proposal.github ?? undefined} teamName={proposal.team} />
+              </div>
+            )}
 
             {/* Progress Updates Section */}
             <ProgressUpdates

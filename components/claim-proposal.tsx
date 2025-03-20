@@ -21,8 +21,9 @@ export function ClaimProposal({ proposalId, proposalGithub, teamName }: ClaimPro
     const [isMember, setIsMember] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
-    // Extract GitHub username from the GitHub URL
-    const githubUsername = proposalGithub ? proposalGithub.match(/github\.com\/([^/]+)/)?.[1] : null
+    // Extract GitHub username from team name (format: "Name (@github_username)")
+    const githubUsernameMatch = teamName.match(/$$@([^)]+)$$/)
+    const githubUsername = githubUsernameMatch ? githubUsernameMatch[1] : null
 
     useEffect(() => {
         // Check if the user is already a member of the team
@@ -126,7 +127,7 @@ export function ClaimProposal({ proposalId, proposalGithub, teamName }: ClaimPro
                         <div className="flex items-center text-sm">
                             <Github className="mr-2 h-4 w-4" />
                             <span>
-                                This proposal is associated with GitHub user: <span className="font-medium">{githubUsername}</span>
+                                This proposal is associated with GitHub user: <span className="font-medium">@{githubUsername}</span>
                             </span>
                         </div>
 
@@ -154,7 +155,7 @@ export function ClaimProposal({ proposalId, proposalGithub, teamName }: ClaimPro
                     </div>
                 ) : (
                     <div className="text-center py-4 text-muted-foreground">
-                        <p>This proposal does not have a GitHub link associated with it.</p>
+                        <p>This proposal does not have a GitHub username associated with it.</p>
                         <p className="text-sm mt-2">GitHub information is required to verify your ownership of this proposal.</p>
                     </div>
                 )}
