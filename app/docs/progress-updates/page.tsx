@@ -376,7 +376,7 @@ export default function ProgressUpdatesPage() {
                 milestone includes:
               </p>
               <ul>
-                <li>Wallet connection with multiple Algorand wallets (Pera, MyAlgo, AlgoSigner)</li>
+                <li>Wallet connection with multiple Algorand wallets (Pera, Defly Wallet, Kibisis Wallet, Lute Wallet)</li>
                 <li>Asset management interface for viewing and transferring tokens</li>
                 <li>Staking interface with real-time APY calculations</li>
                 <li>Governance voting interface with proposal creation and voting mechanisms</li>

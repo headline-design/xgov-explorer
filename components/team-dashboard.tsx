@@ -9,9 +9,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar-v2/avatar-2"
 import { Badge } from "@/components/ui/badge"
-import { toast } from "@/components/ui/toast"
 import { Loader2, UserPlus, Trash2, ExternalLink, CheckCircle, Github, Copy } from "lucide-react"
 import {
   Dialog,
@@ -34,6 +33,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { TeamDashboardProps } from "@/app/team/page"
+import { toast } from "./ui/toast/toast"
 
 
 export function TeamDashboard({ teams, currentUserId }: TeamDashboardProps) {

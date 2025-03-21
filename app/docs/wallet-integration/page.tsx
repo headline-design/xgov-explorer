@@ -33,19 +33,19 @@ export default function WalletIntegrationPage() {
               <div className="h-12 w-12 bg-green-100 dark:bg-green-900/30 rounded-full mx-auto mb-2 flex items-center justify-center">
                 <span className="text-green-600 dark:text-green-400 font-bold">M</span>
               </div>
-              <p className="font-medium">MyAlgo Wallet</p>
+              <p className="font-medium">Defly Wallet</p>
             </div>
             <div className="bg-white dark:bg-background rounded-lg p-4 text-center border shadow-sm">
               <div className="h-12 w-12 bg-amber-100 dark:bg-amber-900/30 rounded-full mx-auto mb-2 flex items-center justify-center">
                 <span className="text-amber-600 dark:text-amber-400 font-bold">A</span>
               </div>
-              <p className="font-medium">AlgoSigner</p>
+              <p className="font-medium">Lute Wallet</p>
             </div>
             <div className="bg-white dark:bg-background rounded-lg p-4 text-center border shadow-sm">
               <div className="h-12 w-12 bg-purple-100 dark:bg-purple-900/30 rounded-full mx-auto mb-2 flex items-center justify-center">
                 <span className="text-purple-600 dark:text-purple-400 font-bold">D</span>
               </div>
-              <p className="font-medium">Defly Wallet</p>
+              <p className="font-medium">Kibisis Wallet</p>
             </div>
           </div>
         </div>
@@ -110,19 +110,19 @@ export default function WalletIntegrationPage() {
                     <div className="h-12 w-12 bg-green-100 dark:bg-green-900/30 rounded-full mx-auto mb-2 flex items-center justify-center">
                       <span className="text-green-600 dark:text-green-400 font-bold">M</span>
                     </div>
-                    <p className="text-sm">MyAlgo</p>
+                    <p className="text-sm">Defly</p>
                   </div>
                   <div className="border rounded-lg p-3 text-center cursor-pointer hover:bg-muted/50 transition-colors">
                     <div className="h-12 w-12 bg-amber-100 dark:bg-amber-900/30 rounded-full mx-auto mb-2 flex items-center justify-center">
                       <span className="text-amber-600 dark:text-amber-400 font-bold">A</span>
                     </div>
-                    <p className="text-sm">AlgoSigner</p>
+                    <p className="text-sm">Lute Wallet</p>
                   </div>
                   <div className="border rounded-lg p-3 text-center cursor-pointer hover:bg-muted/50 transition-colors">
                     <div className="h-12 w-12 bg-purple-100 dark:bg-purple-900/30 rounded-full mx-auto mb-2 flex items-center justify-center">
                       <span className="text-purple-600 dark:text-purple-400 font-bold">D</span>
                     </div>
-                    <p className="text-sm">Defly</p>
+                    <p className="text-sm">Kibisis Wallet</p>
                   </div>
                 </div>
               </div>

@@ -1,6 +1,6 @@
 import IconCheck from "@/icons/check";
 import { IconCopy } from "@/icons/copy";
-import { toast } from "@/components/ui/toast";
+import { toast } from "@/components/ui/toast/toast";
 import React, { JSX } from "react";
 
 // Blockchain types

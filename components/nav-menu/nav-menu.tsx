@@ -171,13 +171,8 @@ export const NavMenu = React.memo(
         return [
           {
             name: "Docs",
-            href: `${HOME_DOMAIN}/help`,
-            isActive: segments[0] === "help",
-          },
-          {
-            name: "Contact",
-            href: `${HOME_DOMAIN}/contact`,
-            isActive: segments[0] === "contact",
+            href: `${HOME_DOMAIN}/docs`,
+            isActive: segments[0] === "docs",
           },
         ]
       }

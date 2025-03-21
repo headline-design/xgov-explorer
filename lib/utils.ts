@@ -63,3 +63,8 @@ export function getUrl(uri, gateway = gateways[0]) {
     return uri.replace('ipns://', `${ipfsGateway}/ipns/`);
   return uri;
 }
+
+export function capitalize(str: string) {
+  if (!str || typeof str !== "string") return str;
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

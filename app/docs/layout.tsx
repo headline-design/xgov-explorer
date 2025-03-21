@@ -1,10 +1,13 @@
 import type React from "react"
 import Link from "next/link"
-import { ChevronRight, Search, Home, BookOpen, Users, Wallet, FileText, ExternalLink } from "lucide-react"
+import { Home, BookOpen, ExternalLink } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider } from "@/components/ui/sidebar"
+import { SearchButton } from "@/components/docs/search-button"
+import { DocsBreadcrumb } from "@/components/docs/breadcrumb"
+import { SidebarNav } from "@/components/docs/sidebar-nav"
+import { SidebarProvider } from "@/components/ui/sidebar"
+import { allDocs } from "contentlayer/generated"
 
 export const metadata = {
   title: "Documentation | xGov Explorer",
@@ -40,9 +43,24 @@ export default function DocsLayout({
 }: {
   children: React.ReactNode
 }) {
+  // Get all docs for the sidebar navigation
+  const docsNav = allDocs
+    .filter((doc) => doc.published)
+    .sort((a, b) => {
+      // Sort by title, but make sure "Getting Started" is first
+      if (a.title === "Getting Started") return -1
+      if (b.title === "Getting Started") return 1
+      return a.title.localeCompare(b.title)
+    })
+    .map((doc) => ({
+      title: doc.title,
+      href: doc.slug === "" ? "/docs" : doc.slug,
+      icon: doc.icon || "FileText",
+    }))
+
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen flex-col">
+      <div className="flex min-h-screen flex-col w-full bg-background-accent">
         <header className="sticky top-0 z-30 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="container flex h-14 items-center justify-between py-4">
             <div className="flex items-center gap-2 md:gap-4">
@@ -50,23 +68,13 @@ export default function DocsLayout({
                 <Home className="h-5 w-5" />
                 <span className="hidden md:inline-block">Home</span>
               </Link>
-              <div className="hidden md:flex">
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              <div className="hidden md:flex items-center">
+                <BookOpen className="h-5 w-5 text-primary" />
+                <span className="ml-2 font-semibold text-primary">Documentation</span>
               </div>
-              <Link href="/docs" className="flex items-center gap-2 font-semibold text-primary">
-                <BookOpen className="h-5 w-5" />
-                <span>Documentation</span>
-              </Link>
             </div>
             <div className="flex items-center gap-2">
-              <div className="relative hidden md:flex w-full max-w-[200px] lg:max-w-[280px]">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search documentation..."
-                  className="pl-8 h-9 md:w-[200px] lg:w-[280px] rounded-lg border border-input bg-background"
-                />
-              </div>
+              <SearchButton />
               <Button variant="outline" size="sm" asChild>
                 <Link
                   href="https://github.com/headline-design/xgov-explorer"
@@ -84,40 +92,7 @@ export default function DocsLayout({
 
         <div className="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] lg:grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)] md:gap-6 lg:gap-10">
           <aside className="fixed top-14 z-20 -ml-2 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 md:sticky md:block overflow-y-auto py-6 pr-2">
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={true}>
-                  <Link href="/docs">
-                    <BookOpen className="h-4 w-4" />
-                    <span>Getting Started</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/docs/team-management">
-                    <Users className="h-4 w-4" />
-                    <span>Team Management</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/docs/wallet-integration">
-                    <Wallet className="h-4 w-4" />
-                    <span>Wallet Integration</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/docs/progress-updates">
-                    <FileText className="h-4 w-4" />
-                    <span>Progress Updates</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
+            <SidebarNav items={docsNav} />
 
             <div className="mt-12">
               <h4 className="mb-4 text-sm font-semibold">Resources</h4>
@@ -138,23 +113,9 @@ export default function DocsLayout({
             </div>
           </aside>
 
-          <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+          <main className="relative py-6 lg:gap-10 lg:py-8 ">
             <div className="mx-auto w-full min-w-0">
-              <div className="mb-4 flex items-center space-x-1 text-sm text-muted-foreground">
-                <div className="overflow-hidden text-ellipsis whitespace-nowrap">
-                  <Link href="/" className="hover:text-foreground">
-                    Home
-                  </Link>
-                </div>
-                <ChevronRight className="h-4 w-4" />
-                <div className="overflow-hidden text-ellipsis whitespace-nowrap">
-                  <Link href="/docs" className="hover:text-foreground">
-                    Documentation
-                  </Link>
-                </div>
-                <ChevronRight className="h-4 w-4" />
-                <div className="font-medium text-foreground truncate">Getting Started</div>
-              </div>
+              <DocsBreadcrumb />
               <div className="space-y-2">
                 <div className="space-y-1">
                   <div className="prose prose-gray dark:prose-invert max-w-none">{children}</div>

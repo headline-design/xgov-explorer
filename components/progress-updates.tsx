@@ -10,9 +10,9 @@ import { Input } from "@/components/ui/input"
 import { Loader2, PlusCircle, Info, AlertCircle } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
 import { Slider } from "@/components/ui/slider"
-import { toast } from "@/components/ui/toast"
+import { toast } from "@/components/ui/toast/toast"
 import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar-v2/avatar-2"
 
 interface ProgressUpdate {
     id: string

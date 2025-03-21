@@ -69,11 +69,11 @@ export default function Navbar({
           <div className="rust-nav-l2 flex h-14 w-full items-center justify-between">
             <div className="flex items-center space-x-4">
               <Link prefetch={false} href={`${HOME_DOMAIN}/`}>
-                <BrandLogoAlt className="h-8 w-8 text-primary block sm:hidden" />
+                <BrandLogoAlt className="h-6 w-6 text-primary block sm:hidden" />
                 <BrandTypelogo
                   fill1="hsl(var(--primary))"
                   fill2="hsl(var(--foreground))"
-                  className="h-8 text-primary hidden sm:block"
+                  className="h-6 text-primary hidden sm:block"
                 />
               </Link>
               <div className="hidden items-center lg:flex">
@@ -101,14 +101,14 @@ export default function Navbar({
                           <div className="flex items-center gap-2">
                             <ButtonLink
                               href={`${HOME_DOMAIN}/docs`}
-                              variant="ghost"
+                              variant="outline"
                               slim
                               icon={<BookOpen className="h-4 w-4" />}
-                              text="Documentation"
+                              text="Docs"
                             />
                           </div>
                           <Button
-                            skinny
+                            slim
                             className="ml-2"
                             variant="primary"
                             onClick={() => {
@@ -132,11 +132,11 @@ export default function Navbar({
                   <>
                     <ButtonLink
                       href={`${HOME_DOMAIN}/docs`}
-                      variant="ghost"
+                      variant="outline"
                       slim
                       className="hidden lg:flex mr-2"
                       icon={<BookOpen className="h-4 w-4" />}
-                      text="Documentation"
+                      text="Docs"
                     />
                     <ButtonLink
                       href="https://xgov.algorand.foundation"
@@ -154,10 +154,10 @@ export default function Navbar({
                     <ButtonLink
                       href={`${HOME_DOMAIN}/docs`}
                       variant="outline"
-                      skinny
+                      slim
                       className="hidden lg:flex mr-2"
                       icon={<BookOpen className="h-4 w-4" />}
-                      text="Documentation"
+                      text="Docs"
                     />
                     <ButtonLink href={HOME_DOMAIN} variant="outline" slim className="hidden lg:flex" text="Home" />
                   </>
