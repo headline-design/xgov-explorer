@@ -20,7 +20,7 @@ async function getDocFromSlug(slug: string[]) {
   return doc
 }
 
-export async function generateMetadata({ params }: DocPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }): Promise<Metadata> {
   const doc = await getDocFromSlug(params.slug)
 
   if (!doc) {
@@ -39,7 +39,7 @@ export async function generateStaticParams(): Promise<DocPageProps["params"][]> 
   }))
 }
 
-export default async function DocPage({ params }: DocPageProps) {
+export default async function DocPage({ params }) {
   const doc = await getDocFromSlug(params.slug)
 
   if (!doc) {
