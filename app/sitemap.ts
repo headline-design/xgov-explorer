@@ -1,6 +1,5 @@
-
-import { MetadataRoute } from "next";
-import { proposals } from "@/data/xgov-sessions"
+import type { MetadataRoute } from "next";
+import { proposals } from "@/data/xgov-sessions";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://xgov.app";
@@ -31,9 +30,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority,
   }));
 
+  // Define documentation routes
+  const docRoutes = [
+    { route: "/docs", priority: 0.9, changeFrequency: "weekly" as const },
+    {
+      route: "/docs/team-management",
+      priority: 0.8,
+      changeFrequency: "weekly" as const,
+    },
+    {
+      route: "/docs/wallet-integration",
+      priority: 0.8,
+      changeFrequency: "weekly" as const,
+    },
+    {
+      route: "/docs/progress-updates",
+      priority: 0.8,
+      changeFrequency: "weekly" as const,
+    },
+  ].map(({ route, priority, changeFrequency }) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: new Date().toISOString().split("T")[0],
+    changeFrequency,
+    priority,
+  }));
+
   // Combine all routes
-  return [
-    ...staticRoutes,
-    ...proposalUrls,
-  ];
+  return [...staticRoutes, ...docRoutes, ...proposalUrls];
 }

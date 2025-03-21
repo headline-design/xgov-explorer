@@ -1,42 +1,26 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
+"use client"
 
-import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { Bell, ArrowLeft, Newspaper, Settings, ChevronDown, Users, X } from "lucide-react";
-import { useParams, useSelectedLayoutSegments } from "next/navigation";
-import useMediaQuery from "@/lib/hooks/use-media-query";
-import { MobileMenuTrigger } from "./mobile-menu-trigger";
-import { MobileMenu } from "./mobile-menu";
-import { DesktopMenu } from "./desktop-menu";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import {
-  IconDashboard,
-  IconLogout,
-  IconTarget,
-  IconInformation,
-  IconClipboard,
-  IconCodeBlock,
-} from "@/icons/rust";
-import {
-  AVATAR_GRADIENT_API,
-  HOME_DOMAIN,
-} from "@/lib/constants";
-import { cn, shorten } from "@/lib/utils";
-import { Button } from "@/components/ui/rust-button";
-import { GlobalModalContext } from "@/providers/global-modal-provider";
-import Logo from "@/icons/logo";
-import ThemeSwitcher from "@/components/ui/theme-switcher/theme-switcher";
-import Link from "next/link";
-import { useLogout } from "@/lib/hooks/use-logout";
-import { IconChevronDown } from "@/icons/chevron-down";
-import ButtonLink from "../ui/button-link";
-import IconGithub from "@/icons/brand-icons/github";
-import { IconX } from "@/icons/brand-icons/x";
-
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react"
+import { Bell, ArrowLeft, NewspaperIcon, Settings, ChevronDown, Users, Wallet } from "lucide-react"
+import { useParams, useSelectedLayoutSegments } from "next/navigation"
+import useMediaQuery from "@/lib/hooks/use-media-query"
+import { MobileMenuTrigger } from "./mobile-menu-trigger"
+import { MobileMenu } from "./mobile-menu"
+import { DesktopMenu } from "./desktop-menu"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import { IconDashboard, IconInformation, IconLogout, IconTarget } from "@/icons/rust"
+import { AVATAR_GRADIENT_API, HOME_DOMAIN } from "@/lib/constants"
+import { cn, shorten } from "@/lib/utils"
+import { Button } from "@/components/ui/rust-button"
+import { GlobalModalContext } from "@/providers/global-modal-provider"
+import Logo from "@/icons/logo"
+import ThemeSwitcher from "@/components/ui/theme-switcher/theme-switcher"
+import Link from "next/link"
+import { useLogout } from "@/lib/hooks/use-logout"
+import ButtonLink from "../ui/button-link"
+import IconGithub from "@/icons/brand-icons/github"
+import { IconX } from "@/icons/brand-icons/x"
 
 export const NavMenu = React.memo(
   ({
@@ -56,28 +40,28 @@ export const NavMenu = React.memo(
     const connectedUser = status === "authenticated"
     const hasTeams = user?.teams?.count > 0
 
-    const [showDesktopMenu, setShowDesktopMenu] = useState(false);
-    const [showNotificationsMenu, setShowNotificationsMenu] = useState(false);
-    const { setShowLoginModal } = useContext(GlobalModalContext);
-    const { isWidescreen } = useMediaQuery();
-    const { handleDisconnect, signingOut } = useLogout();
-    const segments = useSelectedLayoutSegments();
-    const { id, slug } = useParams() as { id?: string; slug?: string };
+    const [showDesktopMenu, setShowDesktopMenu] = useState(false)
+    const [showNotificationsMenu, setShowNotificationsMenu] = useState(false)
+    const { setShowLoginModal } = useContext(GlobalModalContext)
+    const { isWidescreen } = useMediaQuery()
+    const { handleDisconnect, signingOut } = useLogout()
+    const segments = useSelectedLayoutSegments()
+    const { id, slug } = useParams() as { id?: string; slug?: string }
 
     const handleToggle = useCallback(() => {
       if (isWidescreen) {
-        setShowDesktopMenu(!showDesktopMenu);
+        setShowDesktopMenu(!showDesktopMenu)
       } else if (!isWidescreen) {
-        setShowMobileMenu(!showMobileMenu);
-        document.body.style.position = showMobileMenu ? "" : "fixed";
-        document.body.style.width = showMobileMenu ? "" : "100%";
+        setShowMobileMenu(!showMobileMenu)
+        document.body.style.position = showMobileMenu ? "" : "fixed"
+        document.body.style.width = showMobileMenu ? "" : "100%"
       } else {
         if (showMobileMenu && !isWidescreen) {
-          document.body.style.position = showDesktopMenu ? "" : "fixed";
-          document.body.style.width = showDesktopMenu ? "" : "100%";
+          document.body.style.position = showDesktopMenu ? "" : "fixed"
+          document.body.style.width = showDesktopMenu ? "" : "100%"
         }
       }
-    }, [isWidescreen, showDesktopMenu, showMobileMenu, setShowMobileMenu]);
+    }, [isWidescreen, showDesktopMenu, showMobileMenu, setShowMobileMenu])
 
     // cleanup
 
@@ -170,13 +154,13 @@ export const NavMenu = React.memo(
             isActive: segments.length === 0,
             icon: <IconDashboard size={16} className="flex wd:hidden" />,
           },
-        ];
+        ]
 
         // Add Team Dashboard link if user has teams
-        if (hasTeams && user?.teams?.firstTeam) {
+        if (hasTeams) {
           items.push({
             name: "Team Dashboard",
-            href: `/team`,
+            href: "/team",
             isActive: segments[0] === "team",
             icon: <Users size={16} className="flex wd:hidden" />,
           })
@@ -195,10 +179,10 @@ export const NavMenu = React.memo(
             href: `${HOME_DOMAIN}/contact`,
             isActive: segments[0] === "contact",
           },
-        ];
+        ]
       }
-      return [];
-    }, [segments, id, connectedUser, location, hasTeams, user?.teams.firstTeam]);
+      return []
+    }, [segments, id, connectedUser, location, hasTeams])
 
     const midItems = useMemo(() => {
       if (connectedUser && (location === "app" || location === "home")) {
@@ -208,7 +192,7 @@ export const NavMenu = React.memo(
             action: <ThemeSwitcher />,
             className: "no-hover",
           },
-        ];
+        ]
       } else if (connectedUser && location === "home") {
         return [
           { name: "Theme", action: <ThemeSwitcher />, className: "no-hover" },
@@ -217,7 +201,7 @@ export const NavMenu = React.memo(
             onDisconnect: handleLogout,
             icon: <IconLogout size={16} className="hidden lg:flex" />,
           },
-        ];
+        ]
       } else if (!connectedUser) {
         return [
           {
@@ -225,24 +209,18 @@ export const NavMenu = React.memo(
             action: <ThemeSwitcher />,
             className: "no-hover",
           },
-        ];
+        ]
       }
-      return [];
-    }, [connectedUser, location, handleLogout]);
+      return []
+    }, [connectedUser, location, handleLogout])
 
     const footerItems = useMemo(() => {
       if (connectedUser && location === "app") {
-        return [
+        const items = [
           {
             name: "Home Page",
             href: `${HOME_DOMAIN}/`,
-            icon: (
-              <Logo
-                width={16}
-                height={16}
-                className=" !h-auto !w-auto !text-current "
-              />
-            ),
+            icon: <Logo width={16} height={16} className=" !h-auto !w-auto !text-current " />,
             className: "hidden wd:flex",
           },
           {
@@ -250,7 +228,9 @@ export const NavMenu = React.memo(
             onDisconnect: handleLogout,
             icon: <IconLogout size={16} className="hidden lg:flex" />,
           },
-        ];
+        ]
+
+        return items
       } else if (connectedUser && location === "home") {
         return [
           {
@@ -258,16 +238,16 @@ export const NavMenu = React.memo(
             onDisconnect: handleLogout,
             icon: <IconLogout size={16} className="hidden lg:flex" />,
           },
-        ];
+        ]
       } else if (!connectedUser) {
-        return [];
+        return []
       }
-      return [];
-    }, [connectedUser, location, handleLogout]);
+      return []
+    }, [connectedUser, location, handleLogout])
 
     const actionDesktopFooter = useMemo(() => {
       if (connectedUser && location === "home") {
-        return [
+        const items = [
           {
             name: "Explore",
             href: `${HOME_DOMAIN}/teams`,
@@ -275,12 +255,14 @@ export const NavMenu = React.memo(
             buttonVariant: "primary",
             className: "rust-action-footer-menu-item",
           },
-        ];
+        ]
+
+        return items
       } else if (!connectedUser) {
-        return [];
+        return []
       }
-      return [];
-    }, [connectedUser, location]);
+      return []
+    }, [connectedUser, location])
 
     const renderUserItem = () => {
       if (connectedUser) {
@@ -294,9 +276,7 @@ export const NavMenu = React.memo(
                   </p>
                 )}
                 <p className="user-item-l2 truncate text-sm text-secondary">
-                  {user?.email?.length > 36
-                    ? shorten(user?.email)
-                    : user?.email}
+                  {user?.email?.length > 36 ? shorten(user?.email) : user?.email}
                 </p>
               </div>
 
@@ -309,10 +289,10 @@ export const NavMenu = React.memo(
               </span>
             </div>
           </li>
-        );
+        )
       }
-      return null;
-    };
+      return null
+    }
 
     const renderMenuItems = (items, handleAction, section) =>
       items.map(
@@ -335,13 +315,9 @@ export const NavMenu = React.memo(
               {icon}
               {action}
             </>
-          );
+          )
 
-          if (
-            href &&
-            section !== "actionHeader" &&
-            section !== "actionFooter"
-          ) {
+          if (href && section !== "actionHeader" && section !== "actionFooter") {
             return (
               <Link
                 data-id={`${location}`}
@@ -351,41 +327,27 @@ export const NavMenu = React.memo(
                 prefetch={false}
                 className={className}
               >
-                <li
-                  className={`rust-menu-item justify-between ${isActive ? "active" : ""}`}
-                >
-                  {content}
-                </li>
+                <li className={`rust-menu-item justify-between ${isActive ? "active" : ""}`}>{content}</li>
               </Link>
-            );
+            )
           }
 
           if (onNotification) {
             return (
-              <li
-                className="rust-menu-item justify-between"
-                onClick={onNotification}
-                key={name}
-              >
+              <li className="rust-menu-item justify-between" onClick={onNotification} key={name}>
                 Notifications
                 <Bell className="h-4 w-4" />
-
               </li>
-            );
+            )
           }
 
           if (onDisconnect) {
             return (
-              <li
-                role="menuitem"
-                key={name}
-                onClick={handleDisconnect}
-                className="rust-menu-item justify-between"
-              >
+              <li role="menuitem" key={name} onClick={handleDisconnect} className="rust-menu-item justify-between">
                 {signingOut ? "Logging out..." : name}
                 <IconLogout size={16} className="hidden sm:flex" />
               </li>
-            );
+            )
           }
           if (href && (section === "actionHeader" || section === "actionFooter")) {
             return (
@@ -397,37 +359,26 @@ export const NavMenu = React.memo(
                 className={className}
                 text={name}
               />
-            );
+            )
           }
           if (!href && (section === "actionHeader" || section === "actionFooter")) {
-            return (
-              <Button
-                key={name}
-                onClick={onConnect}
-                variant={buttonVariant}
-                className={className}
-                text={name}
-              />
-            );
+            return <Button key={name} onClick={onConnect} variant={buttonVariant} className={className} text={name} />
           }
 
           return (
-            <li
-              key={name}
-              className={cn("rust-menu-item justify-between", className)}
-            >
+            <li key={name} className={cn("rust-menu-item justify-between", className)}>
               {content}
             </li>
-          );
+          )
         },
-      );
+      )
 
     const renderDivider = (items) => {
       if (items.length > 0) {
-        return <li className="rust-menu-divider"></li>;
+        return <li className="rust-menu-divider"></li>
       }
-      return null;
-    };
+      return null
+    }
 
     const collapseItems = useMemo(() => {
       if (!connectedUser && location === "home") {
@@ -443,19 +394,72 @@ export const NavMenu = React.memo(
             ],
           },
           {
+            name: "Documentation",
+            children: [
+              {
+                name: "Getting Started",
+                icon: <IconInformation size={16} />,
+                href: `${HOME_DOMAIN}/docs`,
+              },
+              {
+                name: "Team Management",
+                icon: <Users size={16} />,
+                href: `${HOME_DOMAIN}/docs/team-management`,
+              },
+              {
+                name: "Wallet Integration",
+                icon: <Wallet size={16} />,
+                href: `${HOME_DOMAIN}/docs/wallet-integration`,
+              },
+              {
+                name: "Progress Updates",
+                icon: <NewspaperIcon size={16} />,
+                href: `${HOME_DOMAIN}/docs/progress-updates`,
+              },
+            ],
+          },
+          {
             name: "Resources",
             children: [
               {
                 name: "Github",
                 icon: <IconGithub />,
-                href: "https://github.com/headline-design/xgov-explorer"
+                href: "https://github.com/headline-design/xgov-explorer",
               },
               {
                 name: "Twitter",
                 icon: <IconX />,
-                href: "https://twitter.com/headline_crypto"
-
-              }
+                href: "https://twitter.com/headline_crypto",
+              },
+            ],
+          },
+        ]
+      } else if (connectedUser && (location === "app" || location === "home")) {
+        // Add documentation for logged-in users too
+        return [
+          {
+            name: "Documentation",
+            children: [
+              {
+                name: "Getting Started",
+                icon: <IconInformation size={16} />,
+                href: `${HOME_DOMAIN}/docs`,
+              },
+              {
+                name: "Team Management",
+                icon: <Users size={16} />,
+                href: `${HOME_DOMAIN}/docs/team-management`,
+              },
+              {
+                name: "Wallet Integration",
+                icon: <Wallet size={16} />,
+                href: `${HOME_DOMAIN}/docs/wallet-integration`,
+              },
+              {
+                name: "Progress Updates",
+                icon: <NewspaperIcon size={16} />,
+                href: `${HOME_DOMAIN}/docs/progress-updates`,
+              },
             ],
           },
         ]
