@@ -6,6 +6,7 @@ import { Search, FileText, Users, Wallet, BookOpen, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
+import Modal from "../ui/dialog/modal"
 
 // This is a placeholder for the actual data that will come from contentlayer
 const DOCS_PAGES = [
@@ -60,17 +61,22 @@ export function SearchDialog({ open, setOpen }) {
   )
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[550px] p-0 overflow-hidden">
-        <DialogHeader className="px-4 pt-4 pb-0">
-          <DialogTitle className="text-lg">Search documentation</DialogTitle>
-        </DialogHeader>
+    <Modal
+    handle
+    showModal={open}
+    setShowModal={setOpen}
+    header={  <DialogHeader className="px-4 pt-0 sm:pt-4 pb-4">
+      <DialogTitle className="text-lg">Search documentation</DialogTitle>
+    </DialogHeader>}
+    className="sm:max-w-xl z-1000"
+    backdropClass="z-1000" >
+      <>
+
         <Command className="overflow-hidden rounded-t-none border-t">
-          <div className="flex items-center border-b px-3">
-            <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+          <div className="flex items-center border-b px-3 w-full" cmdk-input-wrapper="">
             <CommandInput
               placeholder="Search documentation..."
-              className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+              className="border-0 flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
               value={search}
               onValueChange={setSearch}
             />
@@ -118,8 +124,8 @@ export function SearchDialog({ open, setOpen }) {
             </div>
           </DialogFooter>
         </Command>
-      </DialogContent>
-    </Dialog>
+      </>
+    </Modal>
   )
 }
 

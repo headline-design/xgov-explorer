@@ -22,6 +22,7 @@ interface ButtonProps {
   icon?: ReactNode;
   disabledTooltip?: string | ReactNode;
   children?: any;
+  roundedLg?: boolean;
   className?: any;
   href?: any;
   suffix?: any;
@@ -75,6 +76,7 @@ export const ButtonLink: FC<ButtonProps> = ({
   variant = "primary",
   onClick,
   disabled,
+  roundedLg,
   location,
   loading,
   suffix,
@@ -113,6 +115,7 @@ export const ButtonLink: FC<ButtonProps> = ({
     getButtonHeight({ skinny, slim, fat, square }),
     full ? "w-full" : "",
     rounded ? "rounded-full" : square ? "rounded-sm" : "rounded",
+    roundedLg ? "rounded-lg" : "",
     className,
   );
 

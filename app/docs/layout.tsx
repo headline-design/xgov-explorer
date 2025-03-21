@@ -8,6 +8,7 @@ import { DocsBreadcrumb } from "@/components/docs/breadcrumb"
 import { SidebarNav } from "@/components/docs/sidebar-nav"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { allDocs } from "contentlayer/generated"
+import ButtonLink from "@/components/ui/button-link"
 
 export const metadata = {
   title: "Documentation | xGov Explorer",
@@ -63,29 +64,22 @@ export default function DocsLayout({
       <div className="flex min-h-screen flex-col w-full bg-background-accent">
         <header className="sticky top-0 z-30 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="container flex h-14 items-center justify-between py-4">
-            <div className="flex items-center gap-2 md:gap-4">
-              <Link href="/" className="flex items-center gap-2 font-semibold">
-                <Home className="h-5 w-5" />
-                <span className="hidden md:inline-block">Home</span>
+            <div className="flex items-center gap-2 md:gap-4 text-base">
+              <Link href="/" className="flex items-center gap-2 font-medium">
+                <Home className="h-5 w-5 text-muted-foreground" />
+                <span className="hidden md:inline-block text-muted-foreground">Home</span>
               </Link>
               <div className="hidden md:flex items-center">
                 <BookOpen className="h-5 w-5 text-primary" />
-                <span className="ml-2 font-semibold text-primary">Documentation</span>
+                <span className="ml-2 font-medium text-primary">Documentation</span>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <SearchButton />
-              <Button variant="outline" size="sm" asChild>
-                <Link
-                  href="https://github.com/headline-design/xgov-explorer"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="gap-1"
-                >
-                  <span className="hidden sm:inline-block">GitHub</span>
-                  <ExternalLink className="h-4 w-4" />
-                </Link>
-              </Button>
+              <ButtonLink roundedLg slim variant="outline"
+                className="relative h-9 justify-start rounded-lg text-sm text-muted-foreground " href="https://github.com/headline-design/xgov-explorer" target="_blank" rel="noopener noreferrer" suffix={<ExternalLink className="h-4 w-4" />}  >
+                <span className="hidden sm:inline-block">GitHub</span>
+              </ButtonLink>
             </div>
           </div>
         </header>

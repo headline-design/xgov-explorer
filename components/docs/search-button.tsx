@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Search } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/rust-button"
 import { SearchDialog } from "./search-dialog"
 
 export function SearchButton() {
@@ -12,7 +12,7 @@ export function SearchButton() {
     <>
       <Button
         variant="outline"
-        size="sm"
+        slim
         className="relative h-9 w-full justify-start rounded-lg text-sm text-muted-foreground md:w-40 lg:w-64"
         onClick={() => setOpen(true)}
       >

@@ -15,6 +15,7 @@ import ButtonLink from "./ui/button-link"
 import { BrandTypelogo } from "./icons/brand-typelogo"
 import { BrandLogoAlt } from "./icons/brand-logo-alt"
 import { ArrowUpRight, BookOpen } from "lucide-react"
+import ThemeToggle from "./ui/theme.toggle"
 //import Navigation from "@/components/nav-menu/navigation";
 
 export const navItems = [
@@ -106,10 +107,9 @@ export default function Navbar({
                               icon={<BookOpen className="h-4 w-4" />}
                               text="Docs"
                             />
-                          </div>
-                          <Button
+                              <ThemeToggle />
+                               <Button
                             slim
-                            className="ml-2"
                             variant="primary"
                             onClick={() => {
                               setShowLoginModal(true)
@@ -117,6 +117,9 @@ export default function Navbar({
                           >
                             Sign in
                           </Button>
+
+                          </div>
+
                         </>
                       )
                     } else {
