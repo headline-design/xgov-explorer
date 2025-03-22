@@ -136,14 +136,8 @@ export const NavMenu = React.memo(
         return [
           {
             name: "Back to All Projects",
-            href: "/projects",
+            href: "/teams",
             icon: <ArrowLeft width={18} />,
-          },
-          {
-            name: "Settings",
-            href: `/project/${id}/settings`,
-            isActive: segments.includes("settings"),
-            icon: <Settings width={18} />,
           },
         ]
       } else if (connectedUser && (location === "app" || location === "home")) {

@@ -72,7 +72,7 @@ export default function TeamManagementPage() {
                         </CardContent>
                         <CardFooter>
                             <Button asChild variant="outline" size="sm">
-                                <Link href="/projects">
+                                <Link href="/teams">
                                     Go to Projects
                                     <ArrowRight className="ml-2 h-4 w-4" />
                                 </Link>

@@ -42,7 +42,7 @@ export default function DocsPage() {
           </CardContent>
           <CardFooter>
             <Button asChild variant="outline" className="w-full">
-              <Link href="/projects">
+              <Link href="/teams">
                 Browse Projects
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
@@ -248,7 +248,7 @@ export default function DocsPage() {
                 </div>
                 <div className="flex justify-center mt-6">
                   <Button asChild>
-                    <Link href="/projects">
+                    <Link href="/teams">
                       Browse Projects
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>

@@ -116,7 +116,7 @@ export default function ProgressUpdatesPage() {
               </p>
               <div className="flex justify-between gap-4">
                 <Button asChild variant="outline" size="sm">
-                  <Link href="/projects">Browse Projects</Link>
+                  <Link href="/teams">Browse Projects</Link>
                 </Button>
                 <Button asChild variant="outline" size="sm">
                   <Link href="/team">Team Dashboard</Link>
