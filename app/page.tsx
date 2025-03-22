@@ -6,12 +6,10 @@ import { VoteStatistics } from "@/components/vote-statistics"
 import { VotingTrends } from "@/components/voting-trends"
 import { proposals } from "@/data/xgov-sessions"
 import FeaturedProposals from "@/components/featured-proposals"
+import { metadata } from "./metadata"
 
-export const metadata: Metadata = {
-  title: "xGov Explorer | Algorand Foundation",
-  description:
-    "Discover innovative proposals awarded through the Algorand Foundation xGov community governance program.",
-}
+// Rich metadata optimized for SEO
+export { metadata }
 
 export default function Home() {
   // Calculate statistics for the hero section
