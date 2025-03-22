@@ -2,7 +2,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { FileText, Info, CheckCircle, PlusCircle } from "lucide-react"
+import { FileText, Info, CheckCircle, PlusCircle, ArrowUpRight } from "lucide-react"
+import ButtonLink from "@/components/ui/button-link"
 
 export default function ProgressUpdatesPage() {
   return (
@@ -420,9 +421,7 @@ export default function ProgressUpdatesPage() {
           If you have any questions or need assistance with posting progress updates, please don't hesitate to reach out
           to our team.
         </p>
-        <Button asChild>
-          <Link href="/contact">Contact Us</Link>
-        </Button>
+        <ButtonLink href="https://x.com/headline_crypto" target="_blank" rel="noopener noreferrer" variant="outline" className="mr-4" text="learn more" icon={<ArrowUpRight className="h-4 w-4 flex-shrink-0" />} />
       </div>
     </div>
   )

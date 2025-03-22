@@ -97,7 +97,9 @@ export const NavMenu = React.memo(
           },
           {
             name: "Contact",
-            href: `${HOME_DOMAIN}/contact`,
+            href: `https://x.com/headline_crypto`,
+            target: "_blank",
+            rel: "noopener noreferrer",
             buttonVariant: "outline",
           },
         ]
@@ -110,7 +112,9 @@ export const NavMenu = React.memo(
           },
           {
             name: "Contact",
-            href: `${HOME_DOMAIN}/contact`,
+            href: `https://x.com/headline_crypto`,
+            target: "_blank",
+            rel: "noopener noreferrer",
             buttonVariant: "outline",
           },
         ]
