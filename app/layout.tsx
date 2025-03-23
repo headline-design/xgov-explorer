@@ -7,51 +7,24 @@ import { AppProviders, UIProviders } from "./providers";
 import { AnnouncementBanner } from "@/components/announcement-banner";
 import { Metadata } from "next";
 
+const defaultUrl = process.env.VERCEL_URL
+  ? `https://xgov.app`
+  : "http://localhost:3000";
+
 export const metadata: Metadata = {
-  title: "xGov Explorer | Algorand Foundation",
+  metadataBase: new URL(defaultUrl),
+  title: "xGov Explorer | Algorand Governance",
   description:
-    "Discover innovative projects awarded through the Algorand Foundation xGov community governance program.",
+    "Discover the power of Algorand governance",
   openGraph: {
-    title: "xGov Explorer | Algorand Foundation",
+    title: "xGov Explorer | Algorand Governance",
     description:
-      "Discover innovative projects awarded through the Algorand Foundation xGov community governance program.",
-    images: [
-      {
-        url: "/images/og-image.png",
-        width: 1200,
-        height: 630,
-      },
-    ],
+      "Discover the power of Algorand governance and explore the latest xGov proposals, funding, and voting trends.",
+    images: [{ url: "/images/og-image.png" }],
   },
-  keywords: [
-    "Algorand Foundation",
-    "xGov Explorer",
-    "xGov",
-    "community governance",
-    "blockchain projects",
-    "Algorand",
-    "daos",
-    "funding",
-    "Algorand projects",
-  ],
-  authors: [
-    { name: "HEADLINE", url: "https://headline.dev" },
-    { name: "Algorand Foundation", url: "https://algorand.foundation" },
-  ],
-  creator: "HEADLINE",
-  twitter: {
-    card: "summary_large_image",
-    title: "xGov Explorer | Algorand Foundation",
-    description:
-      "Discover innovative projects awarded through the Algorand Foundation xGov community governance program.",
-    images: ["/images/og-image.png"],
-  },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/images/favicon-96x96.png",
-    apple: "/images/apple-touch-icon.png",
-  },
-}
+  keywords:
+    "Algorand, xGov, cryptocurrency, smart contracts, ASA, Pure Proof-of-Stake, staking, governance, environmental impact, interoperability",
+};
 
 export default function RootLayout({ children, params }) {
   return (
