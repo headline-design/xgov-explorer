@@ -10,8 +10,8 @@ interface BlogPostPageProps {
   };
 }
 
-async function getPostFromParams(params: BlogPostPageProps["params"]) {
-  const slug = params.slug;
+async function getPostFromParams(params) {
+  const slug = await params.slug;
   const post = allBlogs.find((post) => post.slugAsParams === slug);
 
   if (!post) {
