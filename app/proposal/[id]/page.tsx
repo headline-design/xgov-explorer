@@ -3,13 +3,15 @@ import Link from "next/link"
 import { Suspense } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ExternalLink, Github, Twitter, Check, X, ArrowLeft } from "lucide-react"
+import { ExternalLink, Github, Twitter, Check, X, ArrowLeft, ThumbsUp, ThumbsDown } from "lucide-react"
 import { proposals } from "@/data/xgov-sessions"
 import { generateGradient } from "@/lib/gradient-utils"
 import { GrainOverlay } from "@/components/grain-overlay"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { ProgressUpdates } from "@/components/progress-updates"
 import { ClaimProposal } from "@/components/claim-proposal"
+import { VoteButtons } from "@/components/votes/vote-buttons"
+import { CommentsSection } from "@/components/comments/comments-section"
 import Markdown from "@/components/markdown/markdown"
 import prisma from "@/lib/prisma"
 
@@ -38,7 +40,7 @@ export default async function ProposalPage({ params }: { params: Promise<{ id: s
   // Try to fetch from database first
   const dbProposal = await prisma.proposal
     .findUnique({
-      where: { number: parseInt(id) },
+      where: { number: Number.parseInt(id) },
       include: {
         milestones: true,
         progressUpdates: {
@@ -66,6 +68,23 @@ export default async function ProposalPage({ params }: { params: Promise<{ id: s
   if (!proposal) {
     notFound()
   }
+
+  // Fetch vote counts from database
+  const voteData = await prisma.vote
+    .groupBy({
+      by: ["voteType"],
+      where: {
+        proposalId: proposal.id,
+      },
+      _count: {
+        id: true,
+      },
+    })
+    .catch(() => [])
+
+  // Calculate upvotes and downvotes
+  const upvotes = voteData.find((v) => v.voteType === "UPVOTE")?._count?.id || 0
+  const downvotes = voteData.find((v) => v.voteType === "DOWNVOTE")?._count?.id || 0
 
   const gradient = generateGradient(proposal.id)
 
@@ -101,6 +120,18 @@ export default async function ProposalPage({ params }: { params: Promise<{ id: s
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+
+        {/* Vote Buttons */}
+        <div className="absolute bottom-4 right-4 bg-black/20 backdrop-blur-sm rounded-lg p-3">
+          <VoteButtons
+            entityId={proposal.id}
+            entityType="proposal"
+            initialUpvotes={upvotes}
+            initialDownvotes={downvotes}
+            size="lg"
+            className="text-white"
+          />
+        </div>
       </div>
 
       {/* Main Content */}
@@ -240,6 +271,9 @@ export default async function ProposalPage({ params }: { params: Promise<{ id: s
                 </div>
               </div>
             )}
+
+            {/* Comments Section */}
+            <CommentsSection proposalId={proposal.id} />
           </div>
 
           {/* Right Column - Proposal Info */}
@@ -267,6 +301,19 @@ export default async function ProposalPage({ params }: { params: Promise<{ id: s
                   <div className="font-bold">{proposal.completionPercentage}%</div>
                   <div className="w-full h-2 bg-muted rounded-full mt-1 overflow-hidden">
                     <div className="h-full bg-primary" style={{ width: `${proposal.completionPercentage}%` }}></div>
+                  </div>
+                </div>
+                <div>
+                  <div className="text-sm text-muted-foreground">Community Votes</div>
+                  <div className="flex items-center gap-4 mt-1">
+                    <div className="flex items-center">
+                      <ThumbsUp className="h-4 w-4 mr-1 text-green-600" />
+                      <span className="font-bold">{upvotes}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <ThumbsDown className="h-4 w-4 mr-1 text-red-600" />
+                      <span className="font-bold">{downvotes}</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -317,9 +364,7 @@ export default async function ProposalPage({ params }: { params: Promise<{ id: s
               <div className="text-muted-foreground">
                 <p>{proposal.team}</p>
                 <Button variant="link" className="p-0 h-auto mt-2" asChild>
-                  <Link href={`/teams?team=${encodeURIComponent(proposal.team)}`}>
-                    View all proposals by this team
-                  </Link>
+                  <Link href={`/teams?team=${encodeURIComponent(proposal.team)}`}>View all proposals by this team</Link>
                 </Button>
               </div>
             </div>

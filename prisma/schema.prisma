@@ -29,6 +29,10 @@ model User {
   tokens          Token[]
   teamMembers     TeamMember[]
   progressUpdates ProgressUpdate[]
+
+  // Add relations for votes and comments
+  votes           Vote[]
+  comments        Comment[]
 }
 
 // OAUTH login info
@@ -177,6 +181,10 @@ model Proposal {
   progressUpdates      ProgressUpdate[]
   milestones           Milestone[]
 
+  // Add relations for votes and comments
+  votes                Vote[]
+  comments             Comment[]
+
   @@index([teamId])
 }
 
@@ -256,3 +264,63 @@ model Example {
   url         String?
   image       String?
 }
+
+// New models for voting and commenting
+
+enum VoteType {
+  UPVOTE
+  DOWNVOTE
+}
+
+model Vote {
+  id         String   @id @default(cuid())
+  voteType   VoteType
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Proposal relation (can be null if vote is on a comment)
+  proposalId String?
+  proposal   Proposal? @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+
+  // Comment relation (can be null if vote is on a proposal)
+  commentId  String?
+  comment    Comment?  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, proposalId])
+  @@unique([userId, commentId])
+  @@index([proposalId])
+  @@index([commentId])
+  @@index([userId])
+}
+
+model Comment {
+  id         String    @id @default(cuid())
+  content    String    @db.Text
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  // Relations
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Proposal relation
+  proposalId String
+  proposal   Proposal  @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+
+  // Self-relation for nested comments
+  parentId   String?
+  parent     Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: SetNull)
+  replies    Comment[] @relation("CommentReplies")
+
+  // Votes on this comment
+  votes      Vote[]
+
+  @@index([proposalId])
+  @@index([userId])
+  @@index([parentId])
+}
+

@@ -1,3 +1,6 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
@@ -6,30 +9,58 @@ import type { Proposal } from "@/types/proposal"
 import { generateGradient, shortenId } from "@/lib/gradient-utils"
 import { GrainOverlay } from "@/components/grain-overlay"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { VoteButtons } from "@/components/votes/vote-buttons"
+import { CommentsSection } from "@/components/comments/comments-section"
 
 interface ProposalDetailViewProps {
-  proposal: Proposal;
-  closeModal: () => void;
+  proposal: Proposal
+  closeModal: () => void
 }
 
 export function ProposalDetailView({ proposal, closeModal }: ProposalDetailViewProps) {
   const gradient = generateGradient(proposal.id)
+  const [upvotes, setUpvotes] = useState(0)
+  const [downvotes, setDownvotes] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Fetch vote counts when the component mounts
+  useEffect(() => {
+    const fetchVoteCounts = async () => {
+      try {
+        const response = await fetch(`/api/proposals/${proposal.id}/votes`)
+        if (response.ok) {
+          const data = await response.json()
+          setUpvotes(data.upvotes || 0)
+          setDownvotes(data.downvotes || 0)
+        }
+      } catch (error) {
+        console.error("Error fetching vote counts:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchVoteCounts()
+  }, [proposal.id])
 
   return (
     <>
       <DialogHeader className="sticky top-0 z-10 bg-background p-4">
         <div className="flex items-center justify-start max-w-[90%]">
-          <DialogTitle className="text-2xl whitespace-nowrap text-ellipsis overflow-hidden">{proposal.title}</DialogTitle>
+          <DialogTitle className="text-2xl whitespace-nowrap text-ellipsis overflow-hidden">
+            {proposal.title}
+          </DialogTitle>
           <Badge className="ml-2">{proposal.category}</Badge>
         </div>
         <DialogDescription className="text-sm text-muted-foreground text-start">
           By {proposal.team} • {proposal.xGovPeriod} • Awarded {new Date(proposal.awardDate).toLocaleDateString()}
         </DialogDescription>
-        <X className="absolute top-4 right-4 h-6 w-6 text-muted-foreground hover:text-foreground cursor-pointer" onClick={closeModal} />
+        <X
+          className="absolute top-4 right-4 h-6 w-6 text-muted-foreground hover:text-foreground cursor-pointer"
+          onClick={closeModal}
+        />
       </DialogHeader>
       <div className="max-h-[60vh] overflow-y-auto px-4 pb-6">
-
-
         {/* Gradient Strip with ID Badge */}
         <div className="relative h-32 sm:h-40 w-full overflow-hidden rounded-lg bg-muted mb-6">
           <div className="absolute inset-0" style={{ background: gradient }} />
@@ -43,7 +74,7 @@ export function ProposalDetailView({ proposal, closeModal }: ProposalDetailViewP
                   #{shortenId(proposal.id)}
                 </div>
               </TooltipTrigger>
-              <TooltipContent side="left" >
+              <TooltipContent side="left">
                 <p className="text-sm font-mono mb-1">Proposal ID: {proposal.id}</p>
                 <p className="text-xs max-w-[250px]">
                   This unique gradient was generated from the proposal ID hash, creating a visual fingerprint for this
@@ -52,6 +83,18 @@ export function ProposalDetailView({ proposal, closeModal }: ProposalDetailViewP
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
+
+          {/* Add Vote Buttons */}
+          <div className="absolute bottom-3 left-3 bg-black/20 backdrop-blur-sm rounded-lg p-2">
+            <VoteButtons
+              entityId={proposal.id}
+              entityType="proposal"
+              initialUpvotes={upvotes}
+              initialDownvotes={downvotes}
+              size="md"
+              className="text-white"
+            />
+          </div>
         </div>
 
         {/* Vote Results (if available) */}
@@ -165,7 +208,7 @@ export function ProposalDetailView({ proposal, closeModal }: ProposalDetailViewP
         )}
 
         {/* Links Section */}
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-3 mb-6">
           {proposal.website && (
             <Button variant="outline" size="sm" asChild>
               <a href={proposal.website} target="_blank" rel="noopener noreferrer">
@@ -199,6 +242,9 @@ export function ProposalDetailView({ proposal, closeModal }: ProposalDetailViewP
             </Button>
           )}
         </div>
+
+        {/* Comments Section */}
+        <CommentsSection proposalId={proposal.id} />
       </div>
     </>
   )

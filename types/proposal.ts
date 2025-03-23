@@ -33,6 +33,7 @@ export interface Proposal {
   proposalLink?: string
   milestones?: Milestone[]
   voteResult?: VoteResult
+
 }
 
 export interface ExtendedProposal extends PrismaProposal {
