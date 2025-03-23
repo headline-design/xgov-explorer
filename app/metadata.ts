@@ -11,7 +11,7 @@ export const metadata: Metadata = {
       "Discover the best projects funded by Algorand's xGov community governance program. Track progress, connect with teams, and explore the Algorand ecosystem.",
     type: "website",
     url: "https://xgov.app",
-    images: [{ url: "/opengraph-image.png" }],
+    images: [{ url: "/images/og-image.png" }],
   },
   alternates: {
     canonical: "https://xgov.app",
