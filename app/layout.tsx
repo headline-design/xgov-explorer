@@ -15,16 +15,48 @@ const defaultUrl = process.env.VERCEL_URL
     metadataBase: new URL(defaultUrl),
     title: "xGov Explorer | Algorand Governance",
     description:
-      "Discover the power of Algorand governance",
+      "Discover innovative projects awarded through the Algorand Foundation xGov community governance program.",
     openGraph: {
       title: "xGov Explorer | Algorand Governance",
       description:
-        "Discover the power of Algorand governance and explore the latest xGov proposals, funding, and voting trends.",
-      images: [{ url: "/images/og-image.png" }],
+        "Discover innovative projects awarded through the Algorand Foundation xGov community governance program.",
+      images: [
+        {
+          url: "/images/og-image.png",
+          width: 1200,
+          height: 630,
+        },
+      ],
     },
-    keywords:
-      "Algorand, xGov, cryptocurrency, smart contracts, ASA, Pure Proof-of-Stake, staking, governance, environmental impact, interoperability",
-  };
+    keywords: [
+      "Algorand Foundation",
+      "xGov Explorer",
+      "xGov",
+      "community governance",
+      "blockchain projects",
+      "Algorand",
+      "daos",
+      "funding",
+      "Algorand projects",
+    ],
+    authors: [
+      { name: "HEADLINE", url: "https://headline.dev" },
+      { name: "Algorand Foundation", url: "https://algorand.foundation" },
+    ],
+    creator: "HEADLINE",
+    twitter: {
+      card: "summary_large_image",
+      title: "xGov Explorer | Algorand Foundation",
+      description:
+        "Discover innovative projects awarded through the Algorand Foundation xGov community governance program.",
+      images: ["/images/og-image.png"],
+    },
+    icons: {
+      icon: "/favicon.ico",
+      shortcut: "/images/favicon-96x96.png",
+      apple: "/images/apple-touch-icon.png",
+    },
+  }
 
 export default async function HomePage({ children }) {
   return (

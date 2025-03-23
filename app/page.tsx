@@ -39,24 +39,6 @@ export const metadata: Metadata = {
     "environmental impact",
     "interoperability",
   ],
-  other: {
-    structured_data: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: faqItems.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: `${item.answer} (Source: ${item.source})`,
-        },
-        citation: {
-          "@type": "CreativeWork",
-          url: item.source,
-        },
-      })),
-    }),
-  },
 };
 
 
