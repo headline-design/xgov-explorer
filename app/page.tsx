@@ -6,10 +6,56 @@ import { VoteStatistics } from "@/components/vote-statistics"
 import { VotingTrends } from "@/components/voting-trends"
 import { proposals } from "@/data/xgov-sessions"
 import FeaturedProposals from "@/components/featured-proposals"
-import { metadata } from "./metadata"
+import { faqItems } from "@/lib/faq-data"
 
 // Rich metadata optimized for SEO
-export { metadata }
+export const metadata: Metadata = {
+  title: "xGov Explorer | Algorand Governance",
+  description:
+    "Explore Algorand's xGov proposals, funding, and voting trends. Discover the latest in Algorand governance and participate in shaping the future of blockchain.",
+  openGraph: {
+    title: "xGov Explorer | Algorand Governance",
+    description:
+      "Discover the power of Algorand and Algorand's xGov proposals. Explore funding, voting trends, and the latest in Algorand governance.",
+    type: "website",
+    url: "https://xgov.app",
+    images: [{ url: "/images/og-image.png" }],
+  },
+  alternates: {
+    canonical: "https://xgov.app",
+  },
+  keywords: [
+    "Algorand",
+    "xGov",
+    "cryptocurrency",
+    "smart contracts",
+    "ASA",
+    "Pure Proof-of-Stake",
+    "staking",
+    "governance",
+    "environmental impact",
+    "interoperability",
+  ],
+  other: {
+    structured_data: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqItems.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `${item.answer} (Source: ${item.source})`,
+        },
+        citation: {
+          "@type": "CreativeWork",
+          url: item.source,
+        },
+      })),
+    }),
+  },
+};
+
 
 export default function Home() {
   // Calculate statistics for the hero section
