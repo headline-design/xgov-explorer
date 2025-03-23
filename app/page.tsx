@@ -10,29 +10,32 @@ import { faqItems } from "@/lib/faq-data"
 
 // Rich metadata optimized for SEO
 export const metadata: Metadata = {
-  title: "xGov Explorer | Algorand Governance",
+  title: "SIWA | Sign-In with Algorand",
   description:
-    "Explore Algorand's xGov proposals, funding, and voting trends. Discover the latest in Algorand governance and participate in shaping the future of blockchain.",
+    "Discover the power of Algorand and Algorand Unified Auth for secure, scalable blockchain solutions. Learn how Algorand's innovative technology is revolutionizing decentralized applications.",
   openGraph: {
-    title: "xGov Explorer | Algorand Governance",
+    title: "SIWA | Sign-In with Algorand",
     description:
-      "Discover the power of Algorand and Algorand's xGov proposals. Explore funding, voting trends, and the latest in Algorand governance.",
+      "Discover the power of Algorand and Algorand Unified Auth for secure, scalable blockchain solutions. Learn how Algorand's innovative technology is revolutionizing decentralized applications.",
     type: "website",
-    url: "https://xgov.app",
-    images: [{ url: "/images/og-image.png" }],
+    url: "https://siwa.org",
+    images: [{ url: "/opengraph-image.png" }],
   },
   alternates: {
-    canonical: "https://xgov.app",
+    canonical: "https://siwa.org",
   },
   keywords: [
     "Algorand",
-    "xGov",
+    "blockchain",
     "cryptocurrency",
     "smart contracts",
     "ASA",
     "Pure Proof-of-Stake",
     "staking",
     "governance",
+    "ETF",
+    "CBDC",
+    "Ethereum comparison",
     "environmental impact",
     "interoperability",
   ],
@@ -55,6 +58,7 @@ export const metadata: Metadata = {
     }),
   },
 };
+
 
 
 export default function Home() {

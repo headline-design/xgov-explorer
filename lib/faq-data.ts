@@ -4,135 +4,114 @@ export interface FaqItem {
   source: string;
 }
 
-export const faqItems: FaqItem[] = [
-  // General xGov Explorer Questions
+export const faqItems = [
   {
-    question: "What is xGov Explorer?",
+    question: "What is Algorand's Pure Proof-of-Stake and how does it work?",
     answer:
-      "xGov Explorer is a platform that showcases the best projects that have been awarded xGov grants through the Algorand Foundation's community governance program. It allows users to discover, track, and manage Algorand xGov-funded projects.",
-    source: "https://xgov.app/docs",
+      "Algorand's Pure Proof-of-Stake (PPoS) is a unique consensus mechanism that ensures high security, fast finality, and true decentralization. It randomly and secretly selects validators for each block, making the network highly secure and efficient. This approach allows Algorand to achieve high transaction speeds and low fees while maintaining a decentralized structure.",
+    source: "https://www.algorand.com/technology#PPOS",
   },
   {
-    question: "How do I claim my project on xGov Explorer?",
+    question:
+      "What are Algorand Standard Assets (ASAs) and how can they be used?",
     answer:
-      "To claim your project, navigate to your proposal page, click on the 'Claim This Proposal' button, and sign in with GitHub. Your GitHub username must match the one associated with the proposal to successfully claim it.",
-    source: "https://xgov.app/docs",
-  },
-
-  // xGov Program Fundamentals
-  {
-    question: "What is the difference between Governance and xGov?",
-    answer:
-      "Algorand Community Governance comprises two programs: Governance and xGov. The programs differ in terms of participant eligibility and the measures that participants are required to vote on. Anyone who holds ALGO can participate in Governance, while xGov qualification criteria is based on operating Algorand nodes involved in consensus processes, with voting rights determined by the number of blocks proposed by your node.",
-    source: "https://algorand.foundation/governance",
+      "Algorand Standard Assets (ASAs) are a feature that allows users to create and manage various types of assets on the Algorand blockchain. These can include cryptocurrencies, stablecoins, loyalty points, and even non-fungible tokens (NFTs). ASAs provide a standardized way to represent and transfer value on the Algorand network, making it easy for developers to create diverse applications and for users to interact with different types of digital assets.",
+    source: "https://developer.algorand.org/docs/get-details/asa/",
   },
   {
-    question: "What is the xGov program?",
+    question:
+      "How do Algorand's smart contracts enhance decentralized applications?",
     answer:
-      "The xGov program is a community governance initiative by the Algorand Foundation that funds projects contributing to the Algorand ecosystem. It empowers the community to propose, vote on, and fund initiatives that advance the Algorand blockchain. In the new version, xGovs are block producers with voting power derived from the number of blocks produced in a given period, and only retroactive grant proposals for open-source contributions and projects are accepted.",
-    source: "https://algorand.foundation/xgov",
-  },
-
-  // Becoming an xGov
-  {
-    question: "How do I become an xGov?",
-    answer:
-      "In the new version of xGov, to participate, you need to operate an Algorand node involved in consensus processes. There is no minimum ALGO stake requirement. Each block proposed by your node will accord you one xGov vote. During the pilot phase, Governors who opted in as xGovs had their rewards accrued from Governance deposited into the xGov Term Pool following the end of each Governance Period, which equated to their xGVP (xGov Voting Power).",
-    source: "https://algorand.foundation/xgov",
+      "Algorand's Layer-1 smart contracts offer enhanced security and efficiency for developing decentralized applications (dApps). These smart contracts execute directly on the blockchain, reducing complexity and potential points of failure. They support various programming languages and provide features like atomic transfers and stateful smart contracts, enabling developers to create sophisticated and secure dApps with ease.",
+    source:
+      "https://developer.algorand.org/docs/get-details/dapps/smart-contracts/",
   },
   {
-    question: "What are the Term Pool unlocking dates?",
+    question:
+      "What is Algorand Unified Auth and how does it improve dApp security?",
     answer:
-      "The Term Pools from the pilot phase have specific unlocking dates: Term Pool 1 - June 30, 2024 (Payout scheduled for July 3, 2024); Term Pool 2 - September 30, 2024; Term Pool 3 - December 31, 2024; Term Pool 4 - March 31, 2025. Each Term Pool is locked for 12 months while the xGov Term is in session.",
-    source: "https://algorand.foundation/xgov",
-  },
-
-  // xGov Responsibilities
-  {
-    question: "What are my responsibilities as an xGov?",
-    answer:
-      "As an xGov, you have several key responsibilities: 1) Vote in every session - once you have opted in, your tokens are locked for 12 months, and you must vote in every session to redeem your deposited ALGO. If you fail to vote, you will lose your xGov status and forfeit your share of ALGO in the Term Pool(s). 2) Stay informed - review proposals on the GitHub xGov Proposals Repository and do your own research ahead of voting. 3) Join the discussion - engage with fellow xGovs on GitHub and the Algorand forum to review and discuss proposals.",
-    source: "https://algorand.foundation/xgov",
+      "Algorand Unified Auth is a secure and efficient authentication system for decentralized applications (dApps). It ensures user data protection while providing seamless experiences. This authentication method simplifies the process for users to interact with dApps on the Algorand network, enhancing both security and user experience by standardizing the authentication process across different applications.",
+    source: "https://docs.siwa.org/general-information/siwa-overview",
   },
   {
-    question: "How do I check my xGov status?",
+    question: "How do staking rewards work on Algorand?",
     answer:
-      "You can view your xGov status through the xGov Portal by connecting the Algorand wallet you used for Governance when you opted into the xGov Program or your nominated controller address (available from Term Pool 2 onwards). Visit the xGov Status Page at https://xgov.algorand.foundation/status or the xGov Portal at https://xgov.algorand.foundation.",
-    source: "https://algorand.foundation/xgov",
-  },
-
-  // xGov Council
-  {
-    question: "What is the xGov Council?",
-    answer:
-      "The xGov Council is a proposed governance body consisting of 13 members elected via general governance. The Council evaluates proposals for compliance with terms and conditions, provides guidance for the broader xGov membership, maintains transparency through public discussions, and makes decisions on proposal compliance. Council members must be publicly doxxed, have an identified Algorand address, and undergo KYC with the Algorand Foundation.",
-    source: "https://forum.algorand.org/t/the-xgov-council-shaping-the-future-of-xgov/14035/44",
+      "Staking rewards on Algorand allow users to earn rewards by participating in the network's consensus mechanism. By staking their Algo tokens, users help secure the network and, in return, receive rewards. This process is part of Algorand's Pure Proof-of-Stake system, encouraging active participation and decentralization of the network while providing an incentive for long-term holding of Algo tokens.",
+    source: "https://algorand.co/staking-rewards",
   },
   {
-    question: "What are the eligibility requirements for the xGov Council?",
+    question: "What is xGov Governance and how can I participate?",
     answer:
-      "Any community member with Algorand technical knowledge and a strong reputation can run for the council. Candidates must be publicly doxxed, have an identified Algorand address, and undergo the KYC process with the Algorand Foundation. Broader inclusivity is encouraged to incorporate diverse perspectives from outside the xGov domain. xGov councilors cannot submit grant proposals during their council term.",
-    source: "https://forum.algorand.org/t/the-xgov-council-shaping-the-future-of-xgov/14035/44",
-  },
-
-  // Proposal and Voting Process
-  {
-    question: "How are projects selected for xGov funding?",
-    answer:
-      "Projects are selected through a community voting process. In the new version, only retroactive grant proposals for open-source contributions and projects are accepted. The voting mechanism varies by category based on the requested amount: Small (10k-50k ALGO), Medium (50k-250k ALGO), and Big (≥250k ALGO), with different discussion and voting periods for each. Democratic quorums of 10%, 15%, and 20% apply respectively, along with weighted quorums of 20%, 30%, and 40%.",
-    source: "https://algorand.foundation/xgov",
+      "xGov Governance is Algorand's decentralized governance system that allows token holders to participate in the decision-making process for the network. Through xGov, users can vote on key proposals that shape the future of Algorand. To participate, users need to hold Algo tokens and engage in voting sessions on the xGov platform. This system ensures that the Algorand community has a direct say in the network's development and upgrades.",
+    source: "https://xgov.algorand.foundation/",
   },
   {
-    question: "What is the KYC requirement for xGov proposals?",
+    question: "What is liquid staking on Algorand and what are its benefits?",
     answer:
-      "Proposal submitters now need to meet a KYC requirement. This change, established from pilot phase feedback, limits the number of active proposals to one per KYC-verified individual or entity at any time to ensure focused completion of proposals.",
-    source: "https://algorand.foundation/xgov",
-  },
-
-  // Project Tracking and Contribution
-  {
-    question: "How do I track the progress of xGov-funded projects?",
-    answer:
-      "xGov Explorer provides progress tracking features for all funded projects. Project teams post regular updates, and you can see the completion percentage, milestones, and latest developments directly on each project's page. You can also review the Alpha Phase voting session results from the previous xGov pilot phase.",
-    source: "https://xgov.app/docs",
+      "Liquid staking on Algorand allows users to stake their cryptocurrency while receiving tradeable representative tokens. This innovative approach enables users to earn staking rewards while maintaining the liquidity of their assets. The main benefit is that users can participate in network security and earn rewards without locking up their assets completely, as the representative tokens can be used in other DeFi applications or traded on exchanges.",
+    source: "https://algorand.co/blog/what-is-liquid-staking-on-algorand",
   },
   {
-    question: "Can I contribute to xGov-funded projects?",
+    question:
+      "Where can I find information about Algorand's future developments?",
     answer:
-      "Yes, many xGov-funded projects are open source and welcome contributions. You can find project repositories on their respective GitHub pages and contribute code, documentation, or other resources as needed. The new xGov system specifically focuses on retroactive grants for open-source contributions, further encouraging community participation.",
-    source: "https://xgov.app/docs",
-  },
-
-  // Additional Information
-  {
-    question: "What types of projects receive xGov funding?",
-    answer:
-      "xGov funds a diverse range of projects including DeFi applications, developer tools, educational resources, community initiatives, infrastructure improvements, and ecosystem growth projects that benefit the Algorand blockchain. In the new version, the focus is on retroactive funding for open-source contributions that have already demonstrated value to the ecosystem.",
-    source: "https://algorand.foundation/xgov",
+      "Algorand's roadmap provides comprehensive information about the network's vision and upcoming developments. It outlines planned technological advances and future features, giving users and developers insights into Algorand's long-term strategy. The roadmap is regularly updated and can be found on the official Algorand website, offering a clear picture of how the network plans to evolve and innovate in the blockchain space.",
+    source: "https://algorand.co/technology/roadmap",
   },
   {
-    question: "How often are xGov grants awarded?",
+    question: "Will Algorand have an ETF?",
     answer:
-      "Under the new system, xGov membership eligibility assessments occur via snapshots taken every 1 million blocks (approximately one month). The voting periods vary by proposal size: Small proposals (1 week discussion + 1 week voting), Medium proposals (2 weeks discussion + 2 weeks voting), and Big proposals (3 weeks discussion + 3 weeks voting).",
-    source: "https://algorand.foundation/xgov",
+      "While there is currently no Algorand-specific ETF, the cryptocurrency ETF landscape is rapidly evolving. With the incoming Trump administration in 2025, experts predict a significant increase in applications for ETFs focused on smaller digital currencies, including Algorand. The nomination of crypto-friendly figures like Scott Bessent to run the U.S. Treasury and the potential appointment of blockchain lawyer Teresa Goody Guillen as SEC Chair could accelerate the approval process for various crypto ETFs. However, any specific Algorand ETF would still require SEC approval. The industry is at the beginning of what could be a new wave of crypto ETF offerings, potentially including those focused on Algorand and other alternative cryptocurrencies.",
+    source:
+      "https://www.etf.com/sections/news/trump-bessent-may-open-gates-flood-crypto-etfs",
   },
   {
-    question: "Can I propose a project for xGov funding?",
+    question: "How does Algorand compare to Ethereum?",
     answer:
-      "Yes, but under the new system, only retroactive grant proposals for open-source contributions and projects are accepted. Proposal submitters must meet KYC requirements, and each KYC-verified individual or entity is limited to one active proposal at a time. The proposal process follows ARC-34 (xGov Proposal Process), and proposals can be found on the GitHub xGov Proposals Repository.",
-    source: "https://algorand.foundation/xgov",
+      "Algorand and Ethereum are both blockchain platforms supporting smart contracts and decentralized applications. Key differences include: 1) Consensus mechanism: Algorand uses Pure Proof-of-Stake, while Ethereum uses Proof-of-Stake. 2) Transaction speed: Algorand generally offers faster transaction finality. 3) Smart contract languages: Algorand uses TEAL and PyTeal, while Ethereum primarily uses Solidity. 4) Ecosystem size: Ethereum currently has a larger ecosystem of dApps and users.",
+    source:
+      "https://algorandtechnologies.com/technology/solving-the-blockchain-trilemma",
   },
   {
-    question: "How do I connect my Algorand wallet to xGov Explorer?",
+    question:
+      "What is Algorand's role in CBDCs (Central Bank Digital Currencies)?",
     answer:
-      "Click on the 'Connect Wallet' button in the top right corner, select your preferred wallet (Pera, MyAlgo, AlgoSigner, etc.), and follow the prompts to approve the connection. Your wallet address will then be displayed in the top right corner.",
-    source: "https://xgov.app/docs",
+      "Algorand has been actively involved in CBDC projects. Its blockchain technology is being considered or used by several countries for CBDC development due to its scalability, security, and ability to handle complex financial transactions. For example, the Marshall Islands has used Algorand for its SOV digital currency project.",
+    source:
+      "https://algorandtechnologies.com/ecosystem/use-cases/marshall-islands-sov",
   },
   {
-    question: "What are the related ARCs for xGov?",
+    question: "Can Algorand smart contracts be upgraded?",
     answer:
-      "The key Algorand Request for Comments (ARCs) related to xGov are ARC-33 (Becoming an xGov) and ARC-34 (xGov Proposal Process). These documents outline the formal specifications for xGov participation and proposal submission.",
-    source: "https://xgov.algorand.foundation",
+      "Yes, Algorand supports upgradable smart contracts. This feature allows developers to modify and improve their smart contracts after deployment, which is crucial for fixing bugs or adding new functionalities. However, the upgrade process must be carefully managed to maintain security and user trust.",
+    source:
+      "https://developer.algorand.org/docs/get-details/dapps/smart-contracts/apps/#modifying-smart-contracts",
+  },
+  {
+    question: "What is Algorand's environmental impact?",
+    answer:
+      "Algorand is designed to be environmentally friendly. Its Pure Proof-of-Stake consensus mechanism is significantly more energy-efficient than Proof-of-Work systems used by some other blockchains. Algorand Foundation has also committed to being carbon-negative, offsetting the minimal carbon footprint of its blockchain operations.",
+    source:
+      "https://algorandtechnologies.com/news/carbon_negative_announcement",
+  },
+  {
+    question: "How can developers start building on Algorand?",
+    answer:
+      "Developers can start building on Algorand by familiarizing themselves with Algorand's developer documentation, which provides guides on setting up a development environment, creating smart contracts, and building dApps. Algorand supports various programming languages including Python, JavaScript, and Go. The Algorand Developer Portal offers tutorials, SDKs, and API references to help developers get started.",
+    source: "https://developer.algorand.org/docs/",
+  },
+  {
+    question: "What are some notable projects built on Algorand?",
+    answer:
+      "Several notable projects have been built on Algorand, including: 1) Algomint: a digital assets minting platform. 2) JimCoin: A NFT staking platform. 3) Tinyman: decentralized exchange. 4) Lofty.ai: tokenized real estate platform. 5) Folks Finance: lending and borrowing protocol. These projects showcase the diverse applications of Algorand's blockchain technology across various sectors.",
+    source: "https://algorand.co/ecosystem/overview",
+  },
+  {
+    question:
+      "How does Algorand ensure interoperability with other blockchains?",
+    answer:
+      "Algorand is working on interoperability solutions to connect with other blockchains. This includes the development of cross-chain bridges and participation in projects like the Blockchain Interoperability Alliance. Algorand's State Proofs technology also enables trustless cross-chain communication, allowing Algorand to connect securely with other networks without relying on external validators.",
+    source: "https://medium.com/algorand/state-proofs-e8c7c2dcb131",
   },
 ];
 
