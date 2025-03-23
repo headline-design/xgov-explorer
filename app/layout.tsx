@@ -5,28 +5,27 @@ import Navbar from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { AppProviders, UIProviders } from "./providers";
 import { AnnouncementBanner } from "@/components/announcement-banner";
-import { Metadata } from "next";
 
 const defaultUrl = process.env.VERCEL_URL
-  ? `https://xgov.app`
+  ? `https://siwa.org`
   : "http://localhost:3000";
 
-export const metadata: Metadata = {
+export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "xGov Explorer | Algorand Governance",
+  title: "SIWA | Sign-In with Algorand",
   description:
-    "Discover the power of Algorand governance",
+    "Discover the power of Algorand and Algorand Unified Auth for secure, scalable blockchain solutions. Learn how Algorand's innovative technology is revolutionizing decentralized applications.",
   openGraph: {
-    title: "xGov Explorer | Algorand Governance",
+    title: "SIWA | Sign-In with Algorand",
     description:
-      "Discover the power of Algorand governance and explore the latest xGov proposals, funding, and voting trends.",
-    images: [{ url: "/images/og-image.png" }],
+      "Discover the power of Algorand and Algorand Unified Auth for secure, scalable blockchain solutions. Learn how Algorand's innovative technology is revolutionizing decentralized applications.",
+    images: [{ url: "/opengraph-image.png" }],
   },
   keywords:
-    "Algorand, xGov, cryptocurrency, smart contracts, ASA, Pure Proof-of-Stake, staking, governance, environmental impact, interoperability",
+    "Algorand, Algorand Auth, blockchain, cryptocurrency, decentralized applications, smart contracts, SIWA",
 };
 
-export default function RootLayout({ children, params }) {
+export default async function HomePage({ children }) {
   return (
     <AppProviders>
       <html lang="en" suppressHydrationWarning className={`${GeistMono.variable} ${GeistSans.variable}`}>
