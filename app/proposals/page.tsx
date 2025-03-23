@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { ProposalsPageContent } from "@/components/proposals/proposals-page-content"
+import { Suspense } from "react"
 
 export const metadata: Metadata = {
   title: "All Proposals | xGov Explorer",
@@ -13,6 +14,12 @@ export const metadata: Metadata = {
 }
 
 export default function ProposalsPage() {
-  return <ProposalsPageContent />
+  return (
+    <>
+      <Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
+        <ProposalsPageContent />
+      </Suspense>
+    </>
+  )
 }
 
