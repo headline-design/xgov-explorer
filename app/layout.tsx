@@ -5,25 +5,26 @@ import Navbar from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { AppProviders, UIProviders } from "./providers";
 import { AnnouncementBanner } from "@/components/announcement-banner";
+import { Metadata } from "next";
 
 const defaultUrl = process.env.VERCEL_URL
-  ? `https://siwa.org`
+  ? `https://xgov.app`
   : "http://localhost:3000";
 
-export const metadata = {
-  metadataBase: new URL(defaultUrl),
-  title: "SIWA | Sign-In with Algorand",
-  description:
-    "Discover the power of Algorand and Algorand Unified Auth for secure, scalable blockchain solutions. Learn how Algorand's innovative technology is revolutionizing decentralized applications.",
-  openGraph: {
-    title: "SIWA | Sign-In with Algorand",
+  export const metadata: Metadata = {
+    metadataBase: new URL(defaultUrl),
+    title: "xGov Explorer | Algorand Governance",
     description:
-      "Discover the power of Algorand and Algorand Unified Auth for secure, scalable blockchain solutions. Learn how Algorand's innovative technology is revolutionizing decentralized applications.",
-    images: [{ url: "/opengraph-image.png" }],
-  },
-  keywords:
-    "Algorand, Algorand Auth, blockchain, cryptocurrency, decentralized applications, smart contracts, SIWA",
-};
+      "Discover the power of Algorand governance",
+    openGraph: {
+      title: "xGov Explorer | Algorand Governance",
+      description:
+        "Discover the power of Algorand governance and explore the latest xGov proposals, funding, and voting trends.",
+      images: [{ url: "/images/og-image.png" }],
+    },
+    keywords:
+      "Algorand, xGov, cryptocurrency, smart contracts, ASA, Pure Proof-of-Stake, staking, governance, environmental impact, interoperability",
+  };
 
 export default async function HomePage({ children }) {
   return (
