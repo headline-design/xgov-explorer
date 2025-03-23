@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }
 ) {
   try {
     const proposalId = params.id;
@@ -160,7 +160,7 @@ export async function GET(
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }
 ) {
   try {
     const proposalId = params.id;

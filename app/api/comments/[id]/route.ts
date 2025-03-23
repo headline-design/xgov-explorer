@@ -2,7 +2,7 @@ import { getSession } from "@/lib/auth"
 import { NextResponse } from "next/server"
 import prisma from "@/lib/prisma"
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }) {
   try {
     const session = await getSession()
 

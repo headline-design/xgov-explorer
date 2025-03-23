@@ -1,12 +1,15 @@
-import { NextResponse } from "next/server"
-import prisma from "@/lib/prisma"
+import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }) {
   try {
-    const proposalId = params.id
+    const proposalId = params.id;
 
     if (!proposalId) {
-      return NextResponse.json({ error: "Missing proposal ID" }, { status: 400 })
+      return NextResponse.json(
+        { error: "Missing proposal ID" },
+        { status: 400 }
+      );
     }
 
     // Fetch vote counts from database
@@ -20,16 +23,20 @@ export async function GET(request: Request, { params }: { params: { id: string }
           id: true,
         },
       })
-      .catch(() => [])
+      .catch(() => []);
 
     // Calculate upvotes and downvotes
-    const upvotes = voteData.find((v) => v.voteType === "UPVOTE")?._count?.id || 0
-    const downvotes = voteData.find((v) => v.voteType === "DOWNVOTE")?._count?.id || 0
+    const upvotes =
+      voteData.find((v) => v.voteType === "UPVOTE")?._count?.id || 0;
+    const downvotes =
+      voteData.find((v) => v.voteType === "DOWNVOTE")?._count?.id || 0;
 
-    return NextResponse.json({ upvotes, downvotes })
+    return NextResponse.json({ upvotes, downvotes });
   } catch (error) {
-    console.error("Error fetching vote counts:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    console.error("Error fetching vote counts:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
-

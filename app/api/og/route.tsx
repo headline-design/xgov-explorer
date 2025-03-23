@@ -1,55 +1,75 @@
-import type { NextRequest } from "next/server";
-import { ImageResponse } from "next/og";
-import type { ReactElement } from "react";
+import type { NextRequest } from "next/server"
+import { ImageResponse } from "next/og"
+import type { ReactElement } from "react"
 
-export const runtime = "edge";
+export const runtime = "edge"
 
-const interSemiBold = fetch(
-  new URL("./Inter-SemiBold.ttf", import.meta.url),
-).then((res) => res.arrayBuffer());
+const interSemiBold = fetch(new URL("./Inter-SemiBold.ttf", import.meta.url)).then((res) => res.arrayBuffer())
 
 export async function GET(req: NextRequest): Promise<Response | ImageResponse> {
   try {
-    const { searchParams } = new URL(req.url);
-    const isDark = req.headers.get("Sec-CH-Prefers-Color-Scheme") === "dark";
+    const { searchParams } = new URL(req.url)
 
-    const title = searchParams.has("title")
-      ? searchParams.get("title")
-      : "xGov Explorer - Algorand Governance";
+    // Check for explicit theme parameter first, then fall back to header
+    const theme = searchParams.get("theme")
+    const isDark = theme === "dark" || (theme !== "light" && req.headers.get("Sec-CH-Prefers-Color-Scheme") === "dark")
+
+    const title = searchParams.has("title") ? searchParams.get("title") : "xGov Explorer - Algorand Governance"
+
+    const summary = searchParams.has("summary") ? searchParams.get("summary") : ""
 
     return new ImageResponse(
-      (
+      <div
+        style={{
+          position: "relative",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {isDark ? <DarkSvg /> : <LightSvg />}
         <div
           style={{
-            position: "relative",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            position: "absolute",
+            fontFamily: "Inter",
+            fontSize: "48px",
+            fontWeight: "600",
+            letterSpacing: "-0.04em",
+            color: isDark ? "white" : "black",
+            top: "250px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            whiteSpace: "pre-wrap",
+            maxWidth: "750px",
+            textAlign: "center",
+            wordWrap: "break-word",
+            overflowWrap: "break-word",
           }}
         >
-          {isDark ? <DarkSvg /> : <LightSvg />}
+          {title}
+        </div>
+        {summary && (
           <div
             style={{
               position: "absolute",
               fontFamily: "Inter",
-              fontSize: "48px",
-              fontWeight: "600",
-              letterSpacing: "-0.04em",
-              color: isDark ? "white" : "black",
-              top: "250px",
+              fontSize: "24px",
+              fontWeight: "400",
+              color: isDark ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)",
+              top: "340px",
               left: "50%",
               transform: "translateX(-50%)",
               whiteSpace: "pre-wrap",
-              maxWidth: "750px",
+              maxWidth: "650px",
               textAlign: "center",
               wordWrap: "break-word",
               overflowWrap: "break-word",
             }}
           >
-            {title}
+            {summary.length > 100 ? `${summary.substring(0, 100)}...` : summary}
           </div>
-        </div>
-      ),
+        )}
+      </div>,
       {
         width: 843,
         height: 441,
@@ -62,15 +82,14 @@ export async function GET(req: NextRequest): Promise<Response | ImageResponse> {
           },
         ],
       },
-    );
+    )
   } catch (e) {
-    if (!(e instanceof Error)) throw e;
+    if (!(e instanceof Error)) throw e
 
-    // eslint-disable-next-line no-console
-    console.log(e.message);
+    console.log(e.message)
     return new Response(`Failed to generate the image`, {
       status: 500,
-    });
+    })
   }
 }
 
@@ -255,27 +274,8 @@ function LightSvg(): ReactElement {
           x="465.75"
           y="197.75"
         />
-        <path
-          d="M419.592,161.47821c.924,1.63833,2.156,2.949,4.004,3.932l4.004,1.966,4.004-1.966c3.08-1.63833,5.236-5.24266,5.236-8.847v-14.745h-9.24v-6.55333h15.4v21.29833c0,6.22567-3.388,12.12367-8.932,14.745l-6.776,3.27667-6.468-3.27667c-4.004-1.966-6.776-5.57034-8.008-9.83,0,0,6.77602,0,6.77601,0Z"
-          fill="url(#paint3_linear_5_3)"
-          stroke-width="0"
-        ></path>
-        <rect
-          x="399"
-          y="148.37154"
-          width="22.88"
-          height="6.55333"
-          fill="url(#paint3_linear_5_3)"
-          stroke-width="0"
-        ></rect>
-        <rect
-          x="399"
-          y="135.26488"
-          width="22.88"
-          height="6.55333"
-          fill="url(#paint3_linear_5_3)"
-          stroke-width="0"
-        ></rect>
+
+        <path d="M402.76928,148.19293c-.4858,1.72727-.73185,3.51313-.73124,5.30742,0,1.8399.25476,3.62084.73124,5.30742h7.95169c-.19084-1.76271-.28691-3.5344-.28778-5.30742,0-1.68894.09435-3.48874.28778-5.30742h-7.95169ZM399.70278,146.1478c.0356-.21272.10741-.41777.2123-.60622,4.39921-11.9213,17.6296-18.01916,29.5509-13.61994,6.31413,2.33005,11.29146,7.30792,13.62081,13.6223.10413.18627.17592.38886.2123.59915.77842,2.31167,1.20066,4.78375,1.20066,7.35726,0,2.57115-.42459,5.04794-1.20302,7.35726-.03564.21014-.10663.41272-.20994.59915-4.39856,11.92154-17.62862,18.02012-29.55016,13.62156-6.31425-2.3297-11.29185-7.3073-13.62156-13.62156-.10464-.18773-.17643-.39195-.2123-.60387-.80001-2.36866-1.2064-4.85243-1.20302-7.35254,0-2.57115.42223-5.04558,1.20066-7.35254M421.49857,134.03981c-1.00959,0-1.96256.4529-2.89667,1.47192-.96005,1.04497-1.81631,2.61125-2.53105,4.58089-.50715,1.40116-.91995,2.94857-1.2384,4.56202h13.33223c-.2992-1.54925-.71315-3.07413-1.2384-4.56202-.71237-1.96964-1.571-3.53592-2.53105-4.58089-.93411-1.01902-1.88708-1.47192-2.89667-1.47192M432.27853,158.80776h7.94933c.47649-1.68658.73124-3.46751.73124-5.30742s-.25476-3.62084-.73124-5.30742h-7.94933c.19343,1.81867.28542,3.61848.28542,5.30742s-.09436,3.48874-.28778,5.30742M428.16234,162.34604h-13.32988c.3208,1.6111.73125,3.16086,1.2384,4.56202.71237,1.96964,1.571,3.53592,2.53105,4.58089.93411,1.01902,1.88708,1.47193,2.89667,1.47193s1.96256-.4529,2.89667-1.47193c.96005-1.04497,1.81867-2.61125,2.53105-4.58089.50715-1.40116.91995-2.94857,1.2384-4.56202M414.34181,171.60453c-.63678-1.11384-1.17128-2.28311-1.59694-3.49346-.66187-1.87695-1.16837-3.80512-1.51438-5.76504h-7.06947c2.15859,4.2195,5.77785,7.51011,10.18316,9.25849M438.83613,144.65465c-2.15859-4.21949-5.77785-7.51011-10.18316-9.2585.6251,1.07092,1.15348,2.25742,1.5993,3.49346.64633,1.78565,1.14876,3.75058,1.51674,5.76504h7.06712Z" fill="#111827" stroke-width="0" />
 
         <g filter="url(#filter1_f_5_3)">
           <path
@@ -569,27 +569,7 @@ function DarkSvg(): ReactElement {
           x="377.456"
           y="109.456"
         />
-        <path
-          d="M419.592,161.47821c.924,1.63833,2.156,2.949,4.004,3.932l4.004,1.966,4.004-1.966c3.08-1.63833,5.236-5.24266,5.236-8.847v-14.745h-9.24v-6.55333h15.4v21.29833c0,6.22567-3.388,12.12367-8.932,14.745l-6.776,3.27667-6.468-3.27667c-4.004-1.966-6.776-5.57034-8.008-9.83,0,0,6.77602,0,6.77601,0Z"
-          fill="url(#paint4_linear_1_4)"
-          stroke-width="0"
-        ></path>
-        <rect
-          x="399"
-          y="148.37154"
-          width="22.88"
-          height="6.55333"
-          fill="url(#paint3_linear_1_4)"
-          stroke-width="0"
-        ></rect>
-        <rect
-          x="399"
-          y="135.26488"
-          width="22.88"
-          height="6.55333"
-          fill="url(#paint3_linear_1_4)"
-          stroke-width="0"
-        ></rect>
+           <path d="M402.76928,148.19293c-.4858,1.72727-.73185,3.51313-.73124,5.30742,0,1.8399.25476,3.62084.73124,5.30742h7.95169c-.19084-1.76271-.28691-3.5344-.28778-5.30742,0-1.68894.09435-3.48874.28778-5.30742h-7.95169ZM399.70278,146.1478c.0356-.21272.10741-.41777.2123-.60622,4.39921-11.9213,17.6296-18.01916,29.5509-13.61994,6.31413,2.33005,11.29146,7.30792,13.62081,13.6223.10413.18627.17592.38886.2123.59915.77842,2.31167,1.20066,4.78375,1.20066,7.35726,0,2.57115-.42459,5.04794-1.20302,7.35726-.03564.21014-.10663.41272-.20994.59915-4.39856,11.92154-17.62862,18.02012-29.55016,13.62156-6.31425-2.3297-11.29185-7.3073-13.62156-13.62156-.10464-.18773-.17643-.39195-.2123-.60387-.80001-2.36866-1.2064-4.85243-1.20302-7.35254,0-2.57115.42223-5.04558,1.20066-7.35254M421.49857,134.03981c-1.00959,0-1.96256.4529-2.89667,1.47192-.96005,1.04497-1.81631,2.61125-2.53105,4.58089-.50715,1.40116-.91995,2.94857-1.2384,4.56202h13.33223c-.2992-1.54925-.71315-3.07413-1.2384-4.56202-.71237-1.96964-1.571-3.53592-2.53105-4.58089-.93411-1.01902-1.88708-1.47192-2.89667-1.47192M432.27853,158.80776h7.94933c.47649-1.68658.73124-3.46751.73124-5.30742s-.25476-3.62084-.73124-5.30742h-7.94933c.19343,1.81867.28542,3.61848.28542,5.30742s-.09436,3.48874-.28778,5.30742M428.16234,162.34604h-13.32988c.3208,1.6111.73125,3.16086,1.2384,4.56202.71237,1.96964,1.571,3.53592,2.53105,4.58089.93411,1.01902,1.88708,1.47193,2.89667,1.47193s1.96256-.4529,2.89667-1.47193c.96005-1.04497,1.81867-2.61125,2.53105-4.58089.50715-1.40116.91995-2.94857,1.2384-4.56202M414.34181,171.60453c-.63678-1.11384-1.17128-2.28311-1.59694-3.49346-.66187-1.87695-1.16837-3.80512-1.51438-5.76504h-7.06947c2.15859,4.2195,5.77785,7.51011,10.18316,9.25849M438.83613,144.65465c-2.15859-4.21949-5.77785-7.51011-10.18316-9.2585.6251,1.07092,1.15348,2.25742,1.5993,3.49346.64633,1.78565,1.14876,3.75058,1.51674,5.76504h7.06712Z" fill="#FAFAFA" stroke-width="0" />
       </g>
       <defs>
         <filter
