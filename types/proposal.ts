@@ -1,3 +1,5 @@
+import { Proposal as PrismaProposal } from "@prisma/client"
+
 export interface Milestone {
   title: string
   description: string
@@ -32,4 +34,22 @@ export interface Proposal {
   milestones?: Milestone[]
   voteResult?: VoteResult
 }
+
+export interface ExtendedProposal extends PrismaProposal {
+  id: string
+  title: string
+  description: string
+  longDescription?: string
+  team: string
+  category: string
+  fundingAmount: number
+  status: "Completed" | "In Progress" | "Planning"
+  completionPercentage: number
+  xGovPeriod: string
+  image: string
+  milestones?: Milestone[]
+  voteResult?: VoteResult
+}
+
+
 
