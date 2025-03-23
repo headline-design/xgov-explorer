@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation"
 import { getSession } from "@/lib/auth"
 import prisma from "@/lib/prisma"
-import { TeamDashboard } from "@/components/team-dashboard"
+import { Dashboard } from "@/components/dashboard/dashboard"
 
 import type { Proposal, Team, TeamMember, User, Wallet, WhitelistedAddress } from "@prisma/client"
 
@@ -26,13 +26,13 @@ interface ExtendedTeam extends Team {
     proposals: Proposal[]
 }
 
-export interface TeamDashboardProps {
+export interface DashboardProps {
     teams: ExtendedTeam[]
     currentUserId: string
 }
 
 export const metadata = {
-    title: "Team Dashboard | xGov Explorer",
+    title: "Dashboard | xGov Explorer",
     description: "Manage your teams and proposal updates",
 }
 
@@ -111,7 +111,7 @@ export default async function TeamPage() {
 
     // If not logged in, redirect to login
     if (!session?.user) {
-        redirect("/api/auth/signin?callbackUrl=/team")
+        redirect("/api/auth/signin?callbackUrl=/")
     }
 
     let teams = await getUserTeams(session.user.id)
@@ -136,7 +136,7 @@ export default async function TeamPage() {
     if (teams.length === 0) {
         return (
             <div className="container px-4 md:px-6 py-8">
-                <h1 className="text-3xl font-bold mb-6">Team Dashboard</h1>
+                <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
                 <div className="bg-muted/30 rounded-lg p-8 text-center">
                     <h2 className="text-xl font-semibold mb-2">No Teams Found</h2>
                     <p className="text-muted-foreground mb-4">
@@ -150,7 +150,7 @@ export default async function TeamPage() {
 
     return (
         <div className="container px-4 md:px-6 py-8">
-            <TeamDashboard currentUserId={session.user.id} teams={teams} />
+            <Dashboard currentUserId={session.user.id} teams={teams} />
         </div>
     )
 }

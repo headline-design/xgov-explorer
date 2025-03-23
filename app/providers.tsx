@@ -7,6 +7,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "next-themes";
+import { UserProvider } from "@/providers/user-provider";
 
 
 export function AppProviders({
@@ -21,7 +22,9 @@ export function AppProviders({
             <QueryClientProvider client={queryClient}>
                 <SessionProvider>
                     <Web3AVMProvider>
-                        {children}
+                        <UserProvider>
+                            {children}
+                        </UserProvider>
                     </Web3AVMProvider>
                 </SessionProvider>
             </QueryClientProvider>

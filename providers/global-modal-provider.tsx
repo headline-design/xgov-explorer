@@ -1,6 +1,7 @@
 "use client";
 
-import { useLoginModal } from "@/components/modals/login-modal/login-modal";
+import { useConnectWalletModal } from "@/components/modals/vmkit-modal/connect-wallet-modal";
+import { useLoginModal } from "@/components/modals/vmkit-modal/login-modal";
 import { Dispatch, ReactNode, SetStateAction, createContext } from "react";
 
 export const GlobalModalContext = createContext<{
@@ -8,11 +9,17 @@ export const GlobalModalContext = createContext<{
   setAuthFlow: Dispatch<SetStateAction<any>>;
   showLoginModal: boolean;
   authFlow: any;
+  setShowConnectWalletModal: Dispatch<SetStateAction<boolean>>;
+  showConnectWalletModal: boolean;
+  setTeamId: Dispatch<SetStateAction<any>>;
 }>({
   setShowLoginModal: () => { },
   setAuthFlow: () => { },
   showLoginModal: false,
   authFlow: {},
+  setShowConnectWalletModal: () => { },
+  showConnectWalletModal: false,
+  setTeamId: () => { },
 });
 
 export default function GlobalModalProvider({
@@ -28,6 +35,13 @@ export default function GlobalModalProvider({
     setAuthFlow,
   } = useLoginModal();
 
+  const {
+    setShowConnectWalletModal,
+    showConnectWalletModal,
+    ConnectWalletModal,
+    setTeamId,
+  } = useConnectWalletModal();
+
   return (
     <GlobalModalContext.Provider
       value={{
@@ -35,9 +49,13 @@ export default function GlobalModalProvider({
         setAuthFlow,
         showLoginModal,
         authFlow,
+        setShowConnectWalletModal,
+        showConnectWalletModal,
+        setTeamId,
       }}
     >
       {showLoginModal && <LoginModal />}
+      {showConnectWalletModal && <ConnectWalletModal />}
       {children}
     </GlobalModalContext.Provider>
   );

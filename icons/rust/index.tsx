@@ -20,4 +20,5 @@ export {IconArrowDown} from './arrow-down';
 export {IconArrowUp} from './arrow-up';
 export {IconStop} from './stop';
 export {IconWarning} from './warning';
+export {IconHome} from './home';
 export {IconCheckCircle} from './check-circle';

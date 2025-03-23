@@ -6,7 +6,6 @@ import { getToken } from "next-auth/jwt";
 import GitHubProvider from "next-auth/providers/github";
 import { getSearchParams } from "@/lib/utils";
 import { SiwaMessage } from "@avmkit/siwa";
-import { v4 as uuidv4 } from "uuid";
 import prisma from "@/lib/prisma";
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
@@ -383,51 +382,61 @@ async function handleWalletAuth(
   data: any,
   vm: "AVM" | "EVM" | "SVM" | "Substrate"
 ) {
-  const address = data?.address;
+  const address =
+    vm === "AVM" ? data.address : vm === "EVM" ? data.address : data.address;
   const session = await getSession();
   const emailProvider = vm.toLowerCase();
-  let user: any;
-  let wallet: any;
+  const chainId = 1000
 
-  // Check if user exists
-  if (session?.user?.id) {
-    user = {
-      id: session.user.id,
-      provider: session.user.provider || emailProvider,
-      vm,
-      name: address,
-      email: `${address}@${emailProvider}.web3`,
+  let wallet = await prisma.wallet.findUnique({ where: { address } });
+
+  // If wallet does not exist, check for user or create user and wallet
+  if (!wallet) {
+    let user: any;
+
+    // Check if user exists
+    if (session?.user?.id) {
+      user = await prisma.user.findUnique({
+        where: { id: session.user.id },
+      });
+    }
+
+    if (!user) {
+      // Create user associated with the wallet
+      user = await prisma.user.create({
+        data: {
+          name: address,
+          email: `${address}@${emailProvider}.web3`,
+        },
+      });
+    }
+
+    // Create wallet associated with the found or newly created user
+    const userWallet = await prisma.wallet.create({
+      data: {
+        address,
+        chainId: chainId,
+        userId: user.id,
+        vm: vm,
+      },
+    });
+
+    // add wallet.status to the userWallet object
+    wallet = userWallet;
+    wallet.status = "active";
+
+    const profile = {
+      ...user,
+      wallets: [userWallet],
     };
-    wallet = {
-      address,
-      chainId: data.chainId,
-      userId: user.id,
-      status: "active",
-      vm,
-    };
-  } else if (!session?.user?.id) {
-    user = {
-      id: data?.id || uuidv4(),
-      provider: emailProvider,
-      name: address,
-      email: `${address}@${emailProvider}.web3`,
-      vm,
-    };
-    wallet = {
-      address,
-      chainId: data.chainId,
-      userId: user.id,
-      status: "active",
-      vm,
-    };
+
+    return profile;
+  } else {
+    return await prisma.user.findUnique({
+      where: { id: wallet.userId },
+      include: { wallets: { where: { address: wallet.address } } },
+    });
   }
-
-  const profile = {
-    ...user,
-    wallets: [wallet],
-  };
-
-  return profile;
 }
 
 export function withUserAuth(handler: any) {

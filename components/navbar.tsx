@@ -137,20 +137,11 @@ export default function Navbar({
                       href={`${HOME_DOMAIN}/docs`}
                       variant="outline"
                       slim
-                      className="hidden lg:flex mr-2"
+                      className="hidden lg:flex "
                       icon={<BookOpen className="h-4 w-4" />}
                       text="Docs"
                     />
-                    <ButtonLink
-                      href="https://xgov.algorand.foundation"
-                      rounded
-                      variant="outline"
-                      slim
-                      className="hidden lg:flex"
-                      suffix={<ArrowUpRight className="h-4 w-4" />}
-                      target={"_blank"}
-                      text="Learn More"
-                    />
+
                   </>
                 ) : (
                   <>
@@ -158,7 +149,7 @@ export default function Navbar({
                       href={`${HOME_DOMAIN}/docs`}
                       variant="outline"
                       slim
-                      className="hidden lg:flex mr-2"
+                      className="hidden lg:flex "
                       icon={<BookOpen className="h-4 w-4" />}
                       text="Docs"
                     />

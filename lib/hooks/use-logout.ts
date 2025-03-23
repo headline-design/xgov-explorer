@@ -51,13 +51,7 @@ export const useLogout = () => {
           setSigningOut(false);
         }
       }, 300),
-    [
-      siwaData,
-      signOutWithSIWA,
-      session,
-      urlCallback,
-      callbackRedirect,
-    ],
+    [siwaData, signOutWithSIWA, urlCallback, callbackRedirect],
   );
 
   // Memoize the debounced function with useCallback

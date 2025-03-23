@@ -120,7 +120,7 @@ export default function ProgressUpdatesPage() {
                   <Link href="/teams">Browse Projects</Link>
                 </Button>
                 <Button asChild variant="outline" size="sm">
-                  <Link href="/team">Team Dashboard</Link>
+                  <Link href="/dashboard">Dashboard</Link>
                 </Button>
               </div>
             </CardContent>

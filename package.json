@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@agoralabs-sh/avm-web-provider": "^1.7.0",
+    "algosdk": "^3.2.0",
     "@avmkit/siwa": "1.0.8",
     "mdast-util-toc": "^7.1.0",
     "remark": "^15.0.1",

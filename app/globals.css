@@ -68,6 +68,9 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --rust-foreground: #000;
+    --rust-background: #fff;
   }
 
   :root {
@@ -140,6 +143,9 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
+    --rust-foreground: #fff;
+    --rust-background: #000;
+
   }
 
   .dark {
@@ -177,7 +183,7 @@
     --accent: 0 0% 14.9%;
     --accent-alt: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;

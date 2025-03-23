@@ -5,8 +5,9 @@ import Navbar from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { AppProviders, UIProviders } from "./providers";
 import { AnnouncementBanner } from "@/components/announcement-banner";
+import { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "xGov Explorer | Algorand Foundation",
   description:
     "Discover innovative projects awarded through the Algorand Foundation xGov community governance program.",
@@ -22,6 +23,22 @@ export const metadata = {
       },
     ],
   },
+  keywords: [
+    "Algorand Foundation",
+    "xGov Explorer",
+    "xGov",
+    "community governance",
+    "blockchain projects",
+    "Algorand",
+    "daos",
+    "funding",
+    "Algorand projects",
+  ],
+  authors: [
+    { name: "HEADLINE", url: "https://headline.dev" },
+    { name: "Algorand Foundation", url: "https://algorand.foundation" },
+  ],
+  creator: "HEADLINE",
   twitter: {
     card: "summary_large_image",
     title: "xGov Explorer | Algorand Foundation",

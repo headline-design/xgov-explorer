@@ -192,7 +192,7 @@ export function ClaimProposal({ proposalId, proposalGithub, teamName, initialCla
             </CardHeader>
 
             {showInfo && (
-                <CardContent className="bg-muted/30 border-y">
+                <CardContent className="bg-muted/30 border-y pt-6">
                     <div className="space-y-2 text-sm">
                         <h4 className="font-medium">What does claiming a proposal do?</h4>
                         <ul className="list-disc pl-5 space-y-1 text-muted-foreground">

@@ -9,7 +9,7 @@ import { MobileMenuTrigger } from "./mobile-menu-trigger"
 import { MobileMenu } from "./mobile-menu"
 import { DesktopMenu } from "./desktop-menu"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import { IconDashboard, IconInformation, IconLogout, IconTarget } from "@/icons/rust"
+import { IconDashboard, IconHome, IconInformation, IconLogout, IconTarget } from "@/icons/rust"
 import { AVATAR_GRADIENT_API, HOME_DOMAIN } from "@/lib/constants"
 import { cn, shorten } from "@/lib/utils"
 import { Button } from "@/components/ui/rust-button"
@@ -150,17 +150,17 @@ export const NavMenu = React.memo(
             name: "Home",
             href: HOME_DOMAIN,
             isActive: segments.length === 0,
-            icon: <IconDashboard size={16} className="flex wd:hidden" />,
+            icon: <IconHome size={16} className="flex wd:hidden" />,
           },
         ]
 
-        // Add Team Dashboard link if user has teams
+        // Add Dashboard link if user
         if (hasTeams) {
           items.push({
-            name: "Team Dashboard",
-            href: "/team",
+            name: "Dashboard",
+            href: "/dashboard",
             isActive: segments[0] === "team",
-            icon: <Users size={16} className="flex wd:hidden" />,
+            icon: <IconDashboard size={16} className="flex wd:hidden" />,
           })
         }
 
@@ -387,29 +387,9 @@ export const NavMenu = React.memo(
             ],
           },
           {
-            name: "Documentation",
-            children: [
-              {
-                name: "Getting Started",
-                icon: <IconInformation size={16} />,
-                href: `${HOME_DOMAIN}/docs`,
-              },
-              {
-                name: "Team Management",
-                icon: <Users size={16} />,
-                href: `${HOME_DOMAIN}/docs/team-management`,
-              },
-              {
-                name: "Wallet Integration",
-                icon: <Wallet size={16} />,
-                href: `${HOME_DOMAIN}/docs/wallet-integration`,
-              },
-              {
-                name: "Progress Updates",
-                icon: <NewspaperIcon size={16} />,
-                href: `${HOME_DOMAIN}/docs/progress-updates`,
-              },
-            ],
+            name: "Docs",
+            icon: <IconInformation size={16} />,
+            href: `${HOME_DOMAIN}/docs`,
           },
           {
             name: "Resources",
@@ -435,22 +415,12 @@ export const NavMenu = React.memo(
             children: [
               {
                 name: "Getting Started",
-                icon: <IconInformation size={16} />,
+                icon: <IconInformation size={16} className="mr-2"/>,
                 href: `${HOME_DOMAIN}/docs`,
               },
               {
-                name: "Team Management",
-                icon: <Users size={16} />,
-                href: `${HOME_DOMAIN}/docs/team-management`,
-              },
-              {
-                name: "Wallet Integration",
-                icon: <Wallet size={16} />,
-                href: `${HOME_DOMAIN}/docs/wallet-integration`,
-              },
-              {
                 name: "Progress Updates",
-                icon: <NewspaperIcon size={16} />,
+                icon: <NewspaperIcon size={16} className="mr-2"/>,
                 href: `${HOME_DOMAIN}/docs/progress-updates`,
               },
             ],
