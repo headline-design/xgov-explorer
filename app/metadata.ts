@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { generateFaqStructuredData } from "@/lib/faq-data"
+import { faqItems } from "@/lib/faq-data"
 
 export const metadata: Metadata = {
   title: "xGov Explorer | Algorand xGov Projects",
@@ -31,7 +31,22 @@ export const metadata: Metadata = {
     "tracking",
   ],
   other: {
-    structured_data: JSON.stringify(generateFaqStructuredData()),
+    structured_data: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqItems.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `${item.answer} (Source: ${item.source})`,
+        },
+        citation: {
+          "@type": "CreativeWork",
+          url: item.source,
+        },
+      })),
+    }),
   },
 }
 
