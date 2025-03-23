@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { ProposalDetailView } from "@/components/proposal-detail-view"
 import { generateGradient } from "@/lib/gradient-utils"
 import { GrainOverlay } from "@/components/grain-overlay"
-import DialogV2 from "./ui/dialog-v2/dialog-v2"
+import DialogV2 from "../ui/dialog-v2/dialog-v2"
 import Link from "next/link"
 
 interface FeaturedProposalsProps {

@@ -76,11 +76,11 @@ export default function DocsPage() {
             </ul>
           </CardContent>
           <CardFooter>
-            <Button asChild className="w-full">
-              <Link href="/api/auth/signin">
+            <Button className="w-full">
+              <>
                 Sign In to Get Started
                 <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
+              </>
             </Button>
           </CardFooter>
         </Card>
@@ -304,11 +304,11 @@ export default function DocsPage() {
                   </div>
                 </div>
                 <div className="flex justify-center mt-6">
-                  <Button asChild>
-                    <Link href="/api/auth/signin">
+                  <Button >
+                    <>
                       Sign In with GitHub
                       <Github className="ml-2 h-4 w-4" />
-                    </Link>
+                    </>
                   </Button>
                 </div>
               </div>

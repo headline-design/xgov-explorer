@@ -67,7 +67,7 @@ export function ProposalListItem({ proposal, onClick }: ProposalListItemProps) {
         <div className="flex-1 p-4">
           <div className="flex justify-between items-start mb-2">
             <h3 className="font-bold">
-              <Link href={`/proposal/${proposal.id}`} className="hover:underline">
+              <Link href={`/proposal/${proposal.number}`} className="hover:underline">
                 {proposal.title}
               </Link>
             </h3>

@@ -63,7 +63,7 @@ export default function DocsLayout({
     <SidebarProvider>
       <div className="flex min-h-screen flex-col w-full bg-background-accent">
         <header className="sticky top-0 z-30 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="container flex h-14 items-center justify-between py-4">
+          <div className="container flex h-14 items-center justify-between py-4 px-4 lg:px-6">
             <div className="flex items-center gap-2 md:gap-4 text-base">
               <Link href="/" className="flex items-center gap-2 font-medium">
                 <Home className="h-5 w-5 text-muted-foreground" />
@@ -84,7 +84,7 @@ export default function DocsLayout({
           </div>
         </header>
 
-        <div className="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] lg:grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)] md:gap-6 lg:gap-10">
+        <div className="px-5 lg:px-6 container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] lg:grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)] md:gap-6 lg:gap-10">
           <aside className="fixed top-14 z-20 -ml-2 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 md:sticky md:block overflow-y-auto py-6 pr-2">
             <SidebarNav items={docsNav} />
 

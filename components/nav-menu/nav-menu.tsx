@@ -389,7 +389,18 @@ export const NavMenu = React.memo(
           {
             name: "Docs",
             icon: <IconInformation size={16} />,
-            href: `${HOME_DOMAIN}/docs`,
+            children: [
+              {
+                name: "Getting Started",
+                icon: <IconInformation size={16} className="mr-2" />,
+                href: `${HOME_DOMAIN}/docs`,
+              },
+              {
+                name: "Progress Updates",
+                icon: <NewspaperIcon size={16} className="mr-2" />,
+                href: `${HOME_DOMAIN}/docs/progress-updates`,
+              },
+            ],
           },
           {
             name: "Resources",
@@ -415,12 +426,12 @@ export const NavMenu = React.memo(
             children: [
               {
                 name: "Getting Started",
-                icon: <IconInformation size={16} className="mr-2"/>,
+                icon: <IconInformation size={16} className="mr-2" />,
                 href: `${HOME_DOMAIN}/docs`,
               },
               {
                 name: "Progress Updates",
-                icon: <NewspaperIcon size={16} className="mr-2"/>,
+                icon: <NewspaperIcon size={16} className="mr-2" />,
                 href: `${HOME_DOMAIN}/docs/progress-updates`,
               },
             ],
@@ -464,7 +475,7 @@ export const NavMenu = React.memo(
       <section>
         <ul>
           {renderUserItem()}
-          {renderCollapseItems(collapseItems)}
+          {<> {renderCollapseItems(collapseItems)} </>}
           {renderMenuItems(mainItems, handleToggle, "main")}
           {renderDivider(midItems)}
           {renderMenuItems(midItems, handleToggle, "mid")}

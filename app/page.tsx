@@ -1,12 +1,14 @@
 import type { Metadata } from "next"
-import { HeroSection } from "@/components/hero-section"
+import { HeroSection } from "@/components/home/hero-section"
 import { ProposalExplorer } from "@/components/proposal-explorer"
-import { FaqSection } from "@/components/faq-section"
-import { VoteStatistics } from "@/components/vote-statistics"
-import { VotingTrends } from "@/components/voting-trends"
+import { FaqSection } from "@/components/home/faq-section"
+import { VoteStatistics } from "@/components/home/vote-statistics"
+import { VotingTrends } from "@/components/home/voting-trends"
 import { proposals } from "@/data/xgov-sessions"
-import FeaturedProposals from "@/components/featured-proposals"
+import FeaturedProposals from "@/components/home/featured-proposals"
 import { faqItems } from "@/lib/faq-data"
+import { GitHubBanner } from "@/components/home/github-banner"
+import { RecentlyUpdatedProposals } from "@/components/home/recently-updated-proposals"
 
 // Rich metadata optimized for SEO
 export const metadata: Metadata = {
@@ -22,7 +24,7 @@ export const metadata: Metadata = {
     images: [{ url: "/images/og-image.png" }],
   },
   alternates: {
-    canonical: "https://siwa.org",
+    canonical: "https://xgov.app",
   },
   keywords: [
     "Algorand",
@@ -73,6 +75,8 @@ export default function Home() {
         uniqueTeams={uniqueTeams}
         categories={categories}
       />
+      <GitHubBanner />
+      <RecentlyUpdatedProposals />
       <FeaturedProposals proposals={sortedFeaturedProposals} />
       <VoteStatistics />
       <VotingTrends />

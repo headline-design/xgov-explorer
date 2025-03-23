@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowRight, ChevronRight, ExternalLink, BarChart3, Coins, Users, Tags } from "lucide-react"
-import { BrandLogo } from "./icons/brand-logo"
+import { BrandLogo } from "../icons/brand-logo"
 import { cn } from "@/lib/utils"
 
 interface HeroSectionProps {

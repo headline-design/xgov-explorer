@@ -108,11 +108,11 @@ export default function TeamManagementPage() {
                             </Alert>
                         </CardContent>
                         <CardFooter>
-                            <Button asChild size="sm">
-                                <Link href="/api/auth/signin">
+                            <Button size="sm">
+                                <>
                                     <Github className="mr-2 h-4 w-4" />
                                     Sign In with GitHub
-                                </Link>
+                                </>
                             </Button>
                         </CardFooter>
                     </Card>
@@ -166,7 +166,7 @@ export default function TeamManagementPage() {
                 </p>
 
                 <Tabs defaultValue="overview" className="w-full">
-                    <TabsList className="w-full justify-start mb-6">
+                    <TabsList className="justify-start mb-6">
                         <TabsTrigger value="overview">Dashboard Overview</TabsTrigger>
                         <TabsTrigger value="whitelist">Whitelist Management</TabsTrigger>
                         <TabsTrigger value="members">Team Members</TabsTrigger>

@@ -340,10 +340,10 @@ export function Dashboard({ teams, currentUserId }: DashboardProps) {
 
       <Tabs defaultValue="whitelist" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="whitelist">Whitelisted Addresses</TabsTrigger>
-          <TabsTrigger value="members">Team Members</TabsTrigger>
+          <TabsTrigger value="whitelist">Whitelist</TabsTrigger>
+          <TabsTrigger value="members">Teams</TabsTrigger>
           <TabsTrigger value="proposals">Proposals</TabsTrigger>
-          <TabsTrigger value="wallets">My Wallets</TabsTrigger>
+          <TabsTrigger value="wallets">Wallets</TabsTrigger>
         </TabsList>
 
         <TabsContent value="whitelist" className="space-y-4">
@@ -576,7 +576,7 @@ export function Dashboard({ teams, currentUserId }: DashboardProps) {
                         </div>
                         <div className="mt-4 flex justify-end">
                           <Button variant="outline" size="sm" asChild>
-                            <Link href={`/proposal/${proposal.id}`}>
+                            <Link href={`/proposal/${proposal.number}`}>
                               <ExternalLink className="h-4 w-4 mr-2" />
                               View Proposal
                             </Link>
@@ -736,7 +736,7 @@ export function Dashboard({ teams, currentUserId }: DashboardProps) {
                               <div className="flex items-center space-x-4">
                                 <Avatar>
                                   <AvatarImage
-                                     src={`/api/www/avatar/${address.address}`}
+                                    src={`/api/www/avatar/${address.address}`}
                                     alt={`Wallet ${address.address}`}
                                   />
                                   <AvatarFallback>{address.address.substring(0, 2)}</AvatarFallback>

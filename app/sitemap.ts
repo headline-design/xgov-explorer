@@ -55,6 +55,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority,
   }));
 
+  const legalRoutes = [
+    {
+      route: "/legal/terms",
+      priority: 0.7,
+      changeFrequency: "monthly" as const,
+    },
+    {
+      route: "/legal/privacy",
+      priority: 0.7,
+      changeFrequency: "monthly" as const,
+    },
+  ].map(({ route, priority, changeFrequency }) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: new Date().toISOString().split("T")[0],
+    changeFrequency,
+    priority,
+  }));
+
   // Combine all routes
-  return [...staticRoutes, ...docRoutes, ...proposalUrls];
+  return [...staticRoutes, ...docRoutes, ...legalRoutes, ...proposalUrls];
 }

@@ -16,6 +16,7 @@ import { BrandTypelogo } from "./icons/brand-typelogo"
 import { BrandLogoAlt } from "./icons/brand-logo-alt"
 import { ArrowUpRight, BookOpen } from "lucide-react"
 import ThemeToggle from "./ui/theme.toggle"
+import { AnnouncementBanner } from "./home/announcement-banner"
 //import Navigation from "@/components/nav-menu/navigation";
 
 export const navItems = [
@@ -65,6 +66,9 @@ export default function Navbar({
 
   return (
     <>
+    {!showMobileMenu &&
+      <AnnouncementBanner />
+    }
       <div className={navClasses}>
         <MaxWidthWrapperV2 className="rust-nav-l1 flex w-full max-w-screen-xlview items-center justify-between">
           <div className="rust-nav-l2 flex h-14 w-full items-center justify-between">

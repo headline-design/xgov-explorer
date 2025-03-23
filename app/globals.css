@@ -486,7 +486,6 @@ div {
 @media screen and (max-width: 960px) {
   .rust-nav-l1 {
     --rust-gap: 24px;
-    padding: 0 var(--rust-gap);
     width: 100%;
     flex: 1 1;
     display: flex;
@@ -970,6 +969,14 @@ div {
   /* Adjust the opacity as needed */
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
 
 @layer base {
   * {
@@ -980,3 +987,4 @@ div {
     @apply bg-background text-foreground;
   }
 }
+

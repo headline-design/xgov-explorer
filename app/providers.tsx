@@ -8,6 +8,7 @@ import { SessionProvider } from "next-auth/react";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "next-themes";
 import { UserProvider } from "@/providers/user-provider";
+import { ProposalsProvider } from "@/providers/proposals-provider";
 
 
 export function AppProviders({
@@ -21,11 +22,13 @@ export function AppProviders({
         <>
             <QueryClientProvider client={queryClient}>
                 <SessionProvider>
-                    <Web3AVMProvider>
-                        <UserProvider>
-                            {children}
-                        </UserProvider>
-                    </Web3AVMProvider>
+                    <ProposalsProvider>
+                        <Web3AVMProvider>
+                            <UserProvider>
+                                {children}
+                            </UserProvider>
+                        </Web3AVMProvider>
+                    </ProposalsProvider>
                 </SessionProvider>
             </QueryClientProvider>
         </>

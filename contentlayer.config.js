@@ -3,7 +3,6 @@ import { defineDocumentType, defineNestedType, makeSource } from "contentlayer2/
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import rehypePrettyCode from "rehype-pretty-code"
 import rehypeSlug from "rehype-slug"
-import { useMDXComponent } from "next-contentlayer2/hooks"
 import { codeImport } from "remark-code-import"
 import remarkGfm from "remark-gfm"
 import { visit } from "unist-util-visit"
@@ -79,9 +78,38 @@ export const Doc = defineDocumentType(() => ({
   computedFields,
 }))
 
+export const Legal = defineDocumentType(() => ({
+  name: "Legal",
+  filePathPattern: `legal/**/*.mdx`,
+  contentType: "mdx",
+  fields: {
+    title: {
+      type: "string",
+      required: true,
+    },
+    description: {
+      type: "string",
+      required: true,
+    },
+    published: {
+      type: "boolean",
+      default: true,
+    },
+    icon: {
+      type: "string",
+      required: false,
+    },
+    lastUpdated: {
+      type: "string",
+      required: false,
+    },
+  },
+  computedFields,
+}))
+
 export default makeSource({
-  contentDirPath: "./content/",
-  documentTypes: [Doc],
+  contentDirPath: "./content",
+  documentTypes: [Doc, Legal],
   mdx: {
     remarkPlugins: [remarkGfm, codeImport],
     rehypePlugins: [

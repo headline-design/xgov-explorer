@@ -4,7 +4,6 @@ import { GeistMono, GeistSans } from "@/styles/fonts";
 import Navbar from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { AppProviders, UIProviders } from "./providers";
-import { AnnouncementBanner } from "@/components/announcement-banner";
 import { Metadata } from "next";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -64,7 +63,6 @@ export default async function HomePage({ children }) {
       <html lang="en" suppressHydrationWarning className={`${GeistMono.variable} ${GeistSans.variable}`}>
         <body>
           <UIProviders>
-            <AnnouncementBanner />
             <div className="flex min-h-screen flex-col">
               <Navbar location={"home"} />
               <main className="flex-1">{children}</main>
