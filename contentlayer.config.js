@@ -107,9 +107,77 @@ export const Legal = defineDocumentType(() => ({
   computedFields,
 }))
 
+export const Blog = defineDocumentType(() => ({
+  name: "Blog",
+  filePathPattern: `blog/**/*.mdx`,
+  contentType: "mdx",
+  fields: {
+    title: {
+      type: "string",
+      required: true,
+    },
+    description: {
+      type: "string",
+      required: true,
+    },
+    date: {
+      type: "date",
+      required: true,
+    },
+    published: {
+      type: "boolean",
+      default: true,
+    },
+    image: {
+      type: "string",
+      required: false,
+    },
+    useOgImage: {
+      type: "boolean",
+      default: true,
+      required: false,
+    },
+    author: {
+      type: "string",
+      required: false,
+    },
+    authorImage: {
+      type: "string",
+      required: false,
+    },
+    tags: {
+      type: "list",
+      of: { type: "string" },
+      required: false,
+    },
+    featured: {
+      type: "boolean",
+      default: false,
+      required: false,
+    },
+  },
+  computedFields: {
+    slug: {
+      type: "string",
+      resolve: (doc) => `/${doc._raw.flattenedPath}`,
+    },
+    slugAsParams: {
+      type: "string",
+      resolve: (doc) => doc._raw.flattenedPath.split("/").slice(1).join("/"),
+    },
+    ogImage: {
+      type: "string",
+      resolve: (doc) => {
+        if (!doc.useOgImage) return doc.image || ""
+        return `/api/og?title=${encodeURIComponent(doc.title)}&summary=${encodeURIComponent(doc.description || "")}`
+      },
+    },
+  },
+}))
+
 export default makeSource({
   contentDirPath: "./content",
-  documentTypes: [Doc, Legal],
+  documentTypes: [Doc, Legal, Blog],
   mdx: {
     remarkPlugins: [remarkGfm, codeImport],
     rehypePlugins: [

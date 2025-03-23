@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { format } from "date-fns"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -68,3 +69,9 @@ export function capitalize(str: string) {
   if (!str || typeof str !== "string") return str;
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+export function formatDate(input: string | number): string {
+  const date = new Date(input)
+  return format(date, "MMMM dd, yyyy")
+}
+

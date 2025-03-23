@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { proposals } from "@/data/xgov-sessions";
+import { allDocs, allLegals, allBlogs } from "contentlayer/generated";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://xgov.app";
@@ -30,49 +31,55 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority,
   }));
 
-  // Define documentation routes
-  const docRoutes = [
-    { route: "/docs", priority: 0.9, changeFrequency: "weekly" as const },
-    {
-      route: "/docs/team-management",
-      priority: 0.8,
+  // Generate documentation routes from ContentLayer
+  const docRoutes = allDocs
+    .filter((doc) => doc.published !== false)
+    .map((doc) => ({
+      url: `${baseUrl}${doc.slug}`,
+      lastModified: new Date().toISOString().split("T")[0], // Docs don't have a date field
       changeFrequency: "weekly" as const,
-    },
-    {
-      route: "/docs/wallet-integration",
-      priority: 0.8,
-      changeFrequency: "weekly" as const,
-    },
-    {
-      route: "/docs/progress-updates",
-      priority: 0.8,
-      changeFrequency: "weekly" as const,
-    },
-  ].map(({ route, priority, changeFrequency }) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date().toISOString().split("T")[0],
-    changeFrequency,
-    priority,
-  }));
+      priority: doc.featured ? 0.9 : 0.8,
+    }));
 
-  const legalRoutes = [
-    {
-      route: "/legal/terms",
-      priority: 0.7,
+  // Generate legal routes from ContentLayer
+  const legalRoutes = allLegals
+    .filter((legal) => legal.published !== false)
+    .map((legal) => ({
+      url: `${baseUrl}${legal.slug}`,
+      lastModified: legal.lastUpdated
+        ? new Date(legal.lastUpdated).toISOString()
+        : new Date().toISOString().split("T")[0],
       changeFrequency: "monthly" as const,
-    },
-    {
-      route: "/legal/privacy",
       priority: 0.7,
-      changeFrequency: "monthly" as const,
-    },
-  ].map(({ route, priority, changeFrequency }) => ({
-    url: `${baseUrl}${route}`,
+    }));
+
+  // Generate blog routes from ContentLayer
+  const blogRoutes = allBlogs
+    .filter((blog) => blog.published !== false)
+    .map((blog) => ({
+      url: `${baseUrl}${blog.slug}`,
+      lastModified: blog.date
+        ? new Date(blog.date).toISOString()
+        : new Date().toISOString().split("T")[0],
+      changeFrequency: "weekly" as const,
+      priority: blog.featured ? 0.9 : 0.8,
+    }));
+
+  // Add blog index page
+  const blogIndexRoute = {
+    url: `${baseUrl}/blog`,
     lastModified: new Date().toISOString().split("T")[0],
-    changeFrequency,
-    priority,
-  }));
+    changeFrequency: "daily" as const,
+    priority: 0.9,
+  };
 
   // Combine all routes
-  return [...staticRoutes, ...docRoutes, ...legalRoutes, ...proposalUrls];
+  return [
+    ...staticRoutes,
+    ...docRoutes,
+    ...legalRoutes,
+    blogIndexRoute,
+    ...blogRoutes,
+    ...proposalUrls,
+  ];
 }
