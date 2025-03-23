@@ -46,9 +46,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   };
 }
 
-export async function generateStaticParams(): Promise<
-  BlogPostPageProps["params"][]
-> {
+export async function generateStaticParams() {
   return allBlogs
     .filter((post) => post.published !== false)
     .map((post) => ({
