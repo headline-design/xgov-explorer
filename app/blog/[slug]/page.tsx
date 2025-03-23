@@ -4,12 +4,6 @@ import { allBlogs } from "contentlayer/generated";
 
 import { BlogLayout } from "@/components/layouts/blog-layout";
 
-interface BlogPostPageProps {
-  params: {
-    slug: string;
-  };
-}
-
 async function getPostFromParams(params) {
   const slug = await params.slug;
   const post = allBlogs.find((post) => post.slugAsParams === slug);
@@ -21,9 +15,7 @@ async function getPostFromParams(params) {
   return post;
 }
 
-export async function generateMetadata({
-  params,
-}: BlogPostPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }): Promise<Metadata> {
   const post = await getPostFromParams(params);
 
   if (!post) {
@@ -34,8 +26,8 @@ export async function generateMetadata({
   // or fall back to the static image if useOgImage is false
   const ogImage = post.useOgImage
     ? `/api/og?title=${encodeURIComponent(
-        post.title
-      )}&summary=${encodeURIComponent(post.description || "")}&theme=light`
+      post.title
+    )}&summary=${encodeURIComponent(post.description || "")}&theme=light`
     : post.image || "/placeholder-light.svg";
 
   return {
@@ -74,13 +66,13 @@ export default async function BlogPostPage({ params }) {
   // Find related posts (posts with matching tags, excluding current post)
   const relatedPosts = post.tags
     ? allBlogs
-        .filter(
-          (p) =>
-            p.slug !== post.slug &&
-            p.published !== false &&
-            p.tags?.some((tag) => post.tags?.includes(tag))
-        )
-        .slice(0, 3)
+      .filter(
+        (p) =>
+          p.slug !== post.slug &&
+          p.published !== false &&
+          p.tags?.some((tag) => post.tags?.includes(tag))
+      )
+      .slice(0, 3)
     : [];
 
   return <BlogLayout post={post} related={relatedPosts} />;
