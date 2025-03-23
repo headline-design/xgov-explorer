@@ -64,7 +64,7 @@ export async function generateStaticParams(): Promise<
     }));
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
+export default async function BlogPostPage({ params }) {
   const post = await getPostFromParams(params);
 
   if (!post) {
