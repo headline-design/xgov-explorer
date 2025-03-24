@@ -20,6 +20,7 @@ The platform serves as a central hub where:
 - Community members can discover and learn about xGov-funded projects
 - Project teams can claim their proposals and provide progress updates
 - The Algorand community can track the development and impact of funded initiatives
+- Users can read and engage with blog content about xGov projects and ecosystem updates
 
 ## ✨ Key Features
 
@@ -28,26 +29,71 @@ The platform serves as a central hub where:
 - **Progress Tracking**: Monitor the development status and milestone completion of projects
 - **Team Verification**: GitHub-based verification system for project teams to claim their proposals
 - **Progress Updates**: Authenticated team members can post progress updates to keep the community informed
+- **Blog Platform**: Content management system with social features like comments, likes, and bookmarks
 - **Responsive Design**: Optimized for both desktop and mobile viewing
+
+## 🔐 Authentication & Wallet Integration
+
+xGov Explorer features comprehensive Algorand wallet integration:
+
+- **Sign In With Algorand (SIWA)**: Seamless authentication using @avmkit/siwa 1.0.8
+- **VMKit Integration**: AVM support via @vmkit/connect-avm 0.0.1
+- **Multiple Wallet Support**:
+  - Pera Wallet (@perawallet/connect 1.4.2)
+  - Defly Wallet (@blockshake/defly-connect 1.2.1)
+  - Lute Wallet (lute-connect 1.4.1)
+  - WalletConnect (@walletconnect/modal 2.7.0)
+- **AVM Web Provider**: Integrated with @agoralabs-sh/avm-web-provider 1.7.0
+- **Unified Wallet Interface**: Using @txnlab/use-wallet 4.0.0 and @txnlab/use-wallet-react 4.0.0
+
+## 📝 Blog Features
+
+The xGov Explorer includes a full-featured blog platform:
+
+- **Content Management**: Markdown-based content creation with Contentlayer2
+- **Social Engagement**: Like, comment, and bookmark articles
+- **Author Profiles**: Dedicated author pages with social links
+- **Related Articles**: Smart recommendation system for related content
+- **Categories & Tags**: Organize and filter content by topics
+- **Reading Experience**: Optimized reading layout with table of contents
+- **SEO Optimization**: Automatic OG image generation and metadata
 
 ## 🛠️ Tech Stack
 
 xGov Explorer is built with modern web technologies:
 
-- **Frontend**: Next.js 14 (App Router), React, TypeScript, Tailwind CSS
-- **Backend**: Next.js API Routes, Prisma ORM
-- **Database**: PostgreSQL
-- **Authentication**: NextAuth.js with GitHub OAuth and Algorand wallet integration
+- **Frontend**: Next.js 15.1.0, React 19.0.0, TypeScript 5.x, Tailwind CSS 3.4.17
+- **Backend**: Next.js API Routes, Prisma ORM 5.10.0
+- **Database**: PostgreSQL with Prisma Accelerate (@prisma/extension-accelerate 0.6.3)
+- **Authentication**:
+  - NextAuth.js 4.24.5 with GitHub OAuth
+  - Sign In With Algorand (@avmkit/siwa 1.0.8)
+  - Iron Session 8.0.1 for session management
+- **Content**: Contentlayer2 0.4.6 for type-safe content management
+- **Styling**:
+  - Tailwind CSS with Radix UI components
+  - Lucide React 0.479.0 for icons
+  - Tailwind Typography plugin 0.5.16
+- **Algorand Integration**:
+  - AlgoSDK 3.2.0
+  - VMKit (@vmkit/connect-avm 0.0.1)
+  - AVM Web Provider (@agoralabs-sh/avm-web-provider 1.7.0)
+  - Multiple wallet connectors (Pera, Defly, Lute, WalletConnect)
+- **State Management**: TanStack Query 5.24.1
+- **Markdown Processing**:
+  - Remark 15.0.1 with plugins (remark-gfm, remark-code-import)
+  - Rehype with plugins (rehype-slug, rehype-autolink-headings, rehype-pretty-code)
+- **Development**: Turbopack, Concurrently 8.0.1, ESLint 9
 - **Deployment**: Vercel
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 18.x or later
+- Node.js 20.x or later
 - PostgreSQL database
 - GitHub OAuth credentials
-- Algorand development environment (optional for wallet authentication)
+- Algorand development environment (for wallet authentication)
 
 ### Installation
 
@@ -56,4 +102,3 @@ xGov Explorer is built with modern web technologies:
    ```bash
    git clone https://github.com/headline-design/xgov-explorer.git
    cd xgov-explorer
-
