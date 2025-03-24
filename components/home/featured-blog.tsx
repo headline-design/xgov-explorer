@@ -91,7 +91,7 @@ export async function FeaturedBlog() {
                         <div className="pt-4">
                             {featuredArticle.author && (
                                 <Author
-                                    username={featuredArticle.author.username || featuredArticle.author.id}
+                                    username={featuredArticle.author.name || featuredArticle.author.id}
                                     size="md"
                                     showSocial={false}
                                 />

@@ -21,7 +21,9 @@ async function getDocFromSlug(slug: string[]) {
 }
 
 export async function generateMetadata({ params }): Promise<Metadata> {
-  const doc = await getDocFromSlug(params.slug)
+  const awaitedParams = await params
+  const slug = awaitedParams.slug;
+  const doc = await getDocFromSlug(slug)
 
   if (!doc) {
     return {}
@@ -33,14 +35,17 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   }
 }
 
-export async function generateStaticParams(): Promise<DocPageProps["params"][]> {
+export async function generateStaticParams() {
   return allDocs.map((doc) => ({
-    slug: doc.slugAsParams.split("/"),
+    // Remove 'blog/' prefix if it exists
+    slug: doc.slug.replace(/^docs\//, ""),
   }))
 }
 
 export default async function DocPage({ params }) {
-  const doc = await getDocFromSlug(params.slug)
+  const awaitedParams = await params
+  const slug = awaitedParams.slug;
+  const doc = await getDocFromSlug(slug)
 
   if (!doc) {
     notFound()

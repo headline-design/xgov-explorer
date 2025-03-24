@@ -49,7 +49,7 @@ export default function Author({
 }: AuthorProps) {
     // Handle unknown authors gracefully
     if (!authors[username]) {
-        console.warn(`Author with username ${username} not found`)
+        //console.warn(`Author with username ${username} not found`)
         return null
     }
 
