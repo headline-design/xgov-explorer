@@ -32,6 +32,23 @@ The platform serves as a central hub where:
 - **Blog Platform**: Content management system with social features like comments, likes, and bookmarks
 - **Responsive Design**: Optimized for both desktop and mobile viewing
 
+## 🎨 Design System & Styling
+
+xGov Explorer features a sophisticated design system:
+
+- **Shadcn UI**: Core component library providing accessible, customizable components
+- **[Rust Design System](https://vmkit.xyz/rust)**: Custom components inspired by Rust's aesthetic, which itself is based on Vercel's Geist design language:
+  - Terminal-like code blocks and syntax highlighting
+  - Distinctive buttons with unique hover and active states
+  - Geist-inspired form elements and navigation
+- **Vercel Geist Icons**: Minimalist, clean iconography from the Geist icon set
+- **Lucide React**: Complementary icon library for additional UI elements
+- **Tailwind CSS**: Utility-first CSS framework for consistent styling
+- **Dark/Light Mode**: Full theme support with next-themes
+- **Custom Animations**: Subtle micro-interactions using tailwindcss-animate
+
+This approach creates a unique visual identity that combines the best of modern web design with Rust-inspired elements that appeal to developers, all while maintaining the clean aesthetics of the Geist design language.
+
 ## 🔐 Authentication & Wallet Integration
 
 xGov Explorer features comprehensive Algorand wallet integration:
@@ -72,6 +89,7 @@ xGov Explorer is built with modern web technologies:
 - **Content**: Contentlayer2 0.4.6 for type-safe content management
 - **Styling**:
   - Tailwind CSS with Radix UI components
+  - [Rust components](https://vmkit.xyz/rust) based on Geist design principles
   - Lucide React 0.479.0 for icons
   - Tailwind Typography plugin 0.5.16
 - **Algorand Integration**:
@@ -102,3 +120,4 @@ xGov Explorer is built with modern web technologies:
    ```bash
    git clone https://github.com/headline-design/xgov-explorer.git
    cd xgov-explorer
+
