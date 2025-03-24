@@ -1,7 +1,7 @@
 # xGov Explorer
 
 <div align="center">
-  <img src="/public/images/favicon-96x96.png" alt="xGov Explorer Logo" width="200" />
+  <img src="/public/images/globe-alt.png" alt="xGov Explorer Logo" width="200" />
   <h3>Discover and track Algorand xGov-funded projects</h3>
   <p>An open source platform for the Algorand community to explore, monitor, and celebrate xGov award recipients</p>
 
