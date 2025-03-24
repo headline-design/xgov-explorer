@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowRight, ChevronRight, ExternalLink, BarChart3, Coins, Users, Tags } from "lucide-react"
-import { BrandLogo } from "../icons/brand-logo"
 import { cn } from "@/lib/utils"
+import { BrandLogoAlt } from "../icons/brand-logo-alt"
 
 interface HeroSectionProps {
   totalProposals: number
@@ -42,7 +42,8 @@ export function HeroSection({ totalProposals, totalFunding, uniqueTeams, categor
           {/* Logo and title */}
           <div className="flex items-center justify-center mb-6 space-x-2">
             <div className="p-2 bg-primary/10 rounded-full">
-              <BrandLogo className="w-8 h-8 text-primary" />
+              <BrandLogoAlt fill1="hsl(var(--primary))"
+                fill2="hsl(var(--primary))" className="w-8 h-8 " />
             </div>
             <span className="text-lg font-semibold tracking-tight">xGov Explorer</span>
           </div>
