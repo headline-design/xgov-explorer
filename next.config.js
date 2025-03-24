@@ -77,7 +77,13 @@ const nextConfig = {
         hostname: "siwa.org",
       },
       {
+        hostname: "avatars.githubusercontent.com",
+      },
+      {
         hostname: "pbs.twimg.com",
+      },
+      {
+        hostname: "njbclcehtszuwqtkphdn.supabase.co",
       },
       {
         hostname: "6oqt3m2oqcmu1rpz.public.blob.vercel-storage.com",

@@ -143,11 +143,7 @@ export const Blog = defineDocumentType(() => ({
     },
     author: {
       type: "string",
-      required: false,
-    },
-    authorImage: {
-      type: "string",
-      required: false,
+      required: true,
     },
     tags: {
       type: "list",
@@ -163,11 +159,24 @@ export const Blog = defineDocumentType(() => ({
   computedFields: {
     slug: {
       type: "string",
-      resolve: (doc) => `/${doc._raw.flattenedPath}`,
+      resolve: (doc) => {
+        // Extract the filename without the blog/ prefix
+        const pathSegments = doc._raw.flattenedPath.split("/");
+        // If it's in a blog directory, remove that part
+        return pathSegments.length > 1
+          ? `${pathSegments.slice(1).join("/")}` // Remove the first segment (blog)
+          : `${pathSegments[0]}`; // If there's no blog prefix, just use the path
+      },
     },
     slugAsParams: {
       type: "string",
-      resolve: (doc) => doc._raw.flattenedPath.split("/").slice(1).join("/"),
+      resolve: (doc) => {
+        const pathSegments = doc._raw.flattenedPath.split("/");
+        // If it's in a blog directory, remove that part for the params
+        return pathSegments.length > 1
+          ? pathSegments.slice(1).join("/") // Remove the first segment (blog)
+          : pathSegments[0]; // If there's no blog prefix, just use the path
+      },
     },
     ogImage: {
       type: "string",

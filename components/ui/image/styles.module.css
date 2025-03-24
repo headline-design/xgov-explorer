@@ -1,0 +1,58 @@
+.blurImageContainer {
+    flex-shrink: 0;
+    display: flex;
+    overflow: hidden;
+    line-height: 0;
+    vertical-align: top;
+    -webkit-mask-image: -webkit-radial-gradient(circle, #fff, #000);
+    mask-image: radial-gradient(circle, #fff, #000);
+    transition: border .2s ease, background .2s ease-in-out;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.blurImage:after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+}
+
+.blurImage {
+        color: transparent;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        height: 100%;
+}
+
+
+.avatarContainer {
+    border-radius: 100%;
+    border: 1px solid var(--rust-background);
+    -webkit-mask-image: -webkit-radial-gradient(circle, #fff, #000);
+    mask-image: radial-gradient(circle, #fff, #000);
+}
+
+.avatarImage {
+    width: 100%;
+    height: 100%;
+}
+
+.avatarImage::after{
+    border-radius: 50%;
+    border: 1px solid var(--ds-gray-alpha-400);
+}
+
+.cardContainer {
+    border-radius: 0px;
+}
+
+.cardImage {
+    height: 100%;
+    width: 100%;
+    inset: 0px;
+    object-fit: cover;
+    color: transparent;
+}

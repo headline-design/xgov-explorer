@@ -95,6 +95,73 @@
     --ds-gray-alpha-600: rgba(0, 0, 0, .34);
     --ds-gray-900: hsla(var(--ds-gray-900-value), 1);
 
+    --ds-purple-100-value: 276, 100%, 97%;
+    --ds-purple-200-value: 277, 87%, 97%;
+    --ds-purple-300-value: 274, 78%, 95%;
+    --ds-purple-400-value: 276, 71%, 92%;
+    --ds-purple-500-value: 274, 70%, 82%;
+    --ds-purple-600-value: 273, 72%, 73%;
+    --ds-purple-700-value: 272, 51%, 54%;
+    --ds-purple-800-value: 272, 47%, 45%;
+    --ds-purple-900-value: 274, 71%, 43%;
+    --ds-purple-1000-value: 276, 100%, 15%;
+
+    --ds-red-100-value: 0, 100%, 97%;
+    --ds-red-200-value: 0, 100%, 96%;
+    --ds-red-300-value: 0, 100%, 95%;
+    --ds-red-400-value: 0, 90%, 92%;
+    --ds-red-500-value: 0, 82%, 85%;
+    --ds-red-600-value: 359, 90%, 71%;
+    --ds-red-700-value: 358, 75%, 59%;
+    --ds-red-800-value: 358, 70%, 52%;
+    --ds-red-900-value: 358, 66%, 48%;
+    --ds-red-1000-value: 355, 49%, 15%;
+
+    --ds-blue-100-value: 212, 100%, 97%;
+    --ds-blue-200-value: 210, 100%, 96%;
+    --ds-blue-300-value: 210, 100%, 94%;
+    --ds-blue-400-value: 209, 100%, 90%;
+    --ds-blue-500-value: 209, 100%, 80%;
+    --ds-blue-600-value: 208, 100%, 66%;
+    --ds-blue-700-value: 212, 100%, 48%;
+    --ds-blue-800-value: 212, 100%, 41%;
+    --ds-blue-900-value: 211, 100%, 42%;
+    --ds-blue-1000-value: 211, 100%, 15%;
+
+    --ds-amber-100-value: 39, 100%, 95%;
+    --ds-amber-200-value: 44, 100%, 92%;
+    --ds-amber-300-value: 43, 96%, 90%;
+    --ds-amber-400-value: 42, 100%, 78%;
+    --ds-amber-500-value: 38, 100%, 71%;
+    --ds-amber-600-value: 36, 90%, 62%;
+    --ds-amber-700-value: 39, 100%, 57%;
+    --ds-amber-800-value: 35, 100%, 52%;
+    --ds-amber-900-value: 30, 100%, 32%;
+    --ds-amber-1000-value: 20, 79%, 17%;
+    --ds-amber-1000-v2-value: 20, 79%, 17%;
+
+    --ds-teal-100-value: 169, 70%, 96%;
+    --ds-teal-200-value: 167, 70%, 94%;
+    --ds-teal-300-value: 168, 70%, 90%;
+    --ds-teal-400-value: 170, 70%, 85%;
+    --ds-teal-500-value: 170, 70%, 72%;
+    --ds-teal-600-value: 170, 70%, 57%;
+    --ds-teal-700-value: 173, 80%, 36%;
+    --ds-teal-800-value: 173, 83%, 30%;
+    --ds-teal-900-value: 174, 91%, 25%;
+    --ds-teal-1000-value: 171, 80%, 13%;
+
+    --ds-pink-100-value: 330, 100%, 96%;
+    --ds-pink-200-value: 340, 90%, 96%;
+    --ds-pink-300-value: 340, 82%, 94%;
+    --ds-pink-400-value: 341, 76%, 91%;
+    --ds-pink-500-value: 340, 75%, 84%;
+    --ds-pink-600-value: 341, 75%, 73%;
+    --ds-pink-700-value: 336, 80%, 58%;
+    --ds-pink-800-value: 336, 74%, 51%;
+    --ds-pink-900-value: 336, 65%, 45%;
+    --ds-pink-1000-value: 333, 74%, 15%;
+
     --shadow-smallest: 0px 2px 4px rgba(0, 0, 0, .1);
     --shadow-sticky: 0 12px 10px -10px rgba(0, 0, 0, .12);
     --shadow-border: 0 0 0 1px var(--themed-border, transparent);
@@ -126,6 +193,72 @@
 
     --ds-gray-600: hsla(var(--ds-gray-600-value), 1);
     --ds-gray-600-value: 0, 0%, 53%;
+
+    --ds-red-100-value: 357, 37%, 12%;
+    --ds-red-200-value: 357, 46%, 16%;
+    --ds-red-300-value: 356, 54%, 22%;
+    --ds-red-400-value: 357, 55%, 26%;
+    --ds-red-500-value: 357, 60%, 32%;
+    --ds-red-600-value: 358, 75%, 59%;
+    --ds-red-700-value: 358, 75%, 59%;
+    --ds-red-800-value: 358, 69%, 52%;
+    --ds-red-900-value: 358, 100%, 69%;
+    --ds-red-1000-value: 353, 90%, 96%;
+
+    --ds-blue-100-value: 216, 50%, 12%;
+    --ds-blue-200-value: 214, 59%, 15%;
+    --ds-blue-300-value: 213, 71%, 20%;
+    --ds-blue-400-value: 212, 78%, 23%;
+    --ds-blue-500-value: 211, 86%, 27%;
+    --ds-blue-600-value: 206, 100%, 50%;
+    --ds-blue-700-value: 212, 100%, 48%;
+    --ds-blue-800-value: 212, 100%, 41%;
+    --ds-blue-900-value: 210, 100%, 66%;
+    --ds-blue-1000-value: 206, 100%, 96%;
+    --ds-amber-1000-v2-value: 40, 94%, 93%;
+
+    --ds-amber-100-value: 35, 100%, 8%;
+    --ds-amber-200-value: 32, 100%, 10%;
+    --ds-amber-300-value: 33, 100%, 15%;
+    --ds-amber-400-value: 35, 100%, 17%;
+    --ds-amber-500-value: 35, 91%, 22%;
+    --ds-amber-600-value: 39, 85%, 49%;
+    --ds-amber-700-value: 39, 100%, 57%;
+    --ds-amber-800-value: 35, 100%, 52%;
+    --ds-amber-900-value: 35, 100%, 52%;
+
+    --ds-teal-100-value: 169, 78%, 7%;
+    --ds-teal-200-value: 170, 74%, 9%;
+    --ds-teal-300-value: 171, 75%, 13%;
+    --ds-teal-400-value: 171, 85%, 13%;
+    --ds-teal-500-value: 172, 85%, 20%;
+    --ds-teal-600-value: 172, 85%, 32%;
+    --ds-teal-700-value: 173, 80%, 36%;
+    --ds-teal-800-value: 173, 83%, 30%;
+    --ds-teal-900-value: 174, 90%, 41%;
+    --ds-teal-1000-value: 166, 71%, 93%;
+
+    --ds-purple-100-value: 283, 30%, 12%;
+    --ds-purple-200-value: 281, 38%, 16%;
+    --ds-purple-300-value: 279, 44%, 23%;
+    --ds-purple-400-value: 277, 46%, 28%;
+    --ds-purple-500-value: 274, 49%, 35%;
+    --ds-purple-600-value: 272, 51%, 54%;
+    --ds-purple-700-value: 272, 51%, 54%;
+    --ds-purple-800-value: 272, 47%, 45%;
+    --ds-purple-900-value: 275, 80%, 71%;
+    --ds-purple-1000-value: 281, 73%, 96%;
+
+    --ds-pink-100-value: 335, 32%, 12%;
+    --ds-pink-200-value: 335, 43%, 16%;
+    --ds-pink-300-value: 335, 47%, 21%;
+    --ds-pink-400-value: 335, 51%, 22%;
+    --ds-pink-500-value: 335, 57%, 27%;
+    --ds-pink-600-value: 336, 75%, 40%;
+    --ds-pink-700-value: 336, 80%, 58%;
+    --ds-pink-800-value: 336, 74%, 51%;
+    --ds-pink-900-value: 341, 90%, 67%;
+    --ds-pink-1000-value: 333, 90%, 96%;
 
     --shadow-border: 0 0 0 1px var(--themed-border, transparent);
     --themed-hover-bg: var(--ds-gray-200);
@@ -218,6 +351,105 @@
     --font-mono: var(--font-geist-mono), monospace;
     --border: var(--accents-2);
     --primary-background: var(--ds-background-200);
+  }
+
+  :root,
+  .dark {
+
+    --ds-blue-100: hsla(var(--ds-blue-100-value), 1);
+    --ds-blue-200: hsla(var(--ds-blue-200-value), 1);
+    --ds-blue-300: hsla(var(--ds-blue-300-value), 1);
+    --ds-blue-400: hsla(var(--ds-blue-400-value), 1);
+    --ds-blue-500: hsla(var(--ds-blue-500-value), 1);
+    --ds-blue-600: hsla(var(--ds-blue-600-value), 1);
+    --ds-blue-700: hsla(var(--ds-blue-700-value), 1);
+    --ds-blue-800: hsla(var(--ds-blue-800-value), 1);
+    --ds-blue-900: hsla(var(--ds-blue-900-value), 1);
+    --ds-blue-1000: hsla(var(--ds-blue-1000-value), 1);
+
+    --ds-amber-100: hsla(var(--ds-amber-100-value), 1);
+    --ds-amber-200: hsla(var(--ds-amber-200-value), 1);
+    --ds-amber-300: hsla(var(--ds-amber-300-value), 1);
+    --ds-amber-400: hsla(var(--ds-amber-400-value), 1);
+    --ds-amber-500: hsla(var(--ds-amber-500-value), 1);
+    --ds-amber-600: hsla(var(--ds-amber-600-value), 1);
+    --ds-amber-700: hsla(var(--ds-amber-700-value), 1);
+    --ds-amber-800: hsla(var(--ds-amber-800-value), 1);
+    --ds-amber-900: hsla(var(--ds-amber-900-value), 1);
+    --ds-amber-1000: hsla(var(--ds-amber-1000-value), 1);
+    --ds-amber-1000-v2: hsla(var(--ds-amber-1000-v2-value), 1);
+
+    --ds-red-100: hsla(var(--ds-red-100-value), 1);
+    --ds-red-200: hsla(var(--ds-red-200-value), 1);
+    --ds-red-300: hsla(var(--ds-red-300-value), 1);
+    --ds-red-400: hsla(var(--ds-red-400-value), 1);
+    --ds-red-500: hsla(var(--ds-red-500-value), 1);
+    --ds-red-600: hsla(var(--ds-red-600-value), 1);
+    --ds-red-700: hsla(var(--ds-red-700-value), 1);
+    --ds-red-800: hsla(var(--ds-red-800-value), 1);
+    --ds-red-900: hsla(var(--ds-red-900-value), 1);
+    --ds-red-1000: hsla(var(--ds-red-1000-value), 1);
+
+    --ds-teal-100: hsla(var(--ds-teal-100-value), 1);
+    --ds-teal-200: hsla(var(--ds-teal-200-value), 1);
+    --ds-teal-300: hsla(var(--ds-teal-300-value), 1);
+    --ds-teal-400: hsla(var(--ds-teal-400-value), 1);
+    --ds-teal-500: hsla(var(--ds-teal-500-value), 1);
+    --ds-teal-600: hsla(var(--ds-teal-600-value), 1);
+    --ds-teal-700: hsla(var(--ds-teal-700-value), 1);
+    --ds-teal-800: hsla(var(--ds-teal-800-value), 1);
+    --ds-teal-900: hsla(var(--ds-teal-900-value), 1);
+    --ds-teal-1000: hsla(var(--ds-teal-1000-value), 1);
+
+    --ds-purple-100: hsla(var(--ds-purple-100-value), 1);
+    --ds-purple-200: hsla(var(--ds-purple-200-value), 1);
+    --ds-purple-300: hsla(var(--ds-purple-300-value), 1);
+    --ds-purple-400: hsla(var(--ds-purple-400-value), 1);
+    --ds-purple-500: hsla(var(--ds-purple-500-value), 1);
+    --ds-purple-600: hsla(var(--ds-purple-600-value), 1);
+    --ds-purple-700: hsla(var(--ds-purple-700-value), 1);
+    --ds-purple-800: hsla(var(--ds-purple-800-value), 1);
+    --ds-purple-900: hsla(var(--ds-purple-900-value), 1);
+    --ds-purple-1000: hsla(var(--ds-purple-1000-value), 1);
+
+    --ds-pink-100: hsla(var(--ds-pink-100-value), 1);
+    --ds-pink-200: hsla(var(--ds-pink-200-value), 1);
+    --ds-pink-300: hsla(var(--ds-pink-300-value), 1);
+    --ds-pink-400: hsla(var(--ds-pink-400-value), 1);
+    --ds-pink-500: hsla(var(--ds-pink-500-value), 1);
+    --ds-pink-600: hsla(var(--ds-pink-600-value), 1);
+    --ds-pink-700: hsla(var(--ds-pink-700-value), 1);
+    --ds-pink-800: hsla(var(--ds-pink-800-value), 1);
+    --ds-pink-900: hsla(var(--ds-pink-900-value), 1);
+    --ds-pink-1000: hsla(var(--ds-pink-1000-value), 1);
+
+    --blue-1: var(--ds-blue-100);
+    --blue-2: var(--ds-blue-400);
+    --blue-3: var(--ds-blue-700);
+    --blue-4: var(--ds-blue-800);
+    --blue-5: var(--ds-blue-500);
+
+    --purple-1: var(--ds-purple-100);
+    --purple-2: var(--ds-purple-400);
+    --purple-3: var(--ds-purple-500);
+    --purple-4: var(--ds-purple-600);
+    --purple-5: var(--ds-purple-700);
+    --purple-6: var(--ds-purple-900);
+
+    --pink-1: var(--ds-pink-100);
+    --pink-2: var(--ds-pink-400);
+    --pink-3: var(--ds-pink-500);
+    --pink-4: var(--ds-pink-600);
+    --pink-5: var(--ds-pink-700);
+    --pink-6: var(--ds-pink-900);
+
+    --teal-1: var(--ds-teal-100);
+    --teal-2: var(--ds-teal-400);
+    --teal-3: var(--ds-teal-500);
+    --teal-4: var(--ds-teal-600);
+    --teal-5: var(--ds-teal-700);
+    --teal-6: var(--ds-teal-900);
+
   }
 }
 

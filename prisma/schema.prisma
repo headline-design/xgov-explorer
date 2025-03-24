@@ -31,8 +31,14 @@ model User {
   progressUpdates ProgressUpdate[]
 
   // Add relations for votes and comments
-  votes           Vote[]
-  comments        Comment[]
+  votes    Vote[]
+  comments Comment[]
+
+  // Add relations for blog features
+  articles        Article[]
+  articleVotes    ArticleVote[]
+  articleComments ArticleComment[]
+  bookmarks       Bookmark[]
 }
 
 // OAUTH login info
@@ -185,21 +191,24 @@ model Proposal {
   votes                Vote[]
   comments             Comment[]
 
+  // Add relation to articles
+  articles Article[]
+
   @@index([teamId])
 }
 
 model Team {
-  id          String       @id @default(cuid())
-  name        String       @unique
-  description String?      @db.Text
-  website     String?
-  github      String?
-  twitter     String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  members     TeamMember[]
-  proposals   Proposal[]
-  whitelistedAddresses  WhitelistedAddress[]
+  id                   String               @id @default(cuid())
+  name                 String               @unique
+  description          String?              @db.Text
+  website              String?
+  github               String?
+  twitter              String?
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+  members              TeamMember[]
+  proposals            Proposal[]
+  whitelistedAddresses WhitelistedAddress[]
 }
 
 model WhitelistedAddress {
@@ -298,29 +307,123 @@ model Vote {
 }
 
 model Comment {
-  id         String    @id @default(cuid())
-  content    String    @db.Text
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id        String    @id @default(cuid())
+  content   String    @db.Text
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   // Relations
-  userId     String
-  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   // Proposal relation
   proposalId String
-  proposal   Proposal  @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  proposal   Proposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
 
   // Self-relation for nested comments
-  parentId   String?
-  parent     Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: SetNull)
-  replies    Comment[] @relation("CommentReplies")
+  parentId String?
+  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: SetNull)
+  replies  Comment[] @relation("CommentReplies")
 
   // Votes on this comment
-  votes      Vote[]
+  votes Vote[]
 
   @@index([proposalId])
   @@index([userId])
   @@index([parentId])
 }
 
+// New models for blog features
+
+model Article {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  description String    @db.Text
+  content     String    @db.Text
+  coverImage  String?
+  publishedAt DateTime?
+  featured    Boolean   @default(false)
+  viewCount   Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  // Optional relation to a proposal
+  proposalId String?
+  proposal   Proposal? @relation(fields: [proposalId], references: [id], onDelete: SetNull)
+
+  // Blog features
+  votes     ArticleVote[]
+  comments  ArticleComment[]
+  bookmarks Bookmark[]
+
+  // Metadata
+  tags            String[]
+  readingTime     Int? // in minutes
+  tableOfContents Json? // stored as JSON
+
+  @@index([authorId])
+  @@index([proposalId])
+  @@index([publishedAt])
+}
+
+model ArticleVote {
+  id        String   @id @default(cuid())
+  voteType  VoteType
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, articleId])
+  @@index([articleId])
+  @@index([userId])
+}
+
+model ArticleComment {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  // Self-relation for nested comments
+  parentId String?
+  parent   ArticleComment?  @relation("ArticleCommentReplies", fields: [parentId], references: [id], onDelete: SetNull)
+  replies  ArticleComment[] @relation("ArticleCommentReplies")
+
+  @@index([articleId])
+  @@index([userId])
+  @@index([parentId])
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // Relations
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, articleId])
+  @@index([articleId])
+  @@index([userId])
+}
