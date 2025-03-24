@@ -9,6 +9,8 @@ import FeaturedProposals from "@/components/home/featured-proposals"
 import { faqItems } from "@/lib/faq-data"
 import { GitHubBanner } from "@/components/home/github-banner"
 import { RecentlyUpdatedProposals } from "@/components/home/recently-updated-proposals"
+import { FeaturedBlog } from "@/components/home/featured-blog"
+import { LatestBlogs } from "@/components/home/latest-blogs"
 
 // Rich metadata optimized for SEO
 export const metadata: Metadata = {
@@ -81,7 +83,8 @@ export default function Home() {
       <VoteStatistics />
       <VotingTrends />
       <ProposalExplorer />
-
+      <FeaturedBlog />
+      <LatestBlogs />
       <FaqSection />
       <script
         type="application/ld+json"
