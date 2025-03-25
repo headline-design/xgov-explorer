@@ -37,7 +37,6 @@ interface ProgressUpdatesProps {
 
 export function ProgressUpdates({
     proposalId,
-    teamName,
     currentCompletionPercentage,
     progressUpdates = [],
     isInDatabase = false,

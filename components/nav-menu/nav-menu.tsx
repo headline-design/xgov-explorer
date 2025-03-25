@@ -38,7 +38,6 @@ export const NavMenu = React.memo(
   }) => {
     const user = session?.user
     const connectedUser = status === "authenticated"
-    const hasTeams = user?.teams?.count > 0
 
     const [showDesktopMenu, setShowDesktopMenu] = useState(false)
     const [showNotificationsMenu, setShowNotificationsMenu] = useState(false)
@@ -155,11 +154,11 @@ export const NavMenu = React.memo(
         ]
 
         // Add Dashboard link if user
-        if (hasTeams) {
+        if (connectedUser) {
           items.push({
             name: "Dashboard",
             href: "/dashboard",
-            isActive: segments[0] === "team",
+            isActive: segments[0] === "dashboard",
             icon: <IconDashboard size={16} className="flex wd:hidden" />,
           })
         }
@@ -175,7 +174,7 @@ export const NavMenu = React.memo(
         ]
       }
       return []
-    }, [segments, id, connectedUser, location, hasTeams])
+    }, [segments, id, connectedUser, location])
 
     const midItems = useMemo(() => {
       if (connectedUser && (location === "app" || location === "home")) {
