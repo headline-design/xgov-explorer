@@ -29,10 +29,10 @@ export async function generateMetadata({ params }): Promise<Metadata> {
       title: post.title,
       description: post.description || "",
       type: "article",
-      url: `${process.env.NEXT_PUBLIC_APP_URL}/blog/${params.slug}`,
+      url: `${process.env.NEXT_PUBLIC_DOMAIN}/blog/${params.slug}`,
       images: [
         {
-          url: post.image || `${process.env.NEXT_PUBLIC_APP_URL}/og?title=${encodeURIComponent(post.title)}`,
+          url: post.image || `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?title=${encodeURIComponent(post.title)}`,
           width: 1200,
           height: 630,
           alt: post.title,
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
       card: "summary_large_image",
       title: post.title,
       description: post.description || "",
-      images: [post.image || `${process.env.NEXT_PUBLIC_APP_URL}/og?title=${encodeURIComponent(post.title)}`],
+      images: [post.image || `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?title=${encodeURIComponent(post.title)}`],
     },
   }
 }

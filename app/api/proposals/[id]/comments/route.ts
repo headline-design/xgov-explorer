@@ -7,7 +7,7 @@ export async function GET(
   { params }
 ) {
   try {
-    const proposalId = params.id;
+    const proposalId = await params.id;
     const session = await getSession();
     const userId = session?.user?.id;
 
@@ -162,7 +162,7 @@ export async function POST(
   { params }
 ) {
   try {
-    const proposalId = params.id;
+    const proposalId = await params.id;
     const session = await getSession();
 
     if (!session?.user || !session.user.id) {
