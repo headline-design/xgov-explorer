@@ -1,11 +1,12 @@
 import { notFound } from "next/navigation"
 import { allBlogs } from "contentlayer/generated"
 import type { Metadata } from "next"
-import { syncArticle, incrementViewCount } from "@/app/actions/article-social-actions"
+import { incrementViewCount } from "@/app/actions/article-social-actions"
 import prisma from "@/lib/prisma"
 import { getSession } from "@/lib/auth"
 import { BlogLayout } from "@/components/layouts/blog-layout"
 import { ExtendedArticle } from "@/types/blog"
+import { syncArticle } from "@/app/actions/article-actions"
 
 export async function generateMetadata({ params }): Promise<Metadata> {
   const awaitedParams = await params
