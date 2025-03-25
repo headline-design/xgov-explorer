@@ -3,7 +3,7 @@ import { allBlogs } from "contentlayer/generated"
 import type { Metadata } from "next"
 import BlogPageClient from "./client-page"
 import prisma from "@/lib/prisma"
-import { batchSyncArticles } from "../actions/sync-articles"
+import { batchSyncArticles } from "../actions/article-actions"
 
 export const metadata: Metadata = {
   title: "Blog | xGov Explorer",

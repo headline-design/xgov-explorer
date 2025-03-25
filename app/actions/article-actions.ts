@@ -234,3 +234,105 @@ export async function getUserBookmark(articleId: string) {
 
   return !!bookmark;
 }
+
+/**
+ * Batch synchronizes multiple articles
+ */
+export async function batchSyncArticles(articles) {
+  try {
+    const results = await Promise.all(
+      articles.map((article) => syncArticle(article))
+    );
+
+    return results.filter(Boolean).length;
+  } catch (error) {
+    console.error("Error batch syncing articles:", error);
+    return 0;
+  }
+}
+
+
+/**
+ * Sync a Contentlayer article with the database
+ */
+export async function syncArticle(article: {
+  slug: string;
+  title: string;
+  description: string;
+  content: string;
+  publishedAt: Date;
+  coverImage?: string;
+  tags?: string[];
+  proposalId?: string;
+  featured?: boolean;
+  author?: string;
+}): Promise<string> {
+  try {
+    // Get default author ID if not provided
+    const authorId =
+      article.author || process.env.DEFAULT_AUTHOR_ID || "default-author-id";
+
+    // Generate table of contents from content
+    const tableOfContents = generateTableOfContents(article.content);
+
+    // Calculate reading time (approx. 200 words per minute)
+    const wordCount = article.content.split(/\s+/).length;
+    const readingTime = Math.ceil(wordCount / 200);
+
+    // Check if article already exists
+    const existingArticle = await prisma.article.findUnique({
+      where: { slug: article.slug },
+    });
+
+    if (existingArticle) {
+
+
+      return existingArticle.id; // Return existing article ID if it already exists
+    }
+
+    // Create new article
+    const newArticle = await prisma.article.create({
+      data: {
+        slug: article.slug,
+        title: article.title,
+        description: article.description,
+        content: article.content,
+        coverImage: article.coverImage,
+        publishedAt: article.publishedAt,
+        tags: article.tags || [],
+        proposalId: article.proposalId,
+        featured: article.featured || false,
+        readingTime,
+        tableOfContents,
+        authorId,
+      },
+    });
+
+    return newArticle.id;
+  } catch (error) {
+    console.error("Error syncing article with database:", error);
+    throw error;
+  }
+}
+
+/**
+ * Generate table of contents from markdown content
+ */
+function generateTableOfContents(content: string) {
+  const headingRegex = /^(#{2,3})\s+(.+)$/gm;
+  const headings: { id: string; text: string; level: number }[] = [];
+
+  let match;
+  while ((match = headingRegex.exec(content)) !== null) {
+    const level = match[1].length;
+    const text = match[2].trim();
+    const id = text
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/\s+/g, "-");
+
+    headings.push({ id, text, level });
+  }
+
+  return headings;
+}
