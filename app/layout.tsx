@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { AppProviders, UIProviders } from "./providers";
 import { Metadata } from "next";
+import { VMkitBadge } from "@/components/ui/vmkit-badge";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://xgov.app`
@@ -68,6 +69,7 @@ export default async function HomePage({ children }) {
               <main className="flex-1">{children}</main>
               <Footer />
             </div>
+            <VMkitBadge />
           </UIProviders>
         </body>
       </html>
