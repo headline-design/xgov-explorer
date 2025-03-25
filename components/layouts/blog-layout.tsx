@@ -42,6 +42,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { voteOnArticle, toggleBookmark, addComment } from "@/app/actions/article-social-actions"
 import { CommentSection } from "@/components/blog/comment-section"
 import { useRouter } from "next/navigation"
+import ButtonLink from "../ui/button-link"
 
 interface BlogLayoutProps {
   post: Blog
@@ -297,11 +298,7 @@ export function BlogLayout({ post, article, related }: BlogLayoutProps) {
 
         {/* Mobile navigation */}
         <div className="flex items-center justify-between mb-8">
-          <Link href="/blog" className={cn(buttonVariants({ variant: "ghost" }), "inline-flex")}>
-            <ChevronLeft className="mr-2 h-4 w-4" />
-            Back to blog
-          </Link>
-
+          <ButtonLink href="/blog" variant="ghost" className="inline-flex" icon={<ChevronLeft className="h-4 w-4" />} text="Back to blog" />
           <div className="flex items-center gap-2">
             <TooltipProvider>
               <Tooltip>

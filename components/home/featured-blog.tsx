@@ -20,14 +20,6 @@ export async function FeaturedBlog() {
             publishedAt: "desc",
         },
         include: {
-            author: {
-                select: {
-                    id: true,
-                    name: true,
-                    image: true,
-                    username: true,
-                },
-            },
             _count: {
                 select: {
                     votes: true,
@@ -91,7 +83,7 @@ export async function FeaturedBlog() {
                         <div className="pt-4">
                             {featuredArticle.author && (
                                 <Author
-                                    username={featuredArticle.author.name || featuredArticle.author.id}
+                                    username={featuredArticle.author}
                                     size="md"
                                     showSocial={false}
                                 />

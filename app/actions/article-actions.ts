@@ -11,13 +11,6 @@ export async function getArticleBySlug(slug: string) {
   return prisma.article.findUnique({
     where: { slug },
     include: {
-      author: {
-        select: {
-          id: true,
-          name: true,
-          image: true,
-        },
-      },
       votes: true,
       comments: {
         where: { parentId: null },
@@ -265,12 +258,13 @@ export async function syncArticle(article: {
   tags?: string[];
   proposalId?: string;
   featured?: boolean;
-  author?: string;
+  author: string;
 }): Promise<string> {
   try {
+    console.log("Syncing article: at 271", article.slug, article.author);
     // Get default author ID if not provided
-    const authorId =
-      article.author || process.env.DEFAULT_AUTHOR_ID || "default-author-id";
+
+    const author = article.author;
 
     // Generate table of contents from content
     const tableOfContents = generateTableOfContents(article.content);
@@ -285,8 +279,6 @@ export async function syncArticle(article: {
     });
 
     if (existingArticle) {
-
-
       return existingArticle.id; // Return existing article ID if it already exists
     }
 
@@ -300,11 +292,10 @@ export async function syncArticle(article: {
         coverImage: article.coverImage,
         publishedAt: article.publishedAt,
         tags: article.tags || [],
-        proposalId: article.proposalId,
         featured: article.featured || false,
         readingTime,
         tableOfContents,
-        authorId,
+        author,
       },
     });
 

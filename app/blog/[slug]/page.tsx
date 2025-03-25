@@ -66,12 +66,9 @@ const slug = awaitedParams.slug
     notFound()
   }
 
-  // Clean the slug for database operations
-  const cleanSlug = post.slug.replace(/^blog\//, "")
-
   // Check if the article already exists in the database
   const dbArticle = await prisma.article.findUnique({
-    where: { slug: cleanSlug },
+    where: { slug },
   })
 
   let articleId: string
@@ -79,7 +76,7 @@ const slug = awaitedParams.slug
   // Only sync if the article doesn't exist yet
   if (!dbArticle) {
     articleId = await syncArticle({
-      slug: cleanSlug,
+      slug,
       title: post.title,
       description: post.description || "",
       content: post.body.raw,
@@ -100,13 +97,6 @@ const slug = awaitedParams.slug
   const fullArticle = await prisma.article.findUnique({
     where: { id: articleId },
     include: {
-      author: {
-        select: {
-          id: true,
-          name: true,
-          image: true,
-        },
-      },
       _count: {
         select: {
           votes: { where: { voteType: "UPVOTE" } },
@@ -195,7 +185,7 @@ const slug = awaitedParams.slug
 
   return (
     <BlogLayout
-      post={{ ...post, slug: cleanSlug }} // Clean the slug in the post object
+      post={{ ...post, slug}} // Clean the slug in the post object
       article={article}
       related={relatedPosts}
     />

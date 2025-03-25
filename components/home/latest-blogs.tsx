@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { OgImage } from "@/components/blog/og-image"
 import Author from "@/components/blog/author"
 import prisma from "@/lib/prisma"
-import ButtonLink from "../ui/button-link"
+import ButtonLink from "@/components/ui/button-link"
 
 interface LatestBlogsProps {
   limit?: number
@@ -33,14 +33,6 @@ export async function LatestBlogs({
     },
     take: limit,
     include: {
-      author: {
-        select: {
-          id: true,
-          name: true,
-          image: true,
-          username: true,
-        },
-      },
       _count: {
         select: {
           votes: true,
@@ -113,7 +105,7 @@ export async function LatestBlogs({
                   </Link>
                   {article.author && (
                     <Author
-                      username={article.author.username || article.author.id}
+                      username={article.author}
                       imageOnly
                       size="sm"
                     />

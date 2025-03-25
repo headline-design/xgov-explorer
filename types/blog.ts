@@ -18,12 +18,7 @@ export interface ExtendedArticle {
   publishedAt: Date | null
   featured: boolean
   viewCount: number
-  authorId: string
-  author: {
-    id: string
-    name: string | null
-    image: string | null
-  }
+  author: string
   _count: {
     votes: number
     comments: number

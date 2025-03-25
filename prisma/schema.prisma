@@ -35,7 +35,6 @@ model User {
   comments Comment[]
 
   // Add relations for blog features
-  articles        Article[]
   articleVotes    ArticleVote[]
   articleComments ArticleComment[]
   bookmarks       Bookmark[]
@@ -190,9 +189,6 @@ model Proposal {
   // Add relations for votes and comments
   votes                Vote[]
   comments             Comment[]
-
-  // Add relation to articles
-  articles Article[]
 
   @@index([teamId])
 }
@@ -349,12 +345,9 @@ model Article {
   updatedAt   DateTime  @updatedAt
 
   // Relations
-  authorId String
-  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author String
 
   // Optional relation to a proposal
-  proposalId String?
-  proposal   Proposal? @relation(fields: [proposalId], references: [id], onDelete: SetNull)
 
   // Blog features
   votes     ArticleVote[]
@@ -366,8 +359,6 @@ model Article {
   readingTime     Int? // in minutes
   tableOfContents Json? // stored as JSON
 
-  @@index([authorId])
-  @@index([proposalId])
   @@index([publishedAt])
 }
 
