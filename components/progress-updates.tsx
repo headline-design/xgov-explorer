@@ -2,17 +2,35 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import { useSession } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Loader2, PlusCircle, Info, AlertCircle } from "lucide-react"
+import { Loader2, PlusCircle, Info, AlertCircle, Edit, Trash2, MoreVertical } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
 import { Slider } from "@/components/ui/slider"
 import { toast } from "@/components/ui/toast/toast"
 import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar-v2/avatar-2"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+    DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import { formatDistanceToNow } from "date-fns"
 
 interface ProgressUpdate {
     id: string
@@ -20,6 +38,7 @@ interface ProgressUpdate {
     content: string
     completionPercentage: number
     createdAt: string
+    updatedAt?: string
     user: {
         id: string
         name: string | null
@@ -37,6 +56,7 @@ interface ProgressUpdatesProps {
 
 export function ProgressUpdates({
     proposalId,
+    teamName,
     currentCompletionPercentage,
     progressUpdates = [],
     isInDatabase = false,
@@ -46,10 +66,14 @@ export function ProgressUpdates({
     const [showForm, setShowForm] = useState(false)
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
-    const [completionPercentage, setCompletionPercentage] = useState(currentCompletionPercentage)
+    const [updateCompletionPercentage, setUpdateCompletionPercentage] = useState(0)
     const [localProgressUpdates, setLocalProgressUpdates] = useState<ProgressUpdate[]>(progressUpdates)
     const [isTeamMember, setIsTeamMember] = useState(false)
     const [checkingMembership, setCheckingMembership] = useState(true)
+    const [editingUpdateId, setEditingUpdateId] = useState<string | null>(null)
+    const [deleteUpdateId, setDeleteUpdateId] = useState<string | null>(null)
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+    const formRef = useRef<HTMLFormElement>(null)
 
     // Check if user is a team member using the claim API
     useEffect(() => {
@@ -70,55 +94,173 @@ export function ProgressUpdates({
         }
     }, [status, proposalId, isInDatabase])
 
+    // Reset form when not editing
+    useEffect(() => {
+        if (!editingUpdateId) {
+            setTitle("")
+            setContent("")
+            // For new updates, default to the current overall completion percentage as a starting point
+            setUpdateCompletionPercentage(currentCompletionPercentage)
+        }
+    }, [editingUpdateId, currentCompletionPercentage])
+
+    // Load update data for editing
+    const startEditing = useCallback((update: ProgressUpdate) => {
+        setEditingUpdateId(update.id)
+        setTitle(update.title)
+        setContent(update.content)
+        setUpdateCompletionPercentage(update.completionPercentage)
+        setShowForm(true)
+
+        // Scroll to form
+        setTimeout(() => {
+            formRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })
+        }, 100)
+    }, [])
+
+    const cancelEditing = useCallback(() => {
+        setEditingUpdateId(null)
+        setShowForm(false)
+    }, [])
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setSubmitting(true)
 
         try {
-            const response = await fetch(`/api/proposals/${proposalId}/progress`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    title,
-                    content,
-                    completionPercentage,
-                }),
-            })
+            let newUpdate // Declare newUpdate here
 
-            if (!response.ok) {
-                const errorData = await response.json()
+            if (editingUpdateId) {
+                // Update existing progress update
+                const response = await fetch(`/api/proposals/${proposalId}/progress/${editingUpdateId}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        title,
+                        content,
+                        completionPercentage: updateCompletionPercentage,
+                    }),
+                })
 
-                // Handle specific error cases
-                if (response.status === 404) {
-                    throw new Error("This proposal does not exist in the database. Please seed the database first.")
+                if (!response.ok) {
+                    const errorData = await response.json()
+                    throw new Error(errorData.error || "Failed to update progress update")
                 }
 
-                throw new Error(errorData.error || "Failed to submit progress update")
+                const updatedUpdate = await response.json()
+
+                // Update local state
+                setLocalProgressUpdates((prevUpdates) =>
+                    prevUpdates.map((update) => (update.id === editingUpdateId ? updatedUpdate : update)),
+                )
+
+                toast.success({
+                    title: "Success",
+                    description: "Progress update modified successfully",
+                })
+
+                setEditingUpdateId(null)
+            } else {
+                // Create new progress update
+                const response = await fetch(`/api/proposals/${proposalId}/progress`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        title,
+                        content,
+                        completionPercentage: updateCompletionPercentage,
+                        // Only update the overall proposal completion if this is the latest update
+                        updateProposalCompletion:
+                            localProgressUpdates.length === 0 || updateCompletionPercentage > currentCompletionPercentage,
+                    }),
+                })
+
+                if (!response.ok) {
+                    const errorData = await response.json()
+
+                    // Handle specific error cases
+                    if (response.status === 404) {
+                        throw new Error("This proposal does not exist in the database. Please seed the database first.")
+                    }
+
+                    throw new Error(errorData.error || "Failed to submit progress update")
+                }
+
+                newUpdate = await response.json()
+                setLocalProgressUpdates([newUpdate, ...localProgressUpdates])
+
+                toast.success({
+                    title: "Success",
+                    description: "Progress update submitted successfully",
+                })
             }
 
-            const newUpdate = await response.json()
-            setLocalProgressUpdates([newUpdate, ...localProgressUpdates])
+            // Reset form
             setTitle("")
             setContent("")
             setShowForm(false)
-            toast({
-                title: "Success",
-                description: "Progress update submitted successfully",
-            })
 
-            // Reload the page to reflect the updated completion percentage
-            window.location.reload()
+            // Only reload if this update affects the overall proposal completion
+            // This should be determined by the server, not automatically
+            if (newUpdate?.updatedProposalCompletion) {
+                window.location.reload()
+            }
         } catch (error) {
-            console.error("Error submitting progress update:", error)
+            console.error("Error with progress update:", error)
             toast.error({
                 title: "Error",
-                description: error instanceof Error ? error.message : "Failed to submit progress update",
+                description: error instanceof Error ? error.message : "Failed to process progress update",
             })
         } finally {
             setSubmitting(false)
         }
+    }
+
+    const handleDelete = async (updateId: string) => {
+        setSubmitting(true)
+
+        try {
+            const response = await fetch(`/api/proposals/${proposalId}/progress/${updateId}`, {
+                method: "DELETE",
+            })
+
+            if (!response.ok) {
+                const errorData = await response.json()
+                throw new Error(errorData.error || "Failed to delete progress update")
+            }
+
+            // Update local state
+            setLocalProgressUpdates((prevUpdates) => prevUpdates.filter((update) => update.id !== updateId))
+
+            toast.success({
+                title: "Success",
+                description: "Progress update deleted successfully",
+            })
+
+            // Reload if it was the latest update (which affects the current completion percentage)
+            if (localProgressUpdates[0]?.id === updateId) {
+                window.location.reload()
+            }
+        } catch (error) {
+            console.error("Error deleting progress update:", error)
+            toast.error({
+                title: "Error",
+                description: error instanceof Error ? error.message : "Failed to delete progress update",
+            })
+        } finally {
+            setSubmitting(false)
+            setShowDeleteDialog(false)
+            setDeleteUpdateId(null)
+        }
+    }
+
+    const confirmDelete = (updateId: string) => {
+        setDeleteUpdateId(updateId)
+        setShowDeleteDialog(true)
     }
 
     // If the proposal is not in the database, show a message
@@ -164,6 +306,29 @@ export function ProgressUpdates({
 
     return (
         <div className="space-y-6">
+            {/* Overall proposal completion status */}
+            <Card className="border-primary/30 overflow-hidden">
+                <CardHeader className="pb-2">
+                    <CardTitle className="text-base">Overall Project Completion</CardTitle>
+                    <CardDescription>Current progress for the entire proposal</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="w-full">
+                        <div className="flex justify-between items-center mb-1">
+                            <span className="text-sm font-medium">Completion:</span>
+                            <span className="font-semibold">{currentCompletionPercentage}%</span>
+                        </div>
+                        <div className="w-full h-2.5 bg-muted rounded-full overflow-hidden">
+                            <div className="h-full bg-primary" style={{ width: `${currentCompletionPercentage}%` }}></div>
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-2">
+                            This represents the overall completion of the proposal. Individual progress updates track milestones along
+                            the way.
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
+
             <div className="flex justify-between items-center">
                 <h3 className="text-lg font-semibold">Progress Updates</h3>
                 {isTeamMember && !showForm && (
@@ -195,23 +360,25 @@ export function ProgressUpdates({
                     <CardFooter className="bg-amber-50 dark:bg-amber-900/10 pt-3 pb-3 text-sm text-muted-foreground border-t border-amber-100 dark:border-amber-900/50">
                         <div className="flex items-center">
                             <Info className="h-4 w-4 mr-2 text-amber-600 dark:text-amber-400" />
-                            Check the &quot;Claim This Proposal&quot; section above to join the team.
+                            Check the "Claim This Proposal" section above to join the team.
                         </div>
                     </CardFooter>
                 </Card>
             )}
 
             {showForm && (
-                <Card className="border-primary/50 overflow-hidden">
+                <Card className="border-primary/50 overflow-hidden" id="update-form">
                     <div className="h-1 bg-primary" />
                     <CardHeader>
-                        <CardTitle>New Progress Update</CardTitle>
+                        <CardTitle>{editingUpdateId ? "Edit Progress Update" : "New Progress Update"}</CardTitle>
                         <CardDescription>
-                            Share your progress with the community. Updates will be visible on the proposal page.
+                            {editingUpdateId
+                                ? "Modify your progress update details below."
+                                : "Share your progress with the community. This update represents a milestone in your project."}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                        <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
                             <div>
                                 <label htmlFor="title" className="block text-sm font-medium mb-1">
                                     Title
@@ -241,32 +408,40 @@ export function ProgressUpdates({
 
                             <div>
                                 <label htmlFor="completion" className="block text-sm font-medium mb-1">
-                                    Completion Percentage: {completionPercentage}%
+                                    Update Completion Percentage: {updateCompletionPercentage}%
                                 </label>
+                                <p className="text-xs text-muted-foreground mb-2">
+                                    This represents the completion status at the time of this update. It may or may not affect the overall
+                                    proposal completion.
+                                </p>
                                 <Slider
                                     id="completion"
-                                    value={[completionPercentage]}
+                                    value={[updateCompletionPercentage]}
                                     min={0}
                                     max={100}
                                     step={1}
-                                    onValueChange={(value) => setCompletionPercentage(value[0])}
+                                    onValueChange={(value) => setUpdateCompletionPercentage(value[0])}
                                     className="py-4"
                                 />
-                                <div className="w-full h-2 bg-muted rounded-full mt-1 overflow-hidden">
-                                    <div className="h-full bg-primary" style={{ width: `${completionPercentage}%` }}></div>
-                                </div>
                             </div>
 
                             <div className="flex justify-end space-x-2">
-                                <Button variant="outline" onClick={() => setShowForm(false)} disabled={submitting}>
+                                <Button
+                                    variant="outline"
+                                    onClick={editingUpdateId ? cancelEditing : () => setShowForm(false)}
+                                    disabled={submitting}
+                                    type="button"
+                                >
                                     Cancel
                                 </Button>
                                 <Button type="submit" disabled={submitting}>
                                     {submitting ? (
                                         <>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Submitting...
+                                            {editingUpdateId ? "Updating..." : "Submitting..."}
                                         </>
+                                    ) : editingUpdateId ? (
+                                        "Update"
                                     ) : (
                                         "Submit Update"
                                     )}
@@ -299,9 +474,18 @@ export function ProgressUpdates({
                             <CardHeader className="pb-2">
                                 <div className="flex justify-between items-start">
                                     <div>
-                                        <CardTitle className="text-base">{update.title}</CardTitle>
+                                        <div className="flex items-center">
+                                            <CardTitle className="text-base">{update.title}</CardTitle>
+                                            {update.updatedAt && update.updatedAt !== update.createdAt && (
+                                                <Badge variant="outline" className="ml-2 text-xs">
+                                                    Edited
+                                                </Badge>
+                                            )}
+                                        </div>
                                         <div className="flex items-center mt-1">
-                                            <p className="text-sm text-muted-foreground">{new Date(update.createdAt).toLocaleDateString()}</p>
+                                            <p className="text-sm text-muted-foreground">
+                                                {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
+                                            </p>
                                             <Badge variant="outline" className="ml-2 text-xs">
                                                 {update.completionPercentage}% Complete
                                             </Badge>
@@ -313,6 +497,31 @@ export function ProgressUpdates({
                                             <AvatarFallback>{update.user.name?.charAt(0) || "U"}</AvatarFallback>
                                         </Avatar>
                                         <span className="text-sm font-medium">{update.user.name || "Anonymous"}</span>
+
+                                        {isTeamMember && session?.user?.id === update.user.id && (
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 ml-2">
+                                                        <span className="sr-only">Open menu</span>
+                                                        <MoreVertical className="h-4 w-4" />
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end">
+                                                    <DropdownMenuItem onClick={() => startEditing(update)}>
+                                                        <Edit className="mr-2 h-4 w-4" />
+                                                        Edit
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuSeparator />
+                                                    <DropdownMenuItem
+                                                        onClick={() => confirmDelete(update.id)}
+                                                        className="text-destructive focus:text-destructive"
+                                                    >
+                                                        <Trash2 className="mr-2 h-4 w-4" />
+                                                        Delete
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        )}
                                     </div>
                                 </div>
                             </CardHeader>
@@ -326,7 +535,7 @@ export function ProgressUpdates({
                             <CardFooter className="bg-muted/10 pt-3 pb-3 text-xs text-muted-foreground border-t">
                                 <div className="w-full">
                                     <div className="flex justify-between items-center mb-1">
-                                        <span>Project Completion:</span>
+                                        <span>Update Completion Status:</span>
                                         <span>{update.completionPercentage}%</span>
                                     </div>
                                     <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
@@ -338,6 +547,27 @@ export function ProgressUpdates({
                     ))}
                 </div>
             )}
+
+            {/* Delete confirmation dialog */}
+            <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete the progress update.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={() => deleteUpdateId && handleDelete(deleteUpdateId)}
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        >
+                            Delete
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
     )
 }

@@ -11,6 +11,7 @@ import { formatDistanceToNow } from "date-fns"
 import { useSession } from "next-auth/react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { shorten } from "@/lib/utils"
 
 interface Comment {
   id: string
@@ -107,7 +108,7 @@ export function CommentsSection({ proposalId, initialComments = [] }: CommentsSe
           <div className="flex-1">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium">{comment.user.name || "Anonymous"}</p>
+                <p className="font-medium">{shorten(comment.user.name) || "Anonymous"}</p>
                 <p className="text-xs text-muted-foreground">
                   {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
                 </p>

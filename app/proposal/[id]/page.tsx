@@ -273,7 +273,7 @@ export default async function ProposalPage({ params }: { params: Promise<{ id: s
           </div>
 
           {/* Right Column - Proposal Info */}
-          <div className="space-y-6">
+          <div className="space-y-6 sticky top-[88px] h-fit">
             {/* Proposal Summary Card */}
             <div className="bg-card rounded-lg border p-4">
               <h3 className="text-lg font-semibold mb-3">Proposal Summary</h3>
