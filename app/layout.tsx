@@ -61,7 +61,7 @@ export default async function HomePage({ children }) {
   return (
     <AppProviders>
       <html lang="en" suppressHydrationWarning className={`${GeistMono.variable} ${GeistSans.variable}`}>
-        <body>
+        <body className="bg-background-accent">
           <UIProviders>
             <div className="flex min-h-screen flex-col">
               <Navbar location={"home"} />
