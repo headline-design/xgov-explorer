@@ -14,6 +14,7 @@ import { VoteButtons } from "@/components/votes/vote-buttons"
 import { CommentsSection } from "@/components/comments/comments-section"
 import Markdown from "@/components/markdown/markdown"
 import prisma from "@/lib/prisma"
+import ButtonLink from "@/components/ui/button-link"
 
 // Update the generateMetadata function to await params
 export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }) => {
@@ -92,12 +93,7 @@ export default async function ProposalPage({ params }: { params: Promise<{ id: s
     <div className="min-h-screen">
       {/* Back button */}
       <div className="container px-4 md:px-6 pt-6">
-        <Button variant="ghost" size="sm" asChild className="mb-4">
-          <Link href="/teams">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Proposals
-          </Link>
-        </Button>
+        <ButtonLink text="Back to Proposals" icon={<ArrowLeft className=" h-4 w-4" />} href="/proposals" variant="ghost" className="mb-4" />
       </div>
 
       {/* Gradient Banner */}

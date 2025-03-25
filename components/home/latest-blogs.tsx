@@ -2,11 +2,11 @@ import Link from "next/link"
 import { Calendar, ArrowRight, Tag } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { OgImage } from "@/components/blog/og-image"
 import Author from "@/components/blog/author"
 import prisma from "@/lib/prisma"
+import ButtonLink from "../ui/button-link"
 
 interface LatestBlogsProps {
   limit?: number
@@ -63,12 +63,7 @@ export async function LatestBlogs({
             <p className="text-muted-foreground text-lg">{subtitle}</p>
           </div>
           {showViewAll && (
-            <Link href="/blog" className="mt-4 md:mt-0">
-              <Button variant="outline" className="group">
-                View all articles
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
+            <ButtonLink text="View all articles" href="/blog" variant="outline" className="group mt-4 md:mt-0" suffix={<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />} />
           )}
         </div>
 

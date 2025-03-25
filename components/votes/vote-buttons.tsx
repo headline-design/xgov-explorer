@@ -5,6 +5,7 @@ import { ThumbsUp, ThumbsDown } from "lucide-react"
 import { useVotes } from "@/lib/hooks/use-votes"
 import { cn } from "@/lib/utils"
 import { useEffect } from "react"
+import { useSession } from "next-auth/react"
 
 interface VoteButtonsProps {
     entityId: string
@@ -29,6 +30,8 @@ export function VoteButtons({
     showCounts = true,
     onVoteChange,
 }: VoteButtonsProps) {
+
+    const { data: session } = useSession();
     const { voteCount, userVote, upvote, downvote, isLoading } = useVotes({
         initialVoteCount: { upvotes: initialUpvotes, downvotes: initialDownvotes },
         initialUserVote,
@@ -75,7 +78,7 @@ export function VoteButtons({
                         isLoading && "opacity-50 cursor-not-allowed",
                     )}
                     onClick={upvote}
-                    disabled={isLoading}
+                    disabled={isLoading || !session}
                     aria-label="Upvote"
                 >
                     <ThumbsUp className={sizeClasses[size].icon} />
@@ -96,7 +99,7 @@ export function VoteButtons({
                         isLoading && "opacity-50 cursor-not-allowed",
                     )}
                     onClick={downvote}
-                    disabled={isLoading}
+                    disabled={isLoading || !session}
                     aria-label="Downvote"
                 >
                     <ThumbsDown className={sizeClasses[size].icon} />
