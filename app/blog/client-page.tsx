@@ -168,7 +168,7 @@ export default function BlogPageClient({ initialSocialData }: BlogPageClientProp
       {currentPage === 1 && selectedTags.length === 0 && searchQuery === "" && (
         <div className="my-10">
           <h2 className="text-2xl font-bold mb-6">Featured Posts</h2>
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2">
             {isLoading
               ? // Skeleton loaders for featured posts
                 Array(3)
