@@ -46,7 +46,7 @@ const defaultUrl = process.env.VERCEL_URL
     creator: "HEADLINE",
     twitter: {
       card: "summary_large_image",
-      title: "xGov Explorer | Algorand Foundation",
+      title: "xGov Explorer | Algorand Governance",
       description:
         "Discover innovative projects awarded through the Algorand Foundation xGov community governance program.",
       images: ["/images/og-image.png"],
