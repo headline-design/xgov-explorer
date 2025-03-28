@@ -156,11 +156,7 @@ export function ProgressUpdates({
                     prevUpdates.map((update) => (update.id === editingUpdateId ? updatedUpdate : update)),
                 )
 
-                toast.success({
-                    title: "Success",
-                    description: "Progress update modified successfully",
-                })
-
+                toast.success("Progress update modified successfully")
                 setEditingUpdateId(null)
             } else {
                 // Create new progress update
@@ -193,10 +189,7 @@ export function ProgressUpdates({
                 newUpdate = await response.json()
                 setLocalProgressUpdates([newUpdate, ...localProgressUpdates])
 
-                toast.success({
-                    title: "Success",
-                    description: "Progress update submitted successfully",
-                })
+                toast.success("Progress update submitted successfully")
             }
 
             // Reset form
@@ -236,10 +229,7 @@ export function ProgressUpdates({
             // Update local state
             setLocalProgressUpdates((prevUpdates) => prevUpdates.filter((update) => update.id !== updateId))
 
-            toast.success({
-                title: "Success",
-                description: "Progress update deleted successfully",
-            })
+            toast.success("Progress update deleted successfully")
 
             // Reload if it was the latest update (which affects the current completion percentage)
             if (localProgressUpdates[0]?.id === updateId) {
@@ -493,8 +483,8 @@ export function ProgressUpdates({
                                     </div>
                                     <div className="flex items-center">
                                         <Avatar className="h-8 w-8 mr-2">
-                                            <AvatarImage src={update.user.image || undefined} alt={update.user.name || "User"} />
-                                            <AvatarFallback>{update.user.name?.charAt(0) || "U"}</AvatarFallback>
+                                            <AvatarImage src={update?.user?.image || undefined} alt={update?.user?.name || "User"} />
+                                            <AvatarFallback>{update?.user?.name?.charAt(0) || "U"}</AvatarFallback>
                                         </Avatar>
                                         <span className="text-sm font-medium">{update.user.name || "Anonymous"}</span>
 
