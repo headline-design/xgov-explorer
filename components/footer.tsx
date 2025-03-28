@@ -8,7 +8,7 @@ export function Footer() {
         <div className="flex items-center gap-2">
           <BrandLogoAlt className="h-6 w-6 text-primary" />
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} xGov Explorer. Powered by Algorand Foundation.
+            © {new Date().getFullYear()} xGov Explorer. Powered by Nodely.
           </p>
         </div>
         <nav className="flex gap-4 sm:gap-6">
@@ -19,11 +19,11 @@ export function Footer() {
             Privacy
           </Link>
           <Link
-            href="https://algorand.foundation"
+            href="https://nodely.io"
             target="_blank"
             className="text-xs text-muted-foreground hover:underline underline-offset-4"
           >
-            Algorand Foundation
+           Nodely
           </Link>
         </nav>
       </div>
