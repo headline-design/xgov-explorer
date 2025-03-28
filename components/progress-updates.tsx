@@ -486,9 +486,9 @@ export function ProgressUpdates({
                                             <AvatarImage src={update?.user?.image || undefined} alt={update?.user?.name || "User"} />
                                             <AvatarFallback>{update?.user?.name?.charAt(0) || "U"}</AvatarFallback>
                                         </Avatar>
-                                        <span className="text-sm font-medium">{update.user.name || "Anonymous"}</span>
+                                        <span className="text-sm font-medium">{update?.user?.name || "Anonymous"}</span>
 
-                                        {isTeamMember && session?.user?.id === update.user.id && (
+                                        {isTeamMember && session?.user?.id === update?.user?.id && (
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
                                                     <Button variant="ghost" size="sm" className="h-8 w-8 p-0 ml-2">
