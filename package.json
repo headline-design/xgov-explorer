@@ -52,8 +52,6 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "concurrently": "^8.0.1",
-
-
     "fs": "^0.0.1-security",
     "iron-session": "^8.0.1",
     "lodash": "^4.17.21",
@@ -61,7 +59,7 @@
     "lucide-react": "^0.479.0",
     "lute-connect": "^1.4.1",
     "mdast-util-toc": "^7.1.0",
-    "next": "15.1.0",
+    "next": "15.1.11",
     "next-auth": "4.24.5",
     "contentlayer2": "^0.4.6",
     "next-contentlayer2": "^0.4.6",
